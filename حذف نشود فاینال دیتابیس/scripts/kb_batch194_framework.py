@@ -1,0 +1,501 @@
+# -*- coding: utf-8 -*-
+"""Batch 194: SFL-001..SFL-005 (SUBFIELD)."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch194-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch194.json"
+
+SFL_MAP = {"entity_type": "SUBFIELD", "content_type": "زیرحوزه نوظهور (Subfield)",
+           "needs_review": False, "taxonomy_section": "3-1"}
+
+S = {
+    "SFL-001": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Rise of Machine Agency: A Framework for Studying the Psychology of Human-AI Interaction (HAII)",
+             title_fa="برآمدن عاملیت ماشین: چارچوبی برای مطالعهٔ روان‌شناسی تعامل انسان و هوش مصنوعی",
+             authors="S. Shyam Sundar", year=2020,
+             publisher="Journal of Computer-Mediated Communication",
+             doi="10.1093/jcmc/zmz026",
+             url="https://academic.oup.com/jcmc/article/25/1/74/5700811",
+             language="en", isbn=None,
+             citation="Sundar, S. S. (2020). Rise of Machine Agency: A Framework for Studying the Psychology of Human-AI Interaction (HAII). Journal of Computer-Mediated Communication, 25(1), 74-88. https://doi.org/10.1093/jcmc/zmz026",
+             locator="25(1), 74-88",
+             locator_type="PAGE",
+             supports="the framework of machine agency and the psychological study of human-AI interaction as a distinct communication setting",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Artificial Intelligence and Communication: A Human-Machine Communication Research Agenda",
+             title_fa="هوش مصنوعی و ارتباطات: دستور کار پژوهشی ارتباطات انسان و ماشین",
+             authors="Andrea L. Guzman; Seth C. Lewis", year=2020,
+             publisher="New Media & Society",
+             doi="10.1177/1461444819858691",
+             url="https://journals.sagepub.com/doi/abs/10.1177/1461444819858691",
+             language="en", isbn=None,
+             citation="Guzman, A. L., & Lewis, S. C. (2020). Artificial intelligence and communication: A Human-Machine Communication research agenda. New Media & Society, 22(1), 70-86. https://doi.org/10.1177/1461444819858691",
+             locator="22(1), 70-86",
+             locator_type="PAGE",
+             supports="the research agenda of human-machine communication organized around the functional, relational and metaphysical dimensions of communicative AI",
+             verified=True),
+    ],
+    "SFL-002": [
+        dict(kind="BOOK_CHAPTER",
+             title_en="The Relevance of Algorithms",
+             title_fa="ارتباط‌مندی الگوریتم‌ها",
+             authors="Tarleton Gillespie", year=2014,
+             publisher="MIT Press",
+             doi="10.7551/mitpress/9780262525374.003.0009",
+             url="https://direct.mit.edu/books/edited-volume/3021/chapter/82555/The-Relevance-of-Algorithms",
+             language="en", isbn=None,
+             citation="Gillespie, T. (2014). The Relevance of Algorithms. In T. Gillespie, P. J. Boczkowski, & K. A. Foot (Eds.), Media Technologies: Essays on Communication, Materiality, and Society (pp. 167-194). Cambridge, MA: MIT Press. https://doi.org/10.7551/mitpress/9780262525374.003.0009",
+             locator="pp. 167-194",
+             locator_type="PAGE",
+             supports="the analysis of public relevance algorithms through inclusion, anticipation, evaluation, the promise of objectivity, entanglement with practice, and calculated publics",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Algorithmic Imaginary: Exploring the Ordinary Affects of Facebook Algorithms",
+             title_fa="تخیل الگوریتمی: کاوش اثرهای روزمرهٔ الگوریتم‌های فیس‌بوک",
+             authors="Taina Bucher", year=2017,
+             publisher="Information, Communication & Society",
+             doi="10.1080/1369118X.2016.1154086",
+             url="https://www.tandfonline.com/doi/full/10.1080/1369118X.2016.1154086",
+             language="en", isbn=None,
+             citation="Bucher, T. (2017). The algorithmic imaginary: Exploring the ordinary affects of Facebook algorithms. Information, Communication & Society, 20(1), 30-44. https://doi.org/10.1080/1369118X.2016.1154086",
+             locator="20(1), 30-44",
+             locator_type="PAGE",
+             supports="users' imaginaries of the Facebook algorithm and how felt expectations of algorithmic relevance shape everyday practice",
+             verified=True),
+    ],
+    "SFL-003": [
+        dict(kind="BOOK",
+             title_en="The Data Revolution: Big Data, Open Data, Data Infrastructures and Their Consequences",
+             title_fa="انقلاب داده: کلان‌داده، دادهٔ باز، زیرساخت‌های داده و پیامدهای آن‌ها",
+             authors="Rob Kitchin", year=2014,
+             publisher="SAGE Publications",
+             doi=None,
+             url="https://methods.sagepub.com/book/mono/the-data-revolution/toc",
+             language="en", isbn="9781446287484",
+             citation="Kitchin, R. (2014). The Data Revolution: Big Data, Open Data, Data Infrastructures and Their Consequences. London: SAGE Publications.",
+             locator="chapters on data assemblages, data infrastructures and the consequences of datafication",
+             locator_type="CHAPTER",
+             supports="the account of data as assembled infrastructures and of the social consequences of the data revolution",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Datafication, Dataism and Dataveillance: Big Data between Scientific Paradigm and Ideology",
+             title_fa="داده‌ای‌شدن، داده‌باوری و داده‌پایشی: کلان‌داده میان پارادایم علمی و ایدئولوژی",
+             authors="José van Dijck", year=2014,
+             publisher="Surveillance & Society",
+             doi="10.24908/ss.v12i2.4776",
+             url="https://ojs.library.queensu.ca/index.php/surveillance-and-society/article/view/datafication",
+             language="en", isbn=None,
+             citation="van Dijck, J. (2014). Datafication, dataism and dataveillance: Big Data between scientific paradigm and ideology. Surveillance & Society, 12(2), 197-208. https://doi.org/10.24908/ss.v12i2.4776",
+             locator="12(2), 197-208",
+             locator_type="PAGE",
+             supports="the critique of datafication as an ideology and the link between dataism and dataveillance",
+             verified=True),
+    ],
+    "SFL-004": [
+        dict(kind="BOOK",
+             title_en="The Platform Society: Public Values in a Connective World",
+             title_fa="جامعهٔ پلتفرمی: ارزش‌های عمومی در جهان پیوندی",
+             authors="José van Dijck; Thomas Poell; Martijn de Waal", year=2018,
+             publisher="Oxford University Press",
+             doi=None,
+             url="https://academic.oup.com/book/12378",
+             language="en", isbn="9780190889760",
+             citation="van Dijck, J., Poell, T., & de Waal, M. (2018). The Platform Society: Public Values in a Connective World. New York: Oxford University Press.",
+             locator="chapters on platformization, platform mechanisms and public values",
+             locator_type="CHAPTER",
+             supports="platformization as the penetration of platform mechanisms into markets, institutions and public values",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Politics of 'Platforms'",
+             title_fa="سیاست «پلتفرم‌ها»",
+             authors="Tarleton Gillespie", year=2010,
+             publisher="New Media & Society",
+             doi="10.1177/1461444809342738",
+             url="https://journals.sagepub.com/doi/10.1177/1461444809342738",
+             language="en", isbn=None,
+             citation="Gillespie, T. (2010). The politics of 'platforms'. New Media & Society, 12(3), 347-364. https://doi.org/10.1177/1461444809342738",
+             locator="12(3), 347-364",
+             locator_type="PAGE",
+             supports="the discursive politics of the term platform and the strategic claims of neutrality made by intermediaries",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Infrastructure Studies Meet Platform Studies in the Age of Google and Facebook",
+             title_fa="پیوند مطالعات زیرساخت و مطالعات پلتفرم در عصر گوگل و فیس‌بوک",
+             authors="Jean-Christophe Plantin; Carl Lagoze; Paul N. Edwards; Christian Sandvig", year=2018,
+             publisher="New Media & Society",
+             doi="10.1177/1461444816661553",
+             url="https://journals.sagepub.com/doi/abs/10.1177/1461444816661553",
+             language="en", isbn=None,
+             citation="Plantin, J.-C., Lagoze, C., Edwards, P. N., & Sandvig, C. (2018). Infrastructure studies meet platform studies in the age of Google and Facebook. New Media & Society, 20(1), 293-310. https://doi.org/10.1177/1461444816661553",
+             locator="20(1), 293-310",
+             locator_type="PAGE",
+             supports="the convergence of platform and infrastructure perspectives on Google, Facebook and the Open Web",
+             verified=True),
+    ],
+    "SFL-005": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Attention Economy and the Net",
+             title_fa="اقتصاد توجه و شبکه",
+             authors="Michael H. Goldhaber", year=1997,
+             publisher="First Monday",
+             doi="10.5210/fm.v2i4.519",
+             url="https://firstmonday.org/ojs/index.php/fm/article/view/519",
+             language="en", isbn=None,
+             citation="Goldhaber, M. H. (1997). The attention economy and the Net. First Monday, 2(4). https://doi.org/10.5210/fm.v2i4.519",
+             locator="2(4)",
+             locator_type="PAGE",
+             supports="the early argument that attention, not information, becomes the scarce resource of networked economies",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="The Attention Merchants: The Epic Scramble to Get Inside Our Heads",
+             title_fa="تاجران توجه: رقابت سهمگین برای نفوذ به ذهن ما",
+             authors="Tim Wu", year=2016,
+             publisher="Alfred A. Knopf",
+             doi=None,
+             url="https://scholarship.law.columbia.edu/books/64/",
+             language="en", isbn="9780385352017",
+             citation="Wu, T. (2016). The Attention Merchants: The Epic Scramble to Get Inside Our Heads. New York: Alfred A. Knopf.",
+             locator="chapters on the historical cycle of attention capture and user revolt",
+             locator_type="CHAPTER",
+             supports="the history of attention harvesting from penny press to digital platforms and its recurring backlash",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="The Attention Economy: Understanding the New Currency of Business",
+             title_fa="اقتصاد توجه: فهم پول رایج تازهٔ کسب‌وکار",
+             authors="Thomas H. Davenport; John C. Beck", year=2001,
+             publisher="Harvard Business School Press",
+             doi=None,
+             url="https://archive.org/details/attentioneconomy00thom",
+             language="en", isbn=None,
+             citation="Davenport, T. H., & Beck, J. C. (2001). The Attention Economy: Understanding the New Currency of Business. Boston, MA: Harvard Business School Press.",
+             locator="chapters defining attention as focused mental engagement and a scarce business resource",
+             locator_type="CHAPTER",
+             supports="the definition of attention as focused mental engagement and its treatment as a currency in organizations",
+             verified=True),
+    ],
+}
+
+ENRICH = {
+    "SFL-001": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        definition="مطالعات هوش مصنوعی و ارتباطات زیرحوزه‌ای میان‌رشته‌ای است که هوش مصنوعی را نه فقط ابزار، بلکه عامل ارتباطی می‌بیند و سه پرسش محوری را دنبال می‌کند: وقتی ماشین پیام می‌سازد یا انتخاب می‌کند، عاملیت ارتباطی چگونه توزیع می‌شود؛ مخاطب چگونه منبع ماشینی را می‌فهمد و به آن اعتماد می‌کند؛ و این تغییر چه پیامدهایی برای معنا، مسئولیت و اصالت دارد.",
+        mechanism="تحلیل در سه لایه انجام می‌شود. لایهٔ کارکردی می‌پرسد سیستم چه می‌کند: تولید متن، تصویر و صدا، فیلتر کردن، توصیه یا گفت‌وگو. لایهٔ رابطه‌ای می‌پرسد کاربر چه نسبتی با ماشین برقرار می‌کند: ابزار، همکار، منبع خبری یا دیگری اجتماعی. لایهٔ هستی‌شناختی می‌پرسد مرز انسان و ماشین چگونه بازتعریف می‌شود و مسئولیت خطا و سوگیری بر عهدهٔ کیست. سپس این سه لایه در بافت نهادی و فرهنگی تفسیر می‌شوند.",
+        critiques="۱. تمرکز بر تازه‌بودن فناوری می‌تواند پرسش‌های دیرین ارتباطات دربارهٔ قدرت و نابرابری را کم‌رنگ کند. ۲. آزمایش‌های تعامل با عامل مصنوعی اغلب کوتاه‌مدت و خارج از بافت واقعی‌اند. ۳. مفهوم عاملیت ماشین ممکن است مسئولیت انسانی طراحان و مالکان را پنهان کند. ۴. تعمیم یافته‌های یک مدل یا یک زبان به کل اکوسیستم ارتباطی اعتبار ندارد. ۵. سنجش اعتماد به ماشین با پرسش‌نامه، رفتار واقعی کاربر را به‌درستی بازنمایی نمی‌کند.",
+        evolution="این زیرحوزه از دههٔ ۲۰۱۰ با رشد دستیارهای گفت‌وگویی، روزنامه‌نگاری خودکار و عامل‌های مولد شکل گرفت. ابتدا بر پذیرش ربات‌ها و کیفیت متن ماشینی تمرکز داشت، سپس به چارچوب عاملیت ماشین و دستور کار ارتباطات انسان و ماشین گرایش یافت و امروز بر مدل‌های مولد، شفافیت برچسب محتوای مصنوعی، سوگیری و اعتماد در زنجیرهٔ تولید معنا متمرکز است.",
+        principles=["دیدن ماشین به‌عنوان عامل ارتباطی نه صرفاً ابزار", "تفکیک لایهٔ کارکردی، رابطه‌ای و هستی‌شناختی", "توجه به مسئولیت انسانی در طراحی و استقرار", "سنجش اعتماد و فهم کاربر با روش‌های ترکیبی", "شفافیت دربارهٔ منشأ ماشینی محتوا", "پرهیز از تعمیم یافته‌های یک مدل به کل اکوسیستم"],
+        assumptions=["ماشین می‌تواند در فرایند تولید و انتخاب معنا نقش عاملی داشته باشد.", "ادراک کاربر از منبع، بر تفسیر پیام اثر می‌گذارد.", "مسئولیت خطای سیستم به انسان و نهاد قابل ارجاع است.", "بافت نهادی شکل‌دهندهٔ تعامل انسان و ماشین است."],
+        applications=["ارزیابی پذیرش و اعتماد به دستیارهای گفت‌وگویی", "طراحی برچسب شفافیت برای محتوای مولد", "تحلیل سوگیری و مسئولیت در روزنامه‌نگاری خودکار", "سیاست‌گذاری ارتباطات سازمانی مبتنی بر عامل‌های هوشمند"],
+        studies=[
+            "ساندَر (۲۰۲۰) چارچوب عاملیت ماشین را برای مطالعهٔ روان‌شناسی تعامل انسان و هوش مصنوعی پیشنهاد کرد و نشان داد منبع ماشینی پیام، ادراک کاربر را از اعتبار و تعامل دگرگون می‌کند.",
+            "گوزمان و لوئیس (۲۰۲۰) دستور کار ارتباطات انسان و ماشین را حول ابعاد کارکردی، رابطه‌ای و هستی‌شناختی هوش مصنوعی ارتباطی سازمان دادند.",
+        ],
+        detailed_analysis="مطالعات هوش مصنوعی و ارتباطات زمانی از استعارهٔ ابزار فراتر می‌رود که ماشین در جایگاه منبع، میانجی یا هم‌سخن قرار گیرد. در این حالت، پرسش‌های کلاسیک ارتباطات — اعتبار منبع، دروازه‌بانی، بازنمایی و اثر — صورت تازه می‌یابند، اما حذف نمی‌شوند. چارچوب عاملیت ماشین کمک می‌کند تفاوت میان سیستم‌هایی که محتوا را انتخاب می‌کنند و سیستم‌هایی که محتوا را می‌سازند روشن شود، زیرا پیامدهای ادراکی و اخلاقی این دو یکسان نیست. در سطح نهادی نیز پرسش مالکیت داده و مدل، توزیع منافع و پاسخ‌گویی همچنان انسانی و سیاسی است.",
+    ),
+    "SFL-002": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        theorists_text="تانیا بوچر، تارلتون گیلسپی و خوزه ون‌دایک (الگوریتم و رسانه)",
+        definition="مطالعات الگوریتم و رسانه حوزه‌ای است که الگوریتم‌های اولویت‌بندی و توصیه را به‌عنوان نهادهای فرهنگی و سیاسی بررسی می‌کند: چه چیزی را مرتبط می‌سازند، چه چیزی را حذف می‌کنند، چگونه عموم را محاسبه می‌کنند و چگونه ایدئولوژی بی‌طرفی فنی را بازتولید می‌کنند.",
+        mechanism="چرخهٔ تحلیلی از ورودی آغاز می‌شود: دادهٔ رفتاری، محتوا و قواعد امتیازدهی. سپس الگوریتم با پیش‌بینی ترجیح کاربر، فهرست مرتب و شخصی‌سازی‌شده می‌سازد. این مرتب‌سازی نه بازتاب سادهٔ ترجیح، بلکه دخالت در آن است: الگوریتم با تقویت الگوهای پیشین، بازخورد حلقه‌ای تولید می‌کند. در گام بعد کاربران با تخیل دربارهٔ منطق سیستم، رفتار خود را تنظیم می‌کنند و در نهایت پیامدها در سطح تنوع محتوا، دیده‌شدن و قدرت بازیگران سنجیده می‌شود.",
+        critiques="۱. الگوریتم‌ها جعبهٔ سیاه‌اند و پژوهش بدون دسترسی به داده و کد به استنباط محدود می‌شود. ۲. تمرکز بر تخیل کاربر می‌تواند سازوکار فنی واقعی را از نظر دور کند. ۳. سنجش تنوع با فهرست کوتاه نتایج، مواجههٔ واقعی کاربر را نشان نمی‌دهد. ۴. مفهوم «عموم محاسبه‌شده» ممکن است تفاوت گروه‌های اجتماعی را به یک مقولهٔ فنی فروکاهد. ۵. نقد شفافیت بدون توجه به قدرت مالکان، شفافیت را به تشریفات بدل می‌کند. ۶. پژوهش مبتنی بر مصاحبهٔ کاربر اغلب نمونهٔ کوچک و خودگزین دارد و تعمیم آن به کل جمعیت مخاطبان نیازمند احتیاط است.",
+        evolution="حوزه از نقد موتورهای جست‌وجو و فیلترهای شخصی‌سازی در دههٔ ۲۰۰۰ آغاز شد، در دههٔ ۲۰۱۰ با مفاهیم تخیل الگوریتمی، فرهنگ الگوریتمی و عموم محاسبه‌شده گسترش یافت و امروز بر توصیه‌گرهای ویدیویی، مدل‌های زبانی و پرسش شفافیت و پاسخ‌گویی الگوریتمی متمرکز است؛ هم‌زمان، مقررات خدمات دیجیتال در اروپا پرسش ممیزی الگوریتم را از پژوهش به الزام قانونی برده است.",
+        principles=["بررسی الگوریتم در زنجیرهٔ کامل داده تا پیامد", "تفکیک مرتب‌سازی محاسباتی از ترجیح کاربر", "توجه به حلقه‌های بازخورد و سوگیری انباشته", "پیوند تحلیل فنی با پرسش قدرت و نابرابری", "شفافیت همراه با پاسخ‌گویی نهادی", "سنجش پیامد در سطح مواجههٔ واقعی نه فهرست نتایج"],
+        assumptions=["مرتب‌سازی الگوریتمی بر ترجیح و رفتار کاربر اثر می‌گذارد.", "کاربران دربارهٔ منطق سیستم تصوراتی می‌سازند که بر کنش آن‌ها اثر دارد.", "دسترسی محدود به کد، پژوهش را به روش‌های غیرمستقیم وامی‌دارد.", "الگوریتم در بستر نهادی و اقتصادی خاص عمل می‌کند."],
+        applications=["ممیزی تنوع و دیده‌شدن در توصیه‌گرها", "تحلیل سوگیری در موتورهای جست‌وجو و فیدهای خبری", "طراحی سیاست شفافیت برای پلتفرم‌ها", "پژوهش کاربر دربارهٔ ادراک و کنش در برابر الگوریتم"],
+        studies=[
+            "گیلسپی (۲۰۱۴) الگوریتم‌های ارتباطی را از شش جهت تحلیل کرد: الگوهای شمول، چرخهٔ پیش‌بینی، ارزیابی ارتباط‌مندی، وعدهٔ عینیت الگوریتمی، درهم‌تنیدگی با عمل و تولید عموم محاسبه‌شده.",
+            "بوچر (۲۰۱۷) با تحلیل توییت‌ها و مصاحبه با بیست‌وپنج کاربر فیس‌بوک نشان داد تخیل الگوریتمی، انتظار و کنش روزمرهٔ کاربران را شکل می‌دهد.",
+        ],
+        detailed_analysis="قوت مطالعات الگوریتم و رسانه در پیوند دادن تحلیل فنی با پرسش فرهنگی است، اما این پیوند نیازمند احتیاط روش‌شناختی است: توصیف سازوکار از بیرون با استنباط کاربران یکی نیست. پژوهش خوب هم دادهٔ تعامل واقعی را می‌بیند و هم روایت کاربران را، و تفاوت این دو را به‌جای یکی‌گرفتن، موضوع تحلیل می‌سازد. همچنین باید میان الگوریتم‌های مرتب‌سازی محتوا، الگوریتم‌های تصمیم دربارهٔ افراد و مدل‌های مولد تمایز گذاشت، زیرا سازوکار قدرت و مسئولیت در آن‌ها متفاوت است.",
+    ),
+    "SFL-003": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        definition="مطالعات داده و ارتباطات زیرحوزه‌ای است که داده را هم‌زمان به‌عنوان مادهٔ خام پژوهش ارتباطی، زیرساخت رسانه و کالای اقتصادی بررسی می‌کند و می‌پرسد داده‌ای‌شدن چگونه رفتار، سلیقه و روابط اجتماعی را قابل محاسبه و قابل فروش می‌سازد.",
+        mechanism="فرایند با ثبت ردپای دیجیتال آغاز می‌شود: کلیک، زمان تماشا، موقعیت و متن تولیدی. سپس داده در زیرساخت ذخیره و با الگوریتم‌های پردازش به الگو تبدیل می‌شود. این الگوها به تصمیم دربارهٔ محتوا، تبلیغ و قیمت‌گذاری بازمی‌گردند و رفتار کاربر را دوباره شکل می‌دهند. در لایهٔ اقتصادی، داده و پیش‌بینی رفتار به دارایی و منبع درآمد بدل می‌شوند و در لایهٔ نظارتی، همین داده برای پایش و طبقه‌بندی افراد به کار می‌رود.",
+        critiques="۱. کلان‌داده اغلب نمونهٔ غیرنماینده و سوگیردار است، اما با ادعای عینیت ارائه می‌شود. ۲. داده‌ای‌شدن پدیده‌های اجتماعی را به سنجه‌های قابل شمارش تقلیل می‌دهد. ۳. دسترسی پژوهشگر به دادهٔ پلتفرم محدود و وابسته به اجازهٔ شرکت است. ۴. داده‌باوری، کیفیت داده و زمینهٔ تولید آن را نادیده می‌گیرد. ۵. تمرکز بر بهینه‌سازی می‌تواند پرسش عدالت و رضایت آگاهانه را به حاشیه براند. ۶. دادهٔ رفتاری بدون دادهٔ زمینه‌ای دربارهٔ انگیزه و معنا، تفسیر علّی نادرست تولید می‌کند.",
+        evolution="حوزه از مطالعات آماری رسانه و پژوهش بازار در قرن بیستم ریشه گرفت، با ظهور وب و کلان‌داده در دههٔ ۲۰۰۰ به تحلیل محاسباتی رفتار گسترش یافت، در دههٔ ۲۰۱۰ با مفهوم داده‌ای‌شدن و نقد داده‌باوری عمق نظری یافت و امروز بر حاکمیت داده، زیرساخت‌های داده و اقتصاد داده متمرکز است؛ در همین دوره، مقررات حفاظت داده و حق دسترسی پژوهشگران به دادهٔ پلتفرم به موضوع سیاست‌گذاری بدل شد.",
+        principles=["تفکیک دادهٔ خام از تفسیر و تصمیم", "توجه به سوگیری نمونه و زمینهٔ تولید داده", "پیوند تحلیل محاسباتی با پرسش قدرت و عدالت", "شفافیت در گردآوری و استفادهٔ ثانویه", "حفاظت از حریم خصوصی و رضایت آگاهانه", "سنجش کیفیت داده پیش از استنباط"],
+        assumptions=["رفتار ارتباطی را می‌توان تا حدی به ردپای دیجیتال تبدیل کرد.", "داده بدون تفسیر و زیرساخت، معنا و ارزش ندارد.", "دسترسی به داده تحت کنترل مالکان پلتفرم است.", "الگوهای داده‌ای می‌توانند تصمیم دربارهٔ افراد را هدایت کنند.",
+            "دسترسی به دادهٔ کامل پلتفرم برای پژوهش مستقل ممکن نیست."],
+        applications=["تحلیل رفتار مخاطب با دادهٔ تعامل", "ممیزی سوگیری و نمایندگی در مجموعه‌داده رسانه‌ای", "طراحی سیاست حاکمیت داده در سازمان رسانه‌ای", "پژوهش اقتصاد داده و مدل‌های درآمد مبتنی بر داده"],
+        studies=[
+            "کیچین (۲۰۱۴) داده را به‌عنوان مجموعه‌ای از زیرساخت‌ها و گردایه‌های نهادی تحلیل کرد و پیامدهای اجتماعی انقلاب داده را فراتر از فناوری توضیح داد.",
+            "ون‌دایک (۲۰۱۴) نشان داد داده‌ای‌شدن بر پیش‌فرض‌های هستی‌شناختی و معرفتی مناقشه‌برانگیزی استوار است و می‌تواند به داده‌باوری و داده‌پایشی بینجامد.",
+        ],
+        detailed_analysis="پرسش کانونی این حوزه این است که آیا داده جهان اجتماعی را توصیف می‌کند یا آن را برای سنجش بازسازی می‌کند. پاسخ متعادل آن است که داده همیشه محصول تصمیم دربارهٔ چه چیزی ثبت شود، چگونه دسته‌بندی شود و چه کسی به آن دسترسی داشته باشد؛ بنابراین تحلیل ارتباطی باید همراه با تحلیل زیرساخت و مالکیت انجام شود. این نکته به‌ویژه در پژوهش پلتفرم اهمیت دارد، زیرا شکاف دسترسی به داده، نه فقط محدودیت روش‌شناختی، بلکه مسئلهٔ قدرت است.",
+    ),
+    "SFL-004": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        definition="مطالعات پلتفرم‌ها حوزه‌ای است که بسترهای دیجیتال را زیرساخت، بازار و نهاد حکمرانی هم‌زمان می‌بیند و می‌پرسد چگونه منطق پلتفرم در اقتصاد، فرهنگ و خدمات عمومی نفوذ می‌کند و ارزش‌های عمومی مانند انصاف، شفافیت و پاسخ‌گویی را زیر فشار می‌گذارد.",
+        mechanism="تحلیل از سه سطح عبور می‌کند. در سطح خرد، رابط و قواعد تعامل رفتار کاربر و تولیدکننده را هدایت می‌کند. در سطح میانی، پلتفرم با الگوریتم، داده و شرایط دسترسی، بازار و اکوسیستم شرکا را سازمان می‌دهد. در سطح کلان، پلتفرم با دولت و جامعه مدنی بر سر قاعدهٔ حکمرانی و ارزش عمومی چانه می‌زند. پلتفرمی‌شدن زمانی رخ می‌دهد که این منطق سه‌سطحی به بخش‌های غیردیجیتال مانند خبر، آموزش و سلامت سرریز کند.",
+        critiques="۱. تمرکز بر چند پلتفرم بزرگ، تجربهٔ پلتفرم‌های منطقه‌ای و کوچک را نادیده می‌گیرد. ۲. استعارهٔ زیرساخت می‌تواند پلتفرم را طبیعی و گریزناپذیر جلوه دهد. ۳. ادعای بی‌طرفی پلتفرم با واقعیت مداخلهٔ تجاری آن در تضاد است. ۴. تحلیل ارزش عمومی اغلب معیار عملیاتی برای سنجش ندارد. ۵. حکمرانی چندذی‌نفعی می‌تواند به رفع مسئولیت و کندی تصمیم بینجامد. ۶. مطالعهٔ پلتفرم بدون تحلیل مالکیت و سرمایه، تصویر ناقصی از قدرت آن می‌دهد.",
+        evolution="حوزه از مطالعات نرم‌افزار و زیرساخت در دههٔ ۲۰۰۰ آغاز شد، در دههٔ ۲۰۱۰ با نقد سیاسی واژهٔ پلتفرم و مفهوم پلتفرمی‌شدن گسترش یافت و امروز بر قدرت بازار، حکمرانی محتوا، کار پلتفرمی و ارزش‌های عمومی در اکوسیستم پلتفرم متمرکز است؛ همچنین سازمان‌دهی کارکنان پلتفرم، مرز میان مصرف‌کننده و نیروی کار را به موضوع اصلی حوزه بدل کرده است.",
+        principles=["دیدن پلتفرم به‌عنوان زیرساخت و نهاد نه فقط ابزار", "تحلیل سه‌سطحی خرد، میانی و کلان", "تفکیک ادعای بی‌طرفی از مداخلهٔ واقعی", "سنجش ارزش عمومی با معیارهای عملیاتی", "توجه به تنوع بافت‌های منطقه‌ای", "پاسخ‌گویی چندلایه در حکمرانی پلتفرم"],
+        assumptions=["پلتفرم‌ها در تصمیم‌های اقتصادی و فرهنگی عاملیت دارند.", "منطق پلتفرم به بخش‌های غیردیجیتال سرریز می‌کند.", "قواعد حکمرانی پلتفرم قابل مطالعه و مقایسه‌اند.", "ارزش عمومی با منافع تجاری پلتفرم همیشه هم‌راستا نیست.",
+            "مالکیت و سرمایه در شکل‌گیری قدرت پلتفرم نقش دارد."],
+        applications=["تحلیل حکمرانی محتوا در پلتفرم‌های اجتماعی", "مطالعهٔ پلتفرمی‌شدن خبر و خدمات شهری", "ارزیابی سیاست رقابت و قدرت بازار پلتفرم", "طراحی سازوکار پاسخ‌گویی برای الگوریتم‌های عمومی"],
+        studies=[
+            "ون‌دایک، پوئل و دی‌وال (۲۰۱۸) پلتفرمی‌شدن را به‌عنوان نفوذ سازوکارهای پلتفرم در بازار، نهاد و ارزش عمومی تحلیل کردند و بر کشمکش میان بازار، دولت و جامعه مدنی تأکید داشتند.",
+            "گیلسپی (۲۰۱۰) نشان داد واژهٔ پلتفرم ادعایی راهبردی دربارهٔ بی‌طرفی و بازبودن است و همین ادعا عرصهٔ سیاستگذاری را شکل می‌دهد.",
+            "پلانتین و همکاران (۲۰۱۸) با مطالعهٔ گوگل، فیس‌بوک و وب باز، هم‌گرایی مطالعات پلتفرم و زیرساخت را برای تحلیل قدرت بسترها پیشنهاد کردند.",
+        ],
+        detailed_analysis="قوت مطالعات پلتفرم در ترکیب اقتصاد سیاسی، تحلیل فنی و پرسش ارزش عمومی است. ضعف رایج آن، لغزش از توصیف سازوکار به استعارهٔ فراگیر است: نامیدن هر چیز پلتفرم، تفاوت میان بازار دوطرفه، زیرساخت عمومی و خدمات نرم‌افزاری را محو می‌کند. پژوهش دقیق باید مشخص کند کدام سازوکار — اثر شبکه، داده، الگوریتم یا قرارداد دسترسی — در کدام سطح قدرت تولید می‌کند و چه کنشگری می‌تواند آن را محدود سازد.",
+    ),
+    "SFL-005": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        theorists_text="مایکل گلدهابر، تیم وو، تامس داونپورت و جان بک (اقتصاد توجه)؛ شوشانا زوبف (بُعد نظارتی)",
+        key_concepts=[
+            {"term_fa": "کالایی‌سازی توجه", "definition": "تبدیل توجه کاربر به منبع درآمد (تبلیغ/داده)."},
+            {"term_fa": "طراحی برای درگیری", "definition": "مکانیزم‌های نگه‌داشتن و افزایش توجه (نوتیفیکیشن، بی‌نهایت اسکرول)."},
+            {"term_fa": "خستگی اطلاعاتی", "definition": "پیامد روانی اشباع توجه و اطلاعات."},
+            {"term_fa": "چرخهٔ تسخیر و شورش توجه", "definition": "دورهٔ تکرارشوندهٔ گسترش سازوکارهای جلب توجه و واکنش عمومی علیه آن."},
+        ],
+        definition="مطالعات اقتصاد توجه حوزه‌ای است که توجه انسان را کمیاب‌ترین منبع عصر اطلاعات می‌داند و بررسی می‌کند چگونه رسانه، تبلیغ و پلتفرم آن را می‌سنجند، می‌فروشند و بازتوزیع می‌کنند و این منطق چه پیامدهایی برای تجربه، سلامت شناختی و فرهنگ دارد.",
+        mechanism="زنجیرهٔ ارزش با جلب توجه آغاز می‌شود: محتوا، اعلان و طراحی رابط کاربر را به ماندن وامی‌دارد. سپس توجه اندازه‌گیری و بسته‌بندی می‌شود: زمان مواجهه، کلیک و تعامل به سنجه‌های قابل فروش تبدیل می‌شوند. در گام بعد این توجه به تبلیغ‌دهنده یا کاربر دیگر فروخته می‌شود و بازخورد تعامل، طراحی را برای جلب بیشتر بهینه می‌کند. سرانجام اثر انباشته بر تمرکز، خستگی و کیفیت گفت‌وگوی عمومی ارزیابی می‌شود.",
+        critiques="۱. توجه را با کلیک و زمان مواجهه یکی می‌گیرد و کیفیت توجه را نمی‌سنجد. ۲. منطق بهینه‌سازی می‌تواند محتوای هیجانی و قطبی را پاداش دهد. ۳. هزینهٔ شناختی و سلامت روان در حساب ارزش لحاظ نمی‌شود. ۴. اقتصاد توجه با نظارت داده‌ای درهم می‌آمیزد و مرز مصرف و پایش را محو می‌کند. ۵. سیاست‌های محدودسازی زمان صفحه، بدون تغییر مدل درآمد، اثر پایدار ندارند.",
+        evolution="مفهوم در دههٔ ۱۹۷۰ با هربرت سایمون دربارهٔ کمیابی توجه شکل گرفت، در ۱۹۹۷ با مقالهٔ گلدهابر در بستر شبکه عمومی شد، در دههٔ ۲۰۰۰ با ادبیات کسب‌وکار دربارهٔ توجه به‌عنوان ارز گسترش یافت و از دههٔ ۲۰۱۰ با تاریخ تیم وو و نقد نظارتی زوبف به پرسش قدرت و سلامت پیوند خورد.",
+        principles=["تفکیک توجه از صرف زمان مواجهه", "سنجش کیفیت تعامل نه فقط کمیت کلیک", "توجه به هزینهٔ شناختی و سلامت روان", "پیوند اقتصاد توجه با اقتصاد داده و نظارت", "تغییر مدل درآمد به‌جای فقط محدودسازی زمان صفحه", "حفاظت از کیفیت گفت‌وگوی عمومی"],
+        assumptions=["توجه منبعی کمیاب و رقابت‌پذیر است.", "طراحی رابط بر میزان و کیفیت توجه اثر می‌گذارد.", "سنجه‌های تعامل نمایندهٔ ارزش واقعی توجه نیستند.", "مدل درآمد تبلیغاتی رفتار محتوایی را هدایت می‌کند."],
+        applications=["ممیزی طراحی برای درگیری در اپلیکیشن‌های خبری", "تحلیل اقتصاد تبلیغات و کیفیت محتوا", "سیاست‌گذاری سلامت دیجیتال و زمان صفحه", "پژوهش اثر اعلان و توصیه بر تمرکز کاربر"],
+        studies=[
+            "گلدهابر (۱۹۹۷) استدلال کرد که در شبکه، توجه و نه اطلاعات منبع کمیاب است و اقتصاد توجه تقسیم‌بندی تازه‌ای میان ستاره‌ها و هواداران می‌سازد.",
+            "داونپورت و بک (۲۰۰۱) توجه را به‌عنوان درگیری ذهنی متمرکز تعریف کردند و آن را ارزی کارآمد در سازمان‌ها دانستند.",
+            "وو (۲۰۱۶) تاریخ تاجران توجه را از مطبوعات ارزان تا پلتفرم‌های دیجیتال دنبال کرد و چرخهٔ تکرارشوندهٔ تسخیر توجه و شورش عمومی علیه آن را نشان داد.",
+        ],
+        detailed_analysis="اقتصاد توجه هنگامی توضیحی می‌شود که به جای شمارش صرف زمان، کیفیت و هدف توجه را وارد تحلیل کند. دو کاربر با زمان مواجههٔ یکسان می‌توانند تجربهٔ کاملاً متفاوتی داشته باشند: یکی محتوای سنجیده می‌خواند و دیگری در چرخهٔ محتوای هیجانی گرفتار است. به همین دلیل، سنجه‌های پلتفرم که تعامل را پاداش می‌دهند، می‌توانند کیفیت را قربانی کمیت کنند. پیوند این حوزه با نقد داده‌پایشی نشان می‌دهد که مسئله فقط رقابت بر سر توجه نیست، بلکه تبدیل توجه به داده و پیش‌بینی رفتار است.",
+    ),
+}
+
+NAME_FIX = {}
+
+YEAR_FIX = {
+    "SFL-002": "no year set (subfield card); note: unverifiable theorist attribution was replaced with Bucher, Gillespie and van Dijck; documentation rebuilt from Gillespie (2014) and Bucher (2017)",
+    "SFL-005": "no year set (subfield card); note: theorist list corrected to Goldhaber, Wu, Davenport & Beck and Zuboff; key-concept typo corrected; documentation rebuilt from Goldhaber (1997), Davenport & Beck (2001) and Wu (2016)",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 194}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH194 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<record:record path="/0000-0001-5014-2515" xmlns:internal="http://www.orcid.org/ns/internal" xmlns:education="http://www.orcid.org/ns/education" xmlns:distinction="http://www.orcid.org/ns/distinction" xmlns:deprecated="http://www.orcid.org/ns/deprecated" xmlns:other-name="http://www.orcid.org/ns/other-name" xmlns:membership="http://www.orcid.org/ns/membership" xmlns:error="http://www.orcid.org/ns/error" xmlns:common="http://www.orcid.org/ns/common" xmlns:record="http://www.orcid.org/ns/record" xmlns:personal-details="http://www.orcid.org/ns/personal-details" xmlns:keyword="http://www.orcid.org/ns/keyword" xmlns:email="http://www.orcid.org/ns/email" xmlns:external-identifier="http://www.orcid.org/ns/external-identifier" xmlns:funding="http://www.orcid.org/ns/funding" xmlns:preferences="http://www.orcid.org/ns/preferences" xmlns:address="http://www.orcid.org/ns/address" xmlns:invited-position="http://www.orcid.org/ns/invited-position" xmlns:work="http://www.orcid.org/ns/work" xmlns:history="http://www.orcid.org/ns/history" xmlns:employment="http://www.orcid.org/ns/employment" xmlns:qualification="http://www.orcid.org/ns/qualification" xmlns:service="http://www.orcid.org/ns/service" xmlns:person="http://www.orcid.org/ns/person" xmlns:activities="http://www.orcid.org/ns/activities" xmlns:researcher-url="http://www.orcid.org/ns/researcher-url" xmlns:peer-review="http://www.orcid.org/ns/peer-review" xmlns:bulk="http://www.orcid.org/ns/bulk" xmlns:research-resource="http://www.orcid.org/ns/research-resource">
+    <common:orcid-identifier>
+        <common:uri>https://orcid.org/0000-0001-5014-2515</common:uri>
+        <common:path>0000-0001-5014-2515</common:path>
+        <common:host>orcid.org</common:host>
+    </common:orcid-identifier>
+    <preferences:preferences>
+        <preferences:locale>en</preferences:locale>
+    </preferences:preferences>
+    <history:history>
+        <history:creation-method>Member-referred</history:creation-method>
+        <history:submission-date>2018-05-03T16:45:40.527Z</history:submission-date>
+        <common:last-modified-date>2026-04-02T08:01:52.920Z</common:last-modified-date>
+        <history:claimed>true</history:claimed>
+        <history:verified-email>true</history:verified-email>
+        <history:verified-primary-email>true</history:verified-primary-email>
+    </history:history>
+    <person:person path="/0000-0001-5014-2515/person">
+        <common:last-modified-date>2024-12-11T15:54:44.424Z</common:last-modified-date>
+        <person:name visibility="public" path="0000-0001-5014-2515">
+            <common:created-date>2018-05-03T16:45:40.527Z</common:created-date>
+            <common:last-modified-date>2018-05-03T16:45:40.752Z</common:last-modified-date>
+            <personal-details:given-names>Sara</personal-details:given-names>
+            <personal-details:family-name>Talebian</personal-details:family-name>
+        </person:name>
+        <other-name:other-names path="/0000-0001-5014-2515/other-names"/>
+        <researcher-url:researcher-urls path="/0000-0001-5014-2515/researcher-urls"/>
+        <email:emails path="/0000-0001-5014-2515/email">
+            <common:last-modified-date>2024-12-11T15:54:44.424Z</common:last-modified-date>
+            <email:email visibility="public" verified="true" primary="false">
+                <common:created-date>2019-09-29T08:33:48.080Z</common:created-date>
+                <common:last-modified-date>2024-12-11T15:54:44.424Z</common:last-modified-date>
+                <common:source>
+                    <common:source-orcid>
+                        <common:uri>https://orcid.org/0000-0001-5014-2515</common:uri>
+                        <common:path>0000-0001-5014-2515</common:path>
+                        <common:host>orcid.org</common:host>
+                    </common:source-orcid>
+                    <common:source-name>Sara Talebian</common:source-name>
+                </common:source>
+                <email:email>sara.talebian@sei.org</email:email>
+            </email:email>
+        </email:emails>
+        <address:addresses path="/0000-0001-5014-2515/address"/>
+        <keyword:keywords path="/0000-0001-5014-2515/keywords"/>
+        <external-identifier:external-identifiers path="/0000-0001-5014-2515/external-identifiers"/>
+    </person:person>
+    <activities:activities-summary path="/0000-0001-5014-2515/activities">
+        <common:last-modified-date>2025-10-31T23:57:59.633Z</common:last-modified-date>
+        <activities:distinctions path="/0000-0001-5014-2515/distinctions"/>
+        <activities:educations path="/0000-0001-5014-2515/educations">
+            <common:last-modified-date>2018-08-03T08:03:01.081Z</common:last-modified-date>
+            <activities:affiliation-group>
+                <common:last-modified-date>2018-08-03T08:03:01.081Z</common:last-modified-date>
+                <common:external-ids/>
+                <education:education-summary put-code="6212643" display-index="0" path="/0000-0001-5014-2515/education/6212643" visibility="public">
+                    <common:created-date>2018-08-03T08:03:01.081Z</common:created-date>
+                    <common:last-modified-date>2018-08-03T08:03:01.081Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-orcid>
+                            <common:uri>https://orcid.org/0000-0001-5014-2515</common:uri>
+                            <common:path>0000-0001-5014-2515</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-orcid>
+                        <common:source-name>Sara Talebian</common:source-name>
+                    </common:source>
+                    <common:department-name>Social research</common:department-name>
+                    <common:role-title>Master</common:role-title>
+                    <common:start-date>
+                        <common:year>2015</common:year>
+                        <common:month>08</common:month>
+                    </common:start-date>
+                    <common:end-date>
+                        <common:year>2018</common:year>
+                        <common:month>01</common:month>
+                    </common:end-date>
+                    <common:organization>
+                        <common:name>University of Helsinki</common:name>
+                        <common:address>
+                            <common:city>Helsinki</common:city>
+                            <common:country>FI</common:country>
+                        </common:address>
+                    </common:organization>
+                </education:education-summary>
+            </activities:affiliation-group>
+        </activities:educations>
+        <activities:employments path="/0000-0001-5014-2515/employments">
+            <common:last-modified-date>2020-06-08T07:21:50.193Z</common:last-modified-date>
+            <activities:affiliation-group>
+                <common:last-modified-date>2020-06-08T07:21:50.193Z</common:last-modified-date>
+                <common:external-ids/>
+                <employment:employment-summary put-code="11722936" display-index="1" path="/0000-0001-5014-2515/employment/11722936" visibility="public">
+                    <common:created-date>2020-06-08T07:21:50.193Z</common:created-date>
+                    <common:last-modified-date>2020-06-08T07:21:50.193Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-orcid>
+                            <common:uri>https://orcid.org/0000-0001-5014-2515</common:uri>
+                            <common:path>0000-0001-5014-2515</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-orcid>
+                        <common:source-name>Sara Talebian</common:source-name>
+                    </common:source>
+                    <common:start-date>
+                        <common:year>2018</common:year>
+                        <common:month>09</common:month>
+                    </common:start-date>
+                    <common:organization>
+                        <common:name>Stockholm Environment Institute</common:name>
+                        <common:address>
+                            <common:city>Stockholm</common:city>
+                            <common:country>SE</common:country>
+                        </common:address>
+                        <common:disambiguated-organization>
+                            <common:disambiguated-organization-identifier>83304</common:disambiguated-organization-identifier>
+                            <common:disambiguation-source>RINGGOLD</common:disambiguation-source>
+                        </common:disambiguated-organization>
+                    </common:organization>
+                    <common:url>https://www.sei.org/</common:url>
+                </employment:employment-summary>
+            </activities:affiliation-group>
+            <activities:affiliation-group>
+                <common:last-modified-date>2018-08-03T08:03:57.711Z</common:last-modified-date>
+                <common:external-ids/>
+                <employment:employment-summary put-code="6212648" display-index="0" path="/0000-0001-5014-2515/employment/6212648" visibility="public">
+                    <common:created-date>2018-08-03T08:03:57.711Z</common:created-date>
+                    <common:last-modified-date>2018-08-03T08:03:57.711Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-orcid>
+                            <common:uri>https://orcid.org/0000-0001-5014-2515</common:uri>
+                            <common:path>0000-0001-5014-2515</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-orcid>
+                        <common:source-name>Sara Talebian</common:source-name>
+                    </common:source>
+                    <common:start-date>
+                        <common:year>2017</common:year>
+                        <common:month>09</common:month>
+                    </common:start-date>
+                    <common:end-date>
+                        <common:year>2017</common:year>
+                        <common:month>12</common:month>
+                    </common:end-date>
+                    <common:organization>
+                        <common:name>Kairos Future</common:name>
+                        <common:address>
+                            <common:city>Stockholm</common:city>
+                            <common:country>SE</common:country>
+                        </common:address>
+                        <common:disambiguated-organization>
+                            <common:disambiguated-organization-identifier>83258</common:disambiguated-organization-identifier>
+                            <common:disambiguation-source>RINGGOLD</common:disambiguation-source>
+                        </common:disambiguated-organization>
+                    </common:organization>
+                </employment:employment-summary>
+            </activities:affiliation-group>
+            <activities:affiliation-group>
+                <common:last-modified-date>2018-08-03T08:05:07.013Z</common:last-modified-date>
+                <common:external-ids/>
+                <employment:employment-summary put-code="6212653" display-index="0" path="/0000-0001-5014-2515/employment/6212653" visibility="public">
+                    <common:created-date>2018-08-03T08:05:07.013Z</common:created-date>
+                    <common:last-modified-date>2018-08-03T08:05:07.013Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-orcid>
+                            <common:uri>https://orcid.org/0000-0001-5014-2515</common:uri>
+                            <common:path>0000-0001-5014-2515</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-orcid>
+                        <common:source-name>Sara Talebian</common:source-name>
+                    </common:source>
+                    <common:start-date>
+                        <common:year>2013</common:year>
+                    </common:start-date>
+                    <common:end-date>
+                        <common:year>2015</common:year>
+                    </common:end-date>
+                    <common:organization>
+                        <common:name>Iran Futures Studies, Ayandeban</common:name>
+                        <common:address>
+                            <common:city>Tehran</common:city>
+                            <common:country>IR</common:country>
+                        </common:address>
+                    </common:organization>
+                </employment:employment-summary>
+            </activities:affiliation-group>
+        </activities:employments>
+        <activities:fundings path="/0000-0001-5014-2515/fundings"/>
+        <activities:invited-positions path="/0000-0001-5014-2515/invited-positions"/>
+        <activities:memberships path="/0000-0001-5014-2515/memberships"/>
+        <activities:peer-reviews path="/0000-0001-5014-2515/peer-reviews"/>
+        <activities:qualifications path="/0000-0001-5014-2515/qualifications"/>
+        <activities:research-resources path="/0000-0001-5014-2515/research-resources"/>
+        <activities:services path="/0000-0001-5014-2515/services"/>
+        <activities:works path="/0000-0001-5014-2515/works">
+            <common:last-modified-date>2025-10-31T23:57:59.633Z</common:last-modified-date>
+            <activities:group>
+                <common:last-modified-date>2024-10-29T10:35:44.314Z</common:last-modified-date>
+                <common:external-ids>
+                    <common:external-id>
+                        <common:external-id-type>doi</common:external-id-type>
+                        <common:external-id-value>10.51414/sei2024.044</common:external-id-value>
+                        <common:external-id-normalized transient="true">10.51414/sei2024.044</common:external-id-normalized>
+                        <common:external-id-url>https://doi.org/10.51414/sei2024.044</common:external-id-url>
+                        <common:external-id-relationship>self</common:external-id-relationship>
+                    </common:external-id>
+                </common:external-ids>
+                <work:work-summary put-code="170472088" path="/0000-0001-5014-2515/work/170472088" visibility="public" display-index="1">
+                    <common:created-date>2024-10-28T14:41:30.677Z</common:created-date>
+                    <common:last-modified-date>2024-10-29T10:35:44.314Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-client-id>
+                            <common:uri>https://orcid.org/client/0000-0001-9884-1913</common:uri>
+                            <common:path>0000-0001-9884-1913</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-client-id>
+                        <common:source-name>Crossref</common:source-name>
+                    </common:source>
+                    <work:title>
+                        <common:title>Solutions for managing food security risks in a rapidly changing geopolitical landscape</common:title>
+                    </work:title>
+                    <common:external-ids>
+                        <common:external-id>
+                            <common:external-id-type>doi</common:external-id-type>
+                            <common:external-id-value>10.51414/sei2024.044</common:external-id-value>
+                            <common:external-id-normalized transient="true">10.51414/sei2024.044</common:external-id-normalized>
+                            <common:external-id-url>https://doi.org/10.51414/sei2024.044</common:external-id-url>
+                            <common:external-id-relationship>self</common:external-id-relationship>
+                        </common:external-id>
+                    </common:external-ids>
+                    <common:url>https://doi.org/10.51414/sei2024.044</common:url>
+                    <work:type>report</work:type>
+                    <common:publication-date>
+                        <common:year>2024</common:year>
+                        <common:month>11</common:month>
+                    </common:publication-date>
+                </work:work-summary>
+            </activities:group>
+            <activities:group>
+                <common:last-modified-date>2024-04-18T10:03:57.514Z</common:last-modified-date>
+                <common:external-ids>
+                    <common:external-id>
+                        <common:external-id-type>doi</common:external-id-type>
+                        <common:external-id-value>10.1016/j.gloenvcha.2024.102839</common:external-id-value>
+                        <common:external-id-normalized transient="true">10.1016/j.gloenvcha.2024.102839</common:external-id-normalized>
+                        <common:external-id-url>https://doi.org/10.1016/j.gloenvcha.2024.102839</common:external-id-url>
+                        <common:external-id-relationship>self</common:external-id-relationship>
+                    </common:external-id>
+                </common:external-ids>
+                <work:work-summary put-code="157880119" path="/0000-0001-5014-2515/work/157880119" visibility="public" display-index="0">
+                    <common:created-date>2024-04-18T10:03:57.514Z</common:created-date>
+                    <common:last-modified-date>2024-04-18T10:03:57.514Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-client-id>
+                            <common:uri>https://orcid.org/client/0000-0001-9884-1913</common:uri>
+                            <common:path>0000-0001-9884-1913</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-client-id>
+                        <common:source-name>Crossref</common:source-name>
+                    </common:source>
+                    <work:title>
+                        <common:title>Diversity in global environmental scenario sets</common:title>
+                    </work:title>
+                    <common:external-ids>
+                        <common:external-id>
+                            <common:external-id-type>doi</common:external-id-type>
+                            <common:external-id-value>10.1016/j.gloenvcha.2024.102839</common:external-id-value>
+                            <common:external-id-normalized transient="true">10.1016/j.gloenvcha.2024.102839</common:external-id-normalized>
+                            <common:external-id-url>https://doi.org/10.1016/j.gloenvcha.2024.102839</common:external-id-url>
+                            <common:external-id-relationship>self</common:external-id-relationship>
+                        </common:external-id>
+                    </common:external-ids>
+                    <common:url>https://doi.org/10.1016/j.gloenvcha.2024.102839</common:url>
+                    <work:type>journal-article</work:type>
+                    <common:publication-date>
+                        <common:year>2024</common:year>
+                        <common:month>05</common:month>
+                    </common:publication-date>
+                    <work:journal-title>Global Environmental Change</work:journal-title>
+                </work:work-summary>
+            </activities:group>
+            <activities:group>
+                <common:last-modified-date>2024-04-18T13:54:15.892Z</common:last-modified-date>
+                <common:external-ids>
+                    <common:external-id>
+                        <common:external-id-type>doi</common:external-id-type>
+                        <common:external-id-value>10.3390/app11125375</common:external-id-value>
+                        <common:external-id-normalized transient="true">10.3390/app11125375</common:external-id-normalized>
+                        <common:external-id-url>https://doi.org/10.3390/app11125375</common:external-id-url>
+                        <common:external-id-relationship>self</common:external-id-relationship>
+                    </common:external-id>
+                </common:external-ids>
+                <work:work-summary put-code="157902310" path="/0000-0001-5014-2515/work/157902310" visibility="public" display-index="1">
+                    <common:created-date>2024-04-18T13:54:15.892Z</common:created-date>
+                    <common:last-modified-date>2024-04-18T13:54:15.892Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-orcid>
+                            <common:uri>https://orcid.org/0000-0001-5014-2515</common:uri>
+                            <common:path>0000-0001-5014-2515</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-orcid>
+                        <common:source-name>Sara Talebian</common:source-name>
+                    </common:source>
+                    <work:title>
+                        <common:title>Toward Climate-Neutral Heavy Industry: An Analysis of Industry Transition Roadmaps</common:title>
+                    </work:title>
+                    <common:external-ids>
+                        <common:external-id>
+                            <common:external-id-type>doi</common:external-id-type>
+                            <common:external-id-value>10.3390/app11125375</common:external-id-value>
+                            <common:external-id-normalized transient="true">10.3390/app11125375</common:external-id-normalized>
+                            <common:external-id-url>https://doi.org/10.3390/app11125375</common:external-id-url>
+                            <common:external-id-relationship>self</common:external-id-relationship>
+                        </common:external-id>
+                        <common:external-id>
+                            <common:external-id-type>issn</common:external-id-type>
+                            <common:external-id-value>2076-3417</common:external-id-value>
+                            <common:external-id-normalized transient="true">2076-3417</common:external-id-normalized>
+                            <common:external-id-url>https://portal.issn.org/resource/ISSN/2076-3417</common:external-id-url>
+                            <common:external-id-relationship>part-of</common:external-id-relationship>
+                        </common:external-id>
+                    </common:external-ids>
+                    <common:url>http://dx.doi.org/10.3390/app11125375</common:url>
+                    <work:type>journal-article</work:type>
+                    <common:publication-date>
+                        <common:year>2021</common:year>
+                        <common:month>06</common:month>
+                        <common:day>09</common:day>
+                    </common:publication-date>
+                    <work:journal-title>Applied Sciences</work:journal-title>
+                </work:work-summary>
+            </activities:group>
+            <activities:group>
+                <common:last-modified-date>2025-10-31T23:57:59.633Z</common:last-modified-date>
+                <common:external-ids>
+                    <common:external-id>
+                        <common:external-id-type>doi</common:external-id-type>
+                        <common:external-id-value>10.1016/j.crm.2021.100311</common:external-id-value>
+                        <common:external-id-normalized transient="true">10.1016/j.crm.2021.100311</common:external-id-normalized>
+                        <common:external-id-url>https://doi.org/10.1016/j.crm.2021.100311</common:external-id-url>
+                        <common:external-id-relationship>self</common:external-id-relationship>
+                    </common:external-id>
+                </common:external-ids>
+                <work:work-summary put-code="92409917" path="/0000-0001-5014-2515/work/92409917" visibility="public" display-index="0">
+                    <common:created-date>2021-04-19T10:20:22.575Z</common:created-date>
+                    <common:last-modified-date>2025-10-31T23:57:59.633Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-client-id>
+                            <common:uri>https://orcid.org/client/0000-0001-9884-1913</common:uri>
+                            <common:path>0000-0001-9884-1913</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-client-id>
+                        <common:source-name>Crossref</common:source-name>
+                    </common:source>
+                    <work:title>
+                        <common:title>Assessing future cross-border climate impacts using shared socioeconomic pathways</common:title>
+                    </work:title>
+                    <common:external-ids>
+                        <common:external-id>
+                            <common:external-id-type>doi</common:external-id-type>
+                            <common:external-id-value>10.1016/j.crm.2021.100311</common:external-id-value>
+                            <common:external-id-normalized transient="true">10.1016/j.crm.2021.100311</common:external-id-normalized>
+                            <common:external-id-url>https://doi.org/10.1016/j.crm.2021.100311</common:external-id-url>
+                            <common:external-id-relationship>self</common:external-id-relationship>
+                        </common:external-id>
+                    </common:external-ids>
+                    <common:url>https://doi.org/10.1016/j.crm.2021.100311</common:url>
+                    <work:type>journal-article</work:type>
+                    <common:publication-date>
+                        <common:year>2021</common:year>
+                    </common:publication-date>
+                    <work:journal-title>Climate Risk Management</work:journal-title>
+                </work:work-summary>
+            </activities:group>
+            <activities:group>
+                <common:last-modified-date>2024-10-07T02:30:27.558Z</common:last-modified-date>
+                <common:external-ids>
+                    <common:external-id>
+                        <common:external-id-type>doi</common:external-id-type>
+                        <common:external-id-value>10.1177/1742766520921906</common:external-id-value>
+                        <common:external-id-normalized transient="true">10.1177/1742766520921906</common:external-id-normalized>
+                        <common:external-id-url>https://doi.org/10.1177/1742766520921906</common:external-id-url>
+                        <common:external-id-relationship>self</common:external-id-relationship>
+                    </common:external-id>
+                </common:external-ids>
+                <work:work-summary put-code="75249400" path="/0000-0001-5014-2515/work/75249400" visibility="public" display-index="0">
+                    <common:created-date>2020-06-07T11:54:47.852Z</common:created-date>
+                    <common:last-modified-date>2024-10-07T02:30:27.558Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-client-id>
+                            <common:uri>https://orcid.org/client/0000-0001-9884-1913</common:uri>
+                            <common:path>0000-0001-9884-1913</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-client-id>
+                        <common:source-name>Crossref</common:source-name>
+                    </common:source>
+                    <work:title>
+                        <common:title>Understanding the characteristics of broadcast media policy in Iran: A thematic policy analysis</common:title>
+                    </work:title>
+                    <common:external-ids>
+                        <common:external-id>
+                            <common:external-id-type>doi</common:external-id-type>
+                            <common:external-id-value>10.1177/1742766520921906</common:external-id-value>
+                            <common:external-id-normalized transient="true">10.1177/1742766520921906</common:external-id-normalized>
+                            <common:external-id-url>https://doi.org/10.1177/1742766520921906</common:external-id-url>
+                            <common:external-id-relationship>self</common:external-id-relationship>
+                        </common:external-id>
+                    </common:external-ids>
+                    <common:url>https://doi.org/10.1177/1742766520921906</common:url>
+                    <work:type>journal-article</work:type>
+                    <common:publication-date>
+                        <common:year>2020</common:year>
+                        <common:month>08</common:month>
+                    </common:publication-date>
+                    <work:journal-title>Global Media and Communication</work:journal-title>
+                </work:work-summary>
+            </activities:group>
+            <activities:group>
+                <common:last-modified-date>2022-05-27T04:42:03.765Z</common:last-modified-date>
+                <common:external-ids>
+                    <common:external-id>
+                        <common:external-id-type>doi</common:external-id-type>
+                        <common:external-id-value>10.1186/s40309-018-0137-9</common:external-id-value>
+                        <common:external-id-normalized transient="true">10.1186/s40309-018-0137-9</common:external-id-normalized>
+                        <common:external-id-url>https://doi.org/10.1186/s40309-018-0137-9</common:external-id-url>
+                        <common:external-id-relationship>self</common:external-id-relationship>
+                    </common:external-id>
+                </common:external-ids>
+                <work:work-summary put-code="47099436" path="/0000-0001-5014-2515/work/47099436" visibility="public" display-index="0">
+                    <common:created-date>2018-08-03T07:43:09.890Z</common:created-date>
+                    <common:last-modified-date>2022-05-27T04:42:03.765Z</common:last-modified-date>
+                    <common:source>
+                        <common:source-client-id>
+                            <common:uri>https://orcid.org/client/0000-0001-9884-1913</common:uri>
+                            <common:path>0000-0001-9884-1913</common:path>
+                            <common:host>orcid.org</common:host>
+                        </common:source-client-id>
+                        <common:source-name>Crossref</common:source-name>
+                    </common:source>
+                    <work:title>
+                        <common:title>The application of causal layered analysis to understand the present conditions and possible futures of media and politics in Iran</common:title>
+                    </work:title>
+                    <common:external-ids>
+                        <common:external-id>
+                            <common:external-id-type>doi</common:external-id-type>
+                            <common:external-id-value>10.1186/s40309-018-0137-9</common:external-id-value>
+                            <common:external-id-normalized transient="true">10.1186/s40309-018-0137-9</common:external-id-normalized>
+                            <common:external-id-url>https://doi.org/10.1186/s40309-018-0137-9</common:external-id-url>
+                            <common:external-id-relationship>self</common:external-id-relationship>
+                        </common:external-id>
+                    </common:external-ids>
+                    <common:url>https://doi.org/10.1186/s40309-018-0137-9</common:url>
+                    <work:type>journal-article</work:type>
+                    <common:publication-date>
+                        <common:year>2018</common:year>
+                        <common:month>12</common:month>
+                    </common:publication-date>
+                    <work:journal-title>European Journal of Futures Research</work:journal-title>
+                </work:work-summary>
+            </activities:group>
+        </activities:works>
+    </activities:activities-summary>
+</record:record>

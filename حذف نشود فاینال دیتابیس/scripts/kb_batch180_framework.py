@@ -1,0 +1,628 @@
+# -*- coding: utf-8 -*-
+"""Batch 180 (METHOD + METHODOLOGY): MC-716 audience ethnography, MC-717 digital media ethnography, MC-718 social network analysis, MC-714 framing analysis."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch180-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch180.json"
+
+METHOD_MAPPING = {"entity_type": "METHOD", "content_type": "روش پژوهش (Research Method)", "needs_review": False}
+METHODOLOGY_MAPPING = {"entity_type": "METHODOLOGY", "content_type": "روش‌شناسی (Methodology)", "needs_review": False}
+
+S = {
+    "MC-716": [
+        dict(kind="BOOK",
+             title_en="The 'Nationwide' Audience: Structure and Decoding",
+             title_fa="مخاطب برنامهٔ سراسری: ساختار و رمزگشایی",
+             authors="Morley, D.", year=1980,
+             publisher="British Film Institute",
+             doi=None,
+             url="https://archive.org/details/nationwideaudien0000morl",
+             language="en", isbn="9780851700977",
+             citation="Morley, D. (1980). The 'Nationwide' Audience: Structure and Decoding (BFI Television Monograph 11). London: British Film Institute.",
+             locator="whole book", locator_type="book",
+             supports="audience decoding varies with social position; classic audience ethnography", verified=True),
+        dict(kind="BOOK",
+             title_en="The Nationwide Television Studies",
+             title_fa="مطالعات تلویزیونی برنامهٔ سراسری",
+             authors="Brunsdon, C., & Morley, D.", year=1999,
+             publisher="Routledge",
+             doi=None,
+             url="https://monoskop.org/images/9/99/Brunsdon_Charlotte_Morley_David_The_Nationwide_Television_Studies_1999.pdf",
+             language="en", isbn=None,
+             citation="Brunsdon, C., & Morley, D. (1999). The Nationwide Television Studies. London: Routledge.",
+             locator="whole book", locator_type="book",
+             supports="reprint and consolidation of the audience-ethnography tradition", verified=True),
+    ],
+    "MC-717": [
+        dict(kind="BOOK",
+             title_en="Virtual Ethnography",
+             title_fa="قوم‌نگاری مجازی",
+             authors="Hine, C.", year=2000,
+             publisher="SAGE Publications",
+             doi=None,
+             url="https://methods.sagepub.com/book/mono/virtual-ethnography/toc",
+             language="en", isbn=None,
+             citation="Hine, C. (2000). Virtual Ethnography. London: SAGE Publications.",
+             locator="whole book", locator_type="book",
+             supports="internet as both culture and cultural artefact; online ethnographic method", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Field behind the Screen: Using Netnography for Marketing Research in Online Communities",
+             title_fa="میدان پشت پرده: کاربرد نت‌نوگرافی در پژوهش بازار در جوامع آنلاین",
+             authors="Kozinets, R. V.", year=2002,
+             publisher="Journal of Marketing Research, 39(1), 61-72",
+             doi="10.1509/jmkr.39.1.61.18935",
+             url="https://doi.org/10.1509/jmkr.39.1.61.18935",
+             language="en", isbn=None,
+             citation="Kozinets, R. V. (2002). The field behind the screen: Using netnography for marketing research in online communities. Journal of Marketing Research, 39(1), 61-72.",
+             locator="39(1), pp. 61-72", locator_type="page_range",
+             supports="operational online ethnographic procedures and ethics", verified=True),
+    ],
+    "MC-718": [
+        dict(kind="BOOK",
+             title_en="Social Network Analysis: Methods and Applications",
+             title_fa="تحلیل شبکهٔ اجتماعی: روش‌ها و کاربردها",
+             authors="Wasserman, S., & Faust, K.", year=1994,
+             publisher="Cambridge University Press",
+             doi="10.1017/CBO9780511815478",
+             url="https://doi.org/10.1017/CBO9780511815478",
+             language="en", isbn="9780521387071",
+             citation="Wasserman, S., & Faust, K. (1994). Social Network Analysis: Methods and Applications. Cambridge: Cambridge University Press.",
+             locator="whole book", locator_type="book",
+             supports="mathematical and methodological foundations of network analysis", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Network Analysis in the Social Sciences",
+             title_fa="تحلیل شبکه در علوم اجتماعی",
+             authors="Borgatti, S. P., Mehra, A., Brass, D. J., & Labianca, G.", year=2009,
+             publisher="Science, 323(5916), 892-895",
+             doi="10.1126/science.1165821",
+             url="https://doi.org/10.1126/science.1165821",
+             language="en", isbn=None,
+             citation="Borgatti, S. P., Mehra, A., Brass, D. J., & Labianca, G. (2009). Network analysis in the social sciences. Science, 323(5916), 892-895.",
+             locator="323(5916), pp. 892-895", locator_type="page_range",
+             supports="review of network mechanisms linking micro and macro processes", verified=True),
+    ],
+    "MC-714": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Media Discourse and Public Opinion on Nuclear Power: A Constructionist Approach",
+             title_fa="گفتمان رسانه و افکار عمومی دربارهٔ انرژی هسته‌ای: رویکردی برساخت‌گرا",
+             authors="Gamson, W. A., & Modigliani, A.", year=1989,
+             publisher="American Journal of Sociology, 95(1), 1-37",
+             doi="10.1086/229213",
+             url="https://doi.org/10.1086/229213",
+             language="en", isbn=None,
+             citation="Gamson, W. A., & Modigliani, A. (1989). Media discourse and public opinion on nuclear power: A constructionist approach. American Journal of Sociology, 95(1), 1-37.",
+             locator="95(1), pp. 1-37", locator_type="page_range",
+             supports="interpretive packages and parallel construction of media and audience meaning", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Framing: Toward Clarification of a Fractured Paradigm",
+             title_fa="چارچوب‌بندی: به‌سوی روشن‌سازی یک پارادایم پراکنده",
+             authors="Entman, R. M.", year=1993,
+             publisher="Journal of Communication, 43(4), 51-58",
+             doi="10.1111/j.1460-2466.1993.tb01304.x",
+             url="https://doi.org/10.1111/j.1460-2466.1993.tb01304.x",
+             language="en", isbn=None,
+             citation="Entman, R. M. (1993). Framing: Toward clarification of a fractured paradigm. Journal of Communication, 43(4), 51-58.",
+             locator="43(4), pp. 51-58", locator_type="page_range",
+             supports="selection and salience definition with four framing functions", verified=True),
+    ],
+}
+
+ENRICH = {
+    "MC-716": dict(
+        year=1980,
+        mapping=METHOD_MAPPING,
+        summary="قوم‌نگاری مخاطب روشی است که مصرف رسانه را در بستر روزمرهٔ خانواده، محله و گروه اجتماعی مشاهده و تفسیر می‌کند. مورلی در سال ۱۹۸۰ در پژوهش مخاطب برنامهٔ سراسری تلویزیون نشان داد رمزگشایی مخاطبان از یک متن یکسان بر پایهٔ طبقه، آموزش و موقعیت اجتماعی متفاوت است و مخاطب منفعل نیست. برونسدون و مورلی در سال ۱۹۹۹ دو مطالعهٔ کلاسیک این سنت را بازچاپ کردند و پیوند متن، مخاطب و زمینه را تثبیت کردند. پژوهشگر در خانه و محل کار حاضر می‌شود، تعامل خانواده هنگام تماشا را ثبت می‌کند، با اعضا گفت‌وگو می‌کند و معانی مذاکره‌شده را تحلیل می‌کند. دادهٔ اصلی مشاهدهٔ مشارکتی، مصاحبهٔ عمیق و یادداشت میدانی است. این روش برای مطالعهٔ انتخاب کانال، تماشای خانوادگی، مصرف خبر و مقاومت مخاطب در برابر پیام کاربرد دارد. نقدها بر نمونهٔ کوچک، هزینهٔ میدانی و مرز میان مشاهده و مداخله تأکید دارند.",
+        definition="قوم‌نگاری مخاطب روشی کیفی است که مصرف رسانه و معناسازی مخاطب را در بستر طبیعی خانواده و گروه اجتماعی با مشاهدهٔ مشارکتی و مصاحبهٔ عمیق مطالعه می‌کند.",
+        main_problem="چگونه می‌توان فهمید مخاطبان واقعی در زندگی روزمره چگونه رسانه را انتخاب، رمزگشایی و در تجربهٔ خود جای‌گذاری می‌کنند، بی‌آنکه پژوهش آن معنا را از پیش تعیین کند.",
+        mechanism="پژوهشگر وارد بستر مصرف می‌شود، تعامل و گفت‌وگوی اعضا را هنگام تماشا ثبت می‌کند، مصاحبهٔ عمیق انجام می‌دهد و تفاوت رمزگشایی گروه‌های اجتماعی را با زمینهٔ طبقه و آموزش تفسیر می‌کند.",
+        assumptions=[
+            "معنای رسانه در بستر مصرف ساخته می‌شود.",
+            "مخاطب فعال و مذاکره‌کننده است.",
+            "رمزگشایی با موقعیت اجتماعی تغییر می‌کند.",
+            "مشاهدهٔ طبیعی از پرسش نظرسنجی دقیق‌تر است.",
+            "خانواده واحد اصلی مصرف رسانه است.",
+            "مصاحبه معنا را با مشاهده پیوند می‌دهد.",
+            "حضور پژوهشگر بر بستر اثر می‌گذارد.",
+            "نمونهٔ کوچک برای فهم فرایند کافی است.",
+        ],
+        principles=[
+            "پیش از ورود، بستر و روابط خانواده را بشناس.",
+            "مشاهده و مصاحبه را هم‌زمان ببر.",
+            "رمزگشایی را با نقل‌قول ثبت کن.",
+            "زمینهٔ طبقه و آموزش را در تحلیل بگنجان.",
+            "تفاوت اعضای خانواده را گزارش کن.",
+            "نقش خود را در میدان بازتاب بده.",
+        ],
+        critiques=[
+            "نمونهٔ کوچک تعمیم را محدود می‌کند.",
+            "حضور پژوهشگر رفتار تماشا را تغییر می‌دهد.",
+            "هزینهٔ میدانی و زمان‌بر بودن.",
+            "مرز مشاهده و مداخله روشن نیست.",
+            "تعمیم یافته‌های یک برنامه به کل رسانه.",
+            "تفسیر طبقاتی ممکن است بیش از داده باشد.",
+        ],
+        critique_text="منتقدان می‌گویند قوم‌نگاری مخاطب با نمونهٔ کوچک و حضور پژوهشگر در خانه، هم تعمیم‌پذیری و هم طبیعی بودن داده را محدود می‌کند و تفسیر طبقاتی گاه از داده فراتر می‌رود. با این حال مورلی نشان داد رمزگشایی یک متن در گروه‌های اجتماعی متفاوت است و روش پرسش‌نامهٔ ساده این تفاوت را پنهان می‌کند.",
+        applications=[
+            "مطالعهٔ تماشای خانوادگی.",
+            "پژوهش مصرف خبر در خانه.",
+            "تحلیل انتخاب کانال تلویزیونی.",
+            "مطالعهٔ مقاومت مخاطب.",
+            "پژوهش مصرف رسانهٔ کودکان.",
+            "تحلیل رمزگشایی سریال.",
+            "مطالعهٔ رسانهٔ محلی.",
+            "پژوهش مصرف رادیو.",
+            "تحلیل تماشای ورزش.",
+            "مطالعهٔ تبلیغات در بستر خانه.",
+            "پژوهش مخاطب اقلیت‌ها.",
+            "تحلیل تفاوت مصرف رسانه در نسل‌ها.",
+            "مطالعهٔ مصرف رسانه در خانواده‌های مهاجر.",
+        ],
+        example_text="پژوهشگر چند هفته در خانهٔ سه خانوادهٔ با تحصیلات و طبقهٔ متفاوت حاضر می‌شود، گفت‌وگوی آنان هنگام پخش یک برنامهٔ سیاسی را ثبت می‌کند و نشان می‌دهد هر خانواده همان برنامه را با چارچوبی متفاوت تفسیر می‌کند.",
+        evolution="مورلی در ۱۹۸۰ قوم‌نگاری مخاطب را به مطالعهٔ رمزگشایی گره زد، این سنت در دههٔ ۱۹۹۰ با مطالعات خانگی و پس از ۲۰۰۰ با مخاطب چندصفحه‌ای و پلتفرمی گسترش یافت.",
+        key_concepts=["رمزگشایی", "مخاطب فعال", "بستر خانگی", "مشاهدهٔ مشارکتی", "زمینهٔ اجتماعی", "معنای مذاکره‌شده"],
+        theorists="دیوید مورلی و شارلوت برونسدون.",
+        theorists_text="مورلی قوم‌نگاری مخاطب را با مسئلهٔ رمزگشایی پیوند داد و برونسدون و مورلی سنت مطالعات دریافت را بازچاپ و جمع‌بندی کردند.",
+        model="مدل دریافت در بستر: متن، موقعیت اجتماعی مخاطب و بستر خانگی در تولید معنا سه‌گانه عمل می‌کنند.",
+        studies=[
+            "پژوهش مورلی در ۱۹۸۰.",
+            "بازچاپ برونسدون و مورلی در ۱۹۹۹.",
+            "مطالعهٔ خانواده و تلویزیون.",
+            "پژوهش مصرف خبر خانگی.",
+            "تحلیل رمزگشایی سریال.",
+            "مطالعهٔ رسانه و کودکان.",
+            "پژوهش مقاومت مخاطب.",
+            "تحلیل تماشای ورزش.",
+            "مطالعهٔ رادیو در زندگی روزمره.",
+            "پژوهش مخاطب اقلیت‌ها.",
+            "تحلیل تبلیغات در خانه.",
+            "مطالعهٔ مصرف چندصفحه‌ای.",
+            "پژوهش نسل‌های مخاطب.",
+        ],
+    ),
+    "MC-717": dict(
+        year=2000,
+        mapping=METHOD_MAPPING,
+        summary="قوم‌نگاری رسانه‌های دیجیتال روشی است که کنش و معناسازی افراد را در محیط‌های آنلاین و آمیخته با فناوری مطالعه می‌کند. هاین در سال ۲۰۰۰ با مفهوم قوم‌نگاری مجازی نشان داد اینترنت هم فرهنگ است و هم ابزار فرهنگی؛ بنابراین پژوهشگر باید هم در متن آنلاین حاضر شود و هم پیوند آن با زندگی آفلاین را ببیند. کوزینتس در سال ۲۰۰۲ با نت‌نوگرافی این ایده را در پژوهش جوامع آنلاین عملیاتی کرد. امروز قوم‌نگاری دیجیتال شامل مشاهدهٔ پلتفرم، تحلیل محتوای کاربرساخته، مصاحبهٔ آنلاین، پیگیری چندبستری و توجه به الگوریتم‌ها است. پژوهشگر ردپای کنش را در چند فضا دنبال می‌کند و مرز میدان آنلاین و آفلاین را به پرسش می‌گیرد. اخلاق پژوهش در این حوزه بر رضایت، ناشناس‌سازی، دادهٔ حساس و قدرت پلتفرم تمرکز دارد. نقدها بر دسترسی نابرابر، تغییر سریع بستر و خطر کوتاه‌شدن مشاهده به تحلیل محتوای ساده تأکید دارند.",
+        definition="قوم‌نگاری رسانه‌های دیجیتال روشی کیفی است که فرهنگ و کنش انسانی را در محیط‌های آنلاین و شبکه‌های فناورانه، با پیوند دادن دادهٔ دیجیتال و بستر آفلاین، مطالعه می‌کند.",
+        main_problem="چگونه می‌توان فرهنگ شکل‌گرفته در پلتفرم‌ها را با دقت قوم‌نگارانه مطالعه کرد، در حالی که میدان میان آنلاین و آفلاین جابه‌جا می‌شود و ردپای داده به‌سرعت تغییر می‌کند.",
+        mechanism="پژوهشگر در پلتفرم حاضر می‌شود، محتوای کاربرساخته و تعامل‌ها را آرشیو می‌کند، با مشارکت‌کنندگان در چند بستر گفت‌وگو می‌کند و پیوند دادهٔ آنلاین با تجربهٔ آفلاین را برای تفسیر فرهنگی به کار می‌برد؛ الگوریتم و قواعد پلتفرم نیز در تحلیل گنجانده می‌شوند.",
+        assumptions=[
+            "اینترنت هم فرهنگ است و هم ابزار فرهنگی.",
+            "میدان پژوهش می‌تواند آنلاین و آفلاین باشد.",
+            "دادهٔ دیجیتال ردپای کنش اجتماعی است.",
+            "پلتفرم با قواعد خود کنش را شکل می‌دهد.",
+            "مشارکت‌کنندگان هم‌زمان مصرف‌کننده و تولیدکننده‌اند.",
+            "رضایت و ناشناس‌سازی در محیط شبکه‌ای لازم است.",
+            "میدان از پیش مرزبندی‌شده نیست.",
+            "بستر به‌سرعت تغییر می‌کند.",
+        ],
+        principles=[
+            "میدان را در چند بستر دنبال کن.",
+            "قواعد و الگوریتم پلتفرم را ثبت کن.",
+            "رضایت و ناشناس‌سازی را تضمین کن.",
+            "دادهٔ حساس را با احتیاط نگه دار.",
+            "پیوند آنلاین و آفلاین را نشان بده.",
+            "آرشیو را قابل بازبینی بساز.",
+            "نقش پژوهشگر را بازتاب بده.",
+        ],
+        critiques=[
+            "دسترسی به داده و گروه‌ها نابرابر است.",
+            "بستر سریع تغییر می‌کند و آرشیو ناپایدار است.",
+            "خطر تقلیل روش به تحلیل محتوا وجود دارد.",
+            "مرز عمومی و خصوصی مبهم است.",
+            "الگوریتم پنهان تفسیر را دشوار می‌کند.",
+            "رضایت واقعی در گروه‌های بزرگ سنجیدنی نیست.",
+        ],
+        critique_text="منتقدان می‌گویند قوم‌نگاری دیجیتال گاه به تحلیل محتوای پلتفرم فرو می‌کاهد و مشاهدهٔ طولانی و حضور واقعی را حذف می‌کند؛ همچنین الگوریتم‌های پنهان و تغییر سریع بستر اعتبار تفسیر را تهدید می‌کنند. با این حال هاین و کوزینتس رویه‌های حضور، آرشیو، رضایت و پیوند آنلاین و آفلاین را روشن کردند.",
+        applications=[
+            "مطالعهٔ فرهنگ پلتفرم‌های اجتماعی.",
+            "پژوهش هواداری آنلاین.",
+            "تحلیل گروه‌های پیام‌رسان.",
+            "مطالعهٔ کنش سیاسی دیجیتال.",
+            "پژوهش سلامت آنلاین.",
+            "تحلیل بازی و استریم.",
+            "مطالعهٔ کار دیجیتال.",
+            "پژوهش یادگیری آنلاین.",
+            "تحلیل اخبار جعلی در گروه‌ها.",
+            "مطالعهٔ هویت در شبکه‌های اجتماعی.",
+            "پژوهش مصرف برند دیجیتال.",
+            "تحلیل اجتماعات مهاجر آنلاین.",
+        ],
+        example_text="پژوهشگری یک سال در یک پلتفرم ویدئویی و گروه پیام‌رسان مرتبط با آن حاضر می‌شود، آیین‌های هواداری را ثبت می‌کند، با پانزده کاربر مصاحبه می‌کند و نشان می‌دهد چگونه قواعد الگوریتمی شکل محتوا را تغییر می‌دهد.",
+        evolution="هاین در ۲۰۰۰ قوم‌نگاری مجازی را صورتبندی کرد، کوزینتس در ۲۰۰۲ نت‌نوگرافی را عملیاتی کرد و در دههٔ ۲۰۱۰ قوم‌نگاری چندبستری و الگوریتم‌آگاه رایج شد.",
+        key_concepts=["میدان آنلاین", "فرهنگ پلتفرم", "آرشیو دیجیتال", "چندبستری", "الگوریتم", "رضایت آگاهانه"],
+        theorists="کریستین هاین و رابرت کوزینتس.",
+        theorists_text="هاین اینترنت را هم فرهنگ و هم ابزار فرهنگی خواند و کوزینتس رویه‌های قوم‌نگاری جوامع آنلاین را تدوین کرد.",
+        model="مدل میدان پیوسته: کنش در فضای آنلاین و آفلاین جریان دارد و قواعد پلتفرم، دادهٔ کاربر و تفسیر پژوهشگر سه لایهٔ تحلیل‌اند.",
+        studies=[
+            "کتاب هاین در ۲۰۰۰.",
+            "مقالهٔ کوزینتس در ۲۰۰۲.",
+            "مطالعهٔ هواداری در پلتفرم ویدئویی.",
+            "پژوهش کنش سیاسی دیجیتال.",
+            "تحلیل سلامت آنلاین.",
+            "مطالعهٔ کار پلتفرمی.",
+            "پژوهش یادگیری آنلاین.",
+            "تحلیل اخبار جعلی در گروه‌ها.",
+            "مطالعهٔ هویت آنلاین.",
+            "پژوهش بازی و استریم.",
+            "تحلیل اجتماعات مهاجر.",
+            "مطالعهٔ چندبستری مصرف برند.",
+            "پژوهش الگوریتم و محتوا.",
+        ],
+    ),
+    "MC-718": dict(
+        year=1994,
+        mapping=METHOD_MAPPING,
+        summary="تحلیل شبکهٔ اجتماعی مجموعهٔ روش‌هایی است که روابط میان کنشگران را به نمودار و سنجه تبدیل می‌کند و ساختار، موقعیت و جریان منابع را در شبکه تحلیل می‌کند. واسرمن و فاوست در سال ۱۹۹۴ مبانی ریاضی و روش‌شناختی آن را در یک کتاب مرجع گرد آوردند. بورگاتی و همکارانش در سال ۲۰۰۹ نشان دادند تحلیل شبکه در جامعه‌شناسی، مدیریت و ارتباطات به ابزاری برای پیوند دادن سطح خرد و کلان بدل شده است. دادهٔ شبکه معمولاً ماتریس یا فهرست یال است و سنجه‌هایی مانند مرکزیت، چگالی، فاصله، خوشه‌بندی و شباهت ساختاری از آن استخراج می‌شود. در پژوهش رسانه، شبکهٔ بازنشر، همکاری روزنامه‌نگاران و جریان اطلاعات میان صفحات تحلیل می‌شود. تحلیل شبکه می‌تواند توصیفی، تبیینی یا مبتنی بر مدل‌های آماری باشد. نقدها بر وابستگی نتیجه به مرز شبکه، خطای گزارش خود و تفسیر علّی از الگوی ساختاری تأکید دارند.",
+        definition="تحلیل شبکهٔ اجتماعی روشی است که کنشگران را گره و روابط آنان را یال می‌گیرد و با سنجه‌های ساختاری، موقعیت کنشگران و الگوی جریان در شبکه را تحلیل می‌کند.",
+        main_problem="چگونه می‌توان اثر ساختار روابط را بر رفتار کنشگران سنجید و آن را از ویژگی‌های فردی کنشگران جدا کرد.",
+        mechanism="روابط به ماتریس تبدیل می‌شوند، سنجه‌های مرکزیت و چگالی و خوشه محاسبه می‌شوند و الگوی موقعیت کنشگران با سازوکارهایی مانند انتقال اطلاعات، هنجار مشترک و واسطه‌گری تفسیر می‌شود.",
+        assumptions=[
+            "روابط میان کنشگران قابل ثبت است.",
+            "مرز شبکه قابل تعریف است.",
+            "ساختار روابط بر رفتار اثر دارد.",
+            "سنجه‌های شبکه معنای نظری دارند.",
+            "دادهٔ روابط از گزارش یا مشاهده به دست می‌آید.",
+            "کنشگران در شبکه ناهمگون‌اند.",
+            "روابط می‌توانند جهت‌دار یا بی‌جهت باشند.",
+            "الگوی شبکه در زمان تغییر می‌کند.",
+        ],
+        principles=[
+            "مرز شبکه را صریح تعریف کن.",
+            "منبع دادهٔ رابطه را گزارش کن.",
+            "سنجه را با پرسش نظری هم‌راستا کن.",
+            "وزن و جهت یال‌ها را مشخص کن.",
+            "خطای گزارش خود را بررسی کن.",
+            "الگوی ساختاری را علّی تفسیر نکن.",
+            "تغییر شبکه را در زمان دنبال کن.",
+        ],
+        critiques=[
+            "نتیجه به تعریف مرز شبکه حساس است.",
+            "دادهٔ گزارش خود ناقص و سوگیرانه است.",
+            "سنجه‌های ساختاری گاه علّی تفسیر می‌شوند.",
+            "شبکه‌های آنلاین با کنشگر جعلی مخدوش می‌شوند.",
+            "وزن روابط اغلب دلبخواه تعیین می‌شود.",
+            "تحلیل ایستا تغییر پویا را نشان نمی‌دهد.",
+            "محاسبهٔ سنجه‌ها به کیفیت دادهٔ رابطه وابسته است.",
+        ],
+        critique_text="منتقدان می‌گویند یافته‌های تحلیل شبکه به مرز تعریف‌شده و کیفیت دادهٔ رابطه وابسته است و الگوی ساختاری به‌تنهایی علت رفتار را نشان نمی‌دهد؛ شبکه‌های آنلاین نیز با حساب‌های جعلی و فعالیت خودکار آلوده‌اند. با این حال واسرمن و فاوست و بورگاتی و همکارانش پیوند سنجه، نظریه و سازوکار را روشن کردند.",
+        applications=[
+            "تحلیل شبکهٔ بازنشر خبر.",
+            "پژوهش همکاری روزنامه‌نگاران.",
+            "مطالعهٔ جریان اطلاعات در پلتفرم.",
+            "تحلیل گروه‌های پیام‌رسان.",
+            "پژوهش شبکهٔ استناد علمی.",
+            "مطالعهٔ شبکهٔ سازمانی.",
+            "تحلیل کمپین و هواداران.",
+            "پژوهش شبکهٔ هم‌تألیفی.",
+            "مطالعهٔ انتشار نوآوری.",
+            "تحلیل شبکهٔ سیاست‌گذاری.",
+            "پژوهش شبکهٔ سلامت.",
+            "مطالعهٔ ساختار بازار.",
+            "تحلیل شبکهٔ همکاری در پروژه‌های رسانه‌ای.",
+        ],
+        example_text="پژوهشگری شبکهٔ بازنشر هزار حساب خبری را می‌سازد، مرکزیت و خوشه‌ها را محاسبه می‌کند و نشان می‌دهد چند حساب واسطه بیشترین جریان خبر را کنترل می‌کنند؛ سپس الگو را با مصاحبه دربارهٔ شیوهٔ کار آن حساب‌ها می‌آزماید.",
+        evolution="واسرمن و فاوست در ۱۹۹۴ مبانی روش را مدون کردند، بورگاتی و همکارانش در ۲۰۰۹ پیوند نظریه و سنجه را جمع‌بندی کردند و از دههٔ ۲۰۱۰ تحلیل شبکهٔ پلتفرم‌های بزرگ با دادهٔ رایانشی گسترش یافت.",
+        key_concepts=["گره و یال", "مرکزیت", "چگالی", "خوشه‌بندی", "واسطه‌گری", "مرز شبکه"],
+        theorists="استنلی واسرمن، کاترین فاوست و استیون بورگاتی.",
+        theorists_text="واسرمن و فاوست ریاضیات و روش شبکه را مدون کردند و بورگاتی و همکارانش سازوکارهای نظری آن را در علوم اجتماعی بسط دادند.",
+        model="مدل ساختاری: موقعیت کنشگر در شبکه دسترسی او به اطلاعات، نفوذ و واسطه‌گری را تعیین می‌کند.",
+        studies=[
+            "کتاب واسرمن و فاوست در ۱۹۹۴.",
+            "مرور بورگاتی و همکاران در ۲۰۰۹.",
+            "مطالعهٔ شبکهٔ بازنشر خبر.",
+            "پژوهش هم‌تألیفی علمی.",
+            "تحلیل شبکهٔ سازمانی.",
+            "مطالعهٔ انتشار نوآوری.",
+            "پژوهش شبکهٔ سیاست‌گذاری.",
+            "تحلیل گروه‌های پیام‌رسان.",
+            "مطالعهٔ شبکهٔ سلامت.",
+            "پژوهش کمپین انتخاباتی.",
+            "تحلیل بازار و رقابت.",
+            "مطالعهٔ شبکهٔ استناد.",
+            "پژوهش شبکهٔ اجتماعی آنلاین.",
+            "مطالعهٔ شبکهٔ بازنشر در بحران خبری.",
+            "پژوهش جریان اطلاعات در بحران سلامت.",
+        ],
+    ),
+    "MC-714": dict(
+        year=1993,
+        mapping=METHODOLOGY_MAPPING,
+        summary="تحلیل چارچوب روش‌شناسی مطالعهٔ شیوه‌هایی است که رسانه و کنشگران با انتخاب و برجسته‌سازی برخی جنبه‌های واقعیت، تفسیر خاصی را برای مخاطب قابل دسترس می‌سازند. انتمن در سال ۱۹۹۳ چارچوب را انتخاب و برجسته‌سازی جنبه‌هایی از واقعیت تعریف کرد و چهار کارکرد تشخیص مسئله، تشخیص علت، ارزیابی اخلاقی و پیشنهاد راه‌حل را از هم جدا کرد. گمسون و مودیلیانی در سال ۱۹۸۹ نشان دادند گفتمان رسانه و افکار عمومی دو نظام موازی معناسازی‌اند و بسته‌های تفسیری در گفت‌وگو با مخاطب شکل می‌گیرند. تحلیل چارچوب می‌تواند کمّی یا کیفی باشد و اغلب با تحلیل محتوا ترکیب می‌شود. پژوهشگر چارچوب‌های موجود در متن، کنشگرانی که آن را می‌سازند و اثری که بر تفسیر مخاطب دارد را بررسی می‌کند. نقدها بر تنوع تعریف، دشواری تفکیک چارچوب از مضمون و ابهام سنجش اثر تأکید دارند.",
+        definition="تحلیل چارچوب روش‌شناسی مطالعهٔ فرایند انتخاب، برجسته‌سازی و سازمان‌دهی واقعیت در متن رسانه‌ای است که تفسیر مخاطب را جهت می‌دهد.",
+        main_problem="چگونه یک رویداد یکسان در رسانه‌های گوناگون به روایت‌های متفاوت بدل می‌شود و این تفاوت چه اثری بر فهم و نگرش مخاطب دارد.",
+        mechanism="رسانه بخشی از واقعیت را انتخاب و برجسته می‌کند، علت و مسئول و راه‌حل را تعریف می‌کند و در قالب بستهٔ تفسیری به مخاطب عرضه می‌کند؛ مخاطب نیز چارچوب را در گفت‌وگوی روزمره بازسازی می‌کند.",
+        assumptions=[
+            "واقعیت در متن به‌طور گزینشی بازنمایی می‌شود.",
+            "برجسته‌سازی بر تفسیر اثر می‌گذارد.",
+            "چارچوب‌ها در متن قابل شناسایی‌اند.",
+            "رسانه و افکار عمومی دو نظام معناسازی‌اند.",
+            "چارچوب با مضمون و استدلال تفاوت دارد.",
+            "کنشگران برای تعریف مسئله رقابت می‌کنند.",
+            "اثر چارچوب به مخاطب و زمینه وابسته است.",
+            "تحلیل هم کمی و هم کیفی ممکن است.",
+        ],
+        principles=[
+            "چارچوب را از مضمون جدا تعریف کن.",
+            "کارکرد تشخیص و علت و ارزیابی را ثبت کن.",
+            "بستهٔ تفسیری را با شواهد متنی نشان بده.",
+            "کنشگر سازندهٔ چارچوب را شناسایی کن.",
+            "اثر بر مخاطب را جدا بسنج.",
+            "چارچوب رقیب را نیز تحلیل کن.",
+            "زمینهٔ سیاسی تولید متن را ثبت کن.",
+        ],
+        critiques=[
+            "تعریف چارچوب میان پژوهش‌ها یکسان نیست.",
+            "تفکیک چارچوب از مضمون دشوار است.",
+            "سنجش اثر بر مخاطب اغلب غیرمستقیم است.",
+            "انتخاب متن و دوره گزینشی است.",
+            "چارچوب‌های پنهان سخت شناسایی می‌شوند.",
+            "خطر تقلیل به فهرست مؤلفه‌های ثابت وجود دارد.",
+        ],
+        critique_text="منتقدان می‌گویند چارچوب مفهومی پراکنده است و پژوهشگران آن را به شیوه‌های ناهمگون عملیاتی می‌کنند؛ همچنین نشان دادن اثر چارچوب بر مخاطب به‌سختی از اثر مضمون جدا می‌شود. با این حال گمسون و مودیلیانی و انتمن تعریف، کارکرد و بستهٔ تفسیری را روشن کردند و تحلیل را از خوانش شخصی جدا ساختند.",
+        applications=[
+            "تحلیل چارچوب خبری بحران.",
+            "پژوهش پوشش انتخابات.",
+            "مطالعهٔ چارچوب سلامت.",
+            "تحلیل چارچوب مهاجرت.",
+            "پژوهش تغییر اقلیم در رسانه.",
+            "مطالعهٔ چارچوب جنگ.",
+            "تحلیل تبلیغات سیاسی.",
+            "پژوهش چارچوب برند.",
+            "مطالعهٔ رسانه و سیاست اجتماعی.",
+            "تحلیل چارچوب در شبکه‌های اجتماعی.",
+            "پژوهش مقایسهٔ رسانه‌ها.",
+            "مطالعهٔ چارچوب و افکار عمومی.",
+            "تحلیل چارچوب در گزارش‌های سازمانی.",
+            "مطالعهٔ چارچوب در تبلیغات محصول.",
+        ],
+        example_text="دو خبرگزاری یک اعتراض را یکی به‌عنوان «اعتراض مدنی» و دیگری به‌عنوان «اخلال امنیتی» چارچوب‌بندی می‌کنند؛ تحلیل نشان می‌دهد انتخاب واژه، علت و راه‌حل در دو متن، دو تفسیر متفاوت برای مخاطب می‌سازد.",
+        evolution="گمسون و مودیلیانی در ۱۹۸۹ بستهٔ تفسیری و پیوند رسانه و افکار عمومی را ساختند، انتمن در ۱۹۹۳ تعریف و کارکردها را روشن کرد و پس از ۲۰۰۰ تحلیل چارچوب با روش‌های رایانشی و مقایسهٔ چندکشوری گسترش یافت.",
+        key_concepts=["انتخاب", "برجسته‌سازی", "بستهٔ تفسیری", "تشخیص مسئله", "راه‌حل", "چارچوب رقیب"],
+        theorists="ویلیام گمسون، آندره مودیلیانی و رابرت انتمن.",
+        theorists_text="گمسون و مودیلیانی پیوند گفتمان رسانه و افکار عمومی را ساختند و انتمن تعریف و کارکردهای چارچوب را صورت‌بندی کرد.",
+        model="مدل چهارکارکردی: تشخیص مسئله، تشخیص علت، ارزیابی اخلاقی و پیشنهاد راه‌حل، چارچوب متن را می‌سازند.",
+        studies=[
+            "پژوهش گمسون و مودیلیانی در ۱۹۸۹.",
+            "مقالهٔ انتمن در ۱۹۹۳.",
+            "تحلیل چارچوب خبری بحران.",
+            "پژوهش پوشش انتخابات.",
+            "مطالعهٔ چارچوب سلامت.",
+            "تحلیل چارچوب مهاجرت.",
+            "پژوهش تغییر اقلیم.",
+            "مطالعهٔ چارچوب جنگ.",
+            "تحلیل تبلیغات سیاسی.",
+            "پژوهش برند و رسانه.",
+            "مطالعهٔ مقایسهٔ رسانه‌ها.",
+            "تحلیل چارچوب شبکه‌های اجتماعی.",
+            "پژوهش چارچوب و نگرش مخاطب.",
+            "پژوهش چارچوب خبری سلامت عمومی.",
+        ],
+    ),
+}
+
+NAME_FIX = {}
+YEAR_FIX = {
+    "MC-717": "year added 2000 (verified anchor: Hine, Virtual Ethnography, 2000); card had no year value",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 180}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH180 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

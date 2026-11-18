@@ -1,0 +1,600 @@
+# -*- coding: utf-8 -*-
+"""Batch 155 (MODEL): MC-630 Lewin change, MC-631 Kotter, MC-640 audience democracy, MC-641 post-democracy."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch155-model-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch155_model.json"
+
+S = {
+    "MC-630": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Frontiers in Group Dynamics: Concept, Method and Reality in Social Science; Social Equilibria and Social Change",
+             title_fa="مرزهای پویایی گروه: مفهوم، روش و واقعیت در علم اجتماعی؛ تعادل اجتماعی و تغییر اجتماعی",
+             authors="Lewin, K.", year=1947,
+             publisher="Human Relations",
+             doi="10.1177/001872674700100103",
+             url="https://journals.sagepub.com/doi/10.1177/001872674700100103",
+             language="en", isbn=None,
+             citation="Lewin, K. (1947). Frontiers in group dynamics. Human Relations, 1(1), 5-41.",
+             locator="1(1):5-41", locator_type="page_range",
+             supports="unfreezing, moving and refreezing as phases of planned change", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Kurt Lewin and the Planned Approach to Change: A Re-appraisal",
+             title_fa="کورت لوین و رویکرد برنامه‌ریزی‌شده به تغییر: بازارزیابی",
+             authors="Burnes, B.", year=2004,
+             publisher="Journal of Management Studies",
+             doi="10.1111/j.1467-6486.2004.00463.x",
+             url="https://onlinelibrary.wiley.com/doi/10.1111/j.1467-6486.2004.00463.x",
+             language="en", isbn=None,
+             citation="Burnes, B. (2004). Kurt Lewin and the planned approach to change: A re-appraisal. Journal of Management Studies, 41(6), 977-1002.",
+             locator="41(6):977-1002", locator_type="page_range",
+             supports="field theory, group dynamics and action research behind the three-step model", verified=True),
+    ],
+    "MC-631": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Leading Change: Why Transformation Efforts Fail",
+             title_fa="رهبری تغییر: چرا تلاش‌های تحول شکست می‌خورند",
+             authors="Kotter, J. P.", year=1995,
+             publisher="Harvard Business Review",
+             doi=None,
+             url="https://hbr.org/1995/03/leading-change-why-transformation-efforts-fail-2",
+             language="en", isbn=None,
+             citation="Kotter, J. P. (1995). Leading change: Why transformation efforts fail. Harvard Business Review, March-April, 59-67.",
+             locator="March-April 1995:59-67", locator_type="page_range",
+             supports="eight errors that make transformation efforts fail", verified=True),
+        dict(kind="BOOK",
+             title_en="Leading Change",
+             title_fa="رهبری تغییر",
+             authors="Kotter, J. P.", year=1996,
+             publisher="Harvard Business School Press",
+             doi=None,
+             url="https://www.hbs.edu/faculty/Pages/item.aspx?num=137",
+             language="en", isbn=None,
+             citation="Kotter, J. P. (1996). Leading Change. Boston: Harvard Business School Press.",
+             locator="1996 edition", locator_type="edition",
+             supports="eight-stage process of organizational transformation", verified=True),
+    ],
+    "MC-640": [
+        dict(kind="BOOK",
+             title_en="The Principles of Representative Government",
+             title_fa="اصول حکومت نمایندگی",
+             authors="Manin, B.", year=1997,
+             publisher="Cambridge University Press",
+             doi=None,
+             url="https://www.cambridge.org/core/books/principles-of-representative-government/B5F086D557F0A0995D6FEB2730C29EC9",
+             language="en", isbn=None,
+             citation="Manin, B. (1997). The Principles of Representative Government. Cambridge: Cambridge University Press.",
+             locator="1997 edition", locator_type="edition",
+             supports="audience democracy as the third age of representative government", verified=True),
+        dict(kind="BOOK",
+             title_en="The Society of the Spectacle",
+             title_fa="جامعهٔ نمایش",
+             authors="Debord, G.", year=1967,
+             publisher="Buchet-Chastel (English edition: Zone Books, 1994)",
+             doi=None,
+             url="https://monoskop.org/images/e/e8/Debord_Guy_Society_of_the_Spectacle_1995.pdf",
+             language="en", isbn=None,
+             citation="Debord, G. (1967/1994). The Society of the Spectacle (D. Nicholson-Smith, Trans.). New York: Zone Books.",
+             locator="English translation 1994", locator_type="edition",
+             supports="spectacle as a regime of image and appearance in mediated society", verified=True),
+    ],
+    "MC-641": [
+        dict(kind="BOOK",
+             title_en="Post-Democracy",
+             title_fa="پس‌دموکراسی",
+             authors="Crouch, C.", year=2004,
+             publisher="Polity Press",
+             doi=None,
+             url="https://www.wiley.com/Post-Democracy-p-9780745633145",
+             language="en", isbn="978-0-745-63314-5",
+             citation="Crouch, C. (2004). Post-Democracy. Cambridge: Polity Press.",
+             locator="2004 edition", locator_type="edition",
+             supports="formal institutions persist while democratic substance is hollowed out by elites", verified=True),
+        dict(kind="BOOK",
+             title_en="Post-Democracy After the Crises",
+             title_fa="پس‌دموکراسی پس از بحران‌ها",
+             authors="Crouch, C.", year=2020,
+             publisher="Polity Press",
+             doi=None,
+             url="https://www.politybooks.com/bookdetail?book_slug=post-democracy-after-the-crises--9781509541560",
+             language="en", isbn="978-1-509-54156-0",
+             citation="Crouch, C. (2020). Post-Democracy After the Crises. Cambridge: Polity Press.",
+             locator="2020 edition", locator_type="edition",
+             supports="update of the thesis under financial crisis, social media and populism", verified=True),
+    ],
+}
+
+ENRICH = {
+    "MC-630": dict(
+        year=1947,
+        summary="مدل سه‌مرحله‌ای تغییر، که کورت لوین در مقالهٔ سال ۱۹۴۷ صورت‌بندی کرد، تغییر سازمانی را فرایندی برنامه‌ریزی‌شده می‌داند که از سه مرحله می‌گذرد: ذوب‌کردن وضع موجود، حرکت به وضع تازه و انجماد در وضعیت جدید. ذوب‌کردن یعنی سست‌کردن تعادل نیروها و کاهش مقاومت؛ حرکت یعنی ایجاد رفتار و ساختار تازه؛ و انجماد یعنی تثبیت تغییر تا به وضع پایدار بدل شود. لوین تغییر را در میدان نیروها می‌دید: نیروهای پیش‌برنده و بازدارنده، تعادل را می‌سازند و تغییر پایدار با کاهش نیروهای بازدارنده، نه با افزایش فشار، به دست می‌آید. تحلیل میدان نیرو و پژوهش کنش‌محور، دو ابزار عملی این مدل‌اند. در رسانه، مدل برای تحول اتاق خبر، گذار به دیجیتال و تغییر ساختار تحریریه به کار می‌رود: ابتدا مقاومت خبرنگاران در برابر ابزار تازه کم می‌شود، سپس روند تازه جاری می‌شود و در پایان در آیین‌های کاری تثبیت می‌گردد. نقدهای اصلی به آن، خطی‌بودن، فرض محیط پایدار، کم‌توجهی به تغییر پیوسته و سادگی مرحلهٔ انجماد در محیط‌های پرتلاطم را برجسته می‌کنند؛ نقدهایی که مدل‌های تازه‌تر تغییر، پاسخ آن‌ها را در تغییر پیوسته و یادگیری سازمانی جسته‌اند.",
+        definition="مدل سه‌مرحله‌ای تغییر لوین، تحول سازمانی را در سه گام ذوب‌کردن، حرکت و انجماد می‌بیند و تغییر پایدار را نتیجهٔ کاهش نیروهای بازدارنده در میدان نیروها می‌داند.",
+        main_problem="چگونه سازمان، به‌ویژه سازمان رسانه‌ای، می‌تواند مقاومت در برابر تغییر را کاهش دهد، رفتار تازه را جاری کند و آن را چنان تثبیت کند که به وضع پیشین بازنگردد.",
+        mechanism="ذوب‌کردن، تعادل نیروها را سست و مقاومت را کم می‌کند؛ حرکت، رفتار و ساختار تازه را می‌آزماید؛ انجماد، تغییر را در رویه‌ها و آیین‌های سازمان تثبیت می‌کند و تعادل تازه را پایدار می‌سازد.",
+        assumptions=[
+            "تغییر فرایندی برنامه‌ریزی‌شده است.",
+            "سازمان در میدان نیروها تعادل دارد.",
+            "کاهش مقاومت بر افزایش فشار مقدم است.",
+            "تثبیت تغییر مرحله‌ای جداگانه است.",
+            "رهبری تغییر ممکن است.",
+        ],
+        principles=[
+            "نیروهای بازدارنده را شناسایی کن.",
+            "تعادل موجود را آگاهانه سست کن.",
+            "رفتار تازه را روشن و آموزش بده.",
+            "مقاومت را با مشارکت کم کن.",
+            "تغییر را در رویه تثبیت کن.",
+            "تعادل تازه را پایش کن.",
+        ],
+        critiques=[
+            "مدل را خطی می‌سازد.",
+            "محیط پایدار را فرض می‌کند.",
+            "تغییر پیوسته را کم‌بررسی می‌گذارد.",
+            "انجماد در محیط پرتلاطم دشوار است.",
+            "قدرت سازمانی را کم‌تحلیل می‌گذارد.",
+            "به احساسات کارکنان کم می‌پردازد.",
+            "انجماد را بیش‌ازحد می‌ستاید.",
+            "نقش فرهنگ را کم‌می‌بیند.",
+        ],
+        critique_text="منتقدان می‌گویند مدل لوین آغاز راه تغییر برنامه‌ریزی‌شده بود اما خطی بودن و فرض محیط پایدار آن را برای 조직‌های امروزی ناکافی کرد؛ با این حال، زبان سه‌گانهٔ آن همچنان ستون تحلیل تغییر است.",
+        applications=[
+            "تحول اتاق خبر.",
+            "گذار دیجیتال رسانه.",
+            "بازطراحی فرایند تحریریه.",
+            "آموزش مدیران تغییر.",
+            "پژوهش سازمانی.",
+            "مدیریت ادغام رسانه‌ها.",
+            "سنجش آمادگی تغییر.",
+        ],
+        example_text="روزنامه‌ای که ابزار انتشار دیجیتال را می‌آورد اما آیین‌های کاری را تغییر نمی‌دهد، تغییر را منجمد نمی‌کند؛ همان ابزار به رویهٔ قدیم برمی‌گردد و سرمایه‌گذاری هدر می‌رود.",
+        evolution="مقالهٔ سال ۱۹۴۷ لوین مدل را در چارچوب پویایی گروه صورت‌بندی کرد و بازارزیابی سال ۲۰۰۴ آن را از خوانش ساده‌شده رهانید و به نظریهٔ میدان و پژوهش کنش‌محور بازگرداند.",
+        key_concepts=["ذوب‌کردن", "حرکت", "انجماد", "تحلیل میدان نیرو", "مقاومت در برابر تغییر", "پژوهش کنش‌محور"],
+        theorists="کورت لوین.",
+        theorists_text="مدل در سنت روان‌شناسی گشتالت و پویایی گروه شکل گرفت.",
+        model="تغییر برنامه‌ریزی‌شده در سه مرحلهٔ ذوب‌کردن، حرکت و انجماد با تأکید بر کاهش نیروهای بازدارنده.",
+        studies=[
+            "مقالهٔ سال ۱۹۴۷ مدل سه‌مرحله‌ای را معرفی کرد.",
+            "بازارزیابی سال ۲۰۰۴ مبانی نظری را روشن کرد.",
+            "مطالعات رسانه، تحول اتاق خبر را تحلیل کردند.",
+            "پژوهش تغییر، مدل را با رویکردهای پیوسته مقایسه کرد.",
+            "مطالعات موردی، مقاومت خبرنگار را تحلیل کردند.",
+            "پژوهش رهبری، نقش مشارکت را سنجید.",
+            "مطالعات دیجیتال، انجماد در محیط پلتفرمی را نقد کردند.",
+            "پژوهش سازمان، میدان نیرو را در تحریریه نقشه برد.",
+            "مطالعات تطبیقی، سه مرحله را در ادغام رسانه‌ها آزمودند.",
+            "پژوهش میدانی، مقاومت را در گذار دیجیتال سنجید.",
+        ],
+    ),
+    "MC-631": dict(
+        year=1996,
+        summary="مدل هشت‌مرحله‌ای تغییر، که جان کاتر در مقالهٔ سال ۱۹۹۵ و کتاب رهبری تغییر سال ۱۹۹۶ ارائه کرد، تحول سازمانی موفق را در هشت گام متوالی سازمان می‌دهد: ایجاد احساس فوریت، ساختن ائتلاف رهبری، تدوین چشم‌انداز و راهبرد، انتقال چشم‌انداز، توانمندسازی کارکنان برای کنش، تولید پیروزی‌های کوتاه‌مدت، تثبیت دستاوردها و گسترش تغییر، و نهادینه‌کردن تغییر در فرهنگ. کاتر هشت خطای متناظر را نیز شناسایی کرد که تلاش‌های تحول را به شکست می‌کشانند: خودراضی‌بودن، ائتلاف ضعیف، چشم‌انداز مبهم، ارتباط ناکافی، موانع ساختاری، نبود پیروزی زودهنگام، اعلام زودهنگام پیروزی و رهاکردن تغییر. در رسانه، مدل برای گذار به اشتراک دیجیتال، ادغام دو تحریریه و تغییر مدل درآمدی به کار می‌رود. نقدهای اصلی به آن، خطی‌بودن، تمرکز بر رهبری از بالا، کم‌توجهی به مشارکت پایین‌به‌بالا، دشواری سنجش فوریت و کاربرد محدود در تغییر پیوسته و چابک را برجسته می‌کنند؛ همین نقدها موج دوم مدیریت تغییر را برانگیخت.",
+        definition="مدل هشت‌مرحله‌ای کاتر، تحول سازمانی را زنجیره‌ای از هشت گام از ایجاد فوریت تا نهادینه‌سازی تغییر در فرهنگ می‌داند و شکست تحول را نتیجهٔ حذف یکی از این گام‌ها می‌بیند.",
+        main_problem="چرا بیشتر تلاش‌های تحول سازمانی به نتیجهٔ پایدار نمی‌رسند و چگونه می‌توان با ترتیبی روشن از گام‌ها، احتمال موفقیت تغییر را بالا برد.",
+        mechanism="هر گام، پیش‌شرط گام بعد است: فوریت، انگیزه می‌سازد؛ ائتلاف، قدرت هدایت می‌دهد؛ چشم‌انداز، جهت می‌دهد؛ ارتباط و توانمندسازی، کنش جمعی می‌آفریند؛ پیروزی کوتاه‌مدت، اعتماد می‌سازد؛ و تثبیت، تغییر را در فرهنگ می‌نشاند.",
+        assumptions=[
+            "تحول رهبری‌شده از بالاست.",
+            "ترتیب گام‌ها اهمیت دارد.",
+            "فوریت انگیزهٔ تغییر می‌سازد.",
+            "پیروزی کوتاه‌مدت اعتماد می‌آفریند.",
+            "فرهنگ، مقصد نهایی تغییر است.",
+        ],
+        principles=[
+            "فوریت واقعی بساز.",
+            "ائتلاف قدرتمند گرد آور.",
+            "چشم‌انداز روشن و ساده بده.",
+            "ارتباط را تکرار کن.",
+            "موانع کنش را بردار.",
+            "پیروزی زودهنگام بساز.",
+            "دستاورد را تثبیت کن.",
+            "تغییر را در فرهنگ بنشان.",
+        ],
+        critiques=[
+            "مدل را خطی می‌سازد.",
+            "رهبری از بالا را بیش‌ازحد می‌ستاید.",
+            "مشارکت پایین‌به‌بالا را کم‌می‌بیند.",
+            "سنجش فوریت دشوار است.",
+            "تغییر پیوسته را کم پوشش می‌دهد.",
+            "فرهنگ را مقصد ساده فرض می‌کند.",
+            "فوریت را به فشار ترجمه می‌کند.",
+            "نقش اتحادیه‌ها را نادیده می‌گیرد.",
+            "به شکست‌های ساختاری کم می‌پردازد.",
+            "منابع تغییر را فرض می‌کند.",
+            "به فرهنگ ملی کم می‌پردازد.",
+            "به گروه‌های ذی‌نفع بیرونی کم می‌پردازد.",
+        ],
+        critique_text="منتقدان می‌گویند مدل کاتر فهرست سودمندی از خطاهای تحول داد اما خطی بود و رهبری از بالا را بر مشارکت سازمانی مقدم داشت؛ با این حال، همچنان محبوب‌ترین چارچوب عملی مدیریت تغییر است.",
+        applications=[
+            "گذار به اشتراک دیجیتال.",
+            "ادغام دو تحریریه.",
+            "تغییر مدل درآمدی.",
+            "آموزش رهبران تغییر.",
+            "پژوهش مدیریت رسانه.",
+            "مدیریت بحران سازمانی.",
+            "ارزیابی آمادگی تحول.",
+            "طراحی کمپین ارتباطی تغییر.",
+            "تحلیل شکست پروژه‌های تحول فناوری.",
+        ],
+        example_text="رسانه‌ای که اشتراک دیجیتال را بی‌فوریت و بی‌ائتلاف آغاز می‌کند، در نخستین ماه‌های کاهش درآمد آن را رها می‌کند؛ همان طرح با پیروزی زودهنگام و تثبیت دستاورد، به مدل درآمدی پایدار بدل می‌شود.",
+        evolution="مقالهٔ سال ۱۹۹۵ هشت خطای تحول را برشمرد و کتاب سال ۱۹۹۶ آن را به فرایند هشت‌مرحله‌ای مثبت بدل کرد؛ پژوهش‌های بعدی، مدل را با رویکردهای چابک و مشارکتی ترکیب کردند.",
+        key_concepts=["احساس فوریت", "ائتلاف رهبری", "چشم‌انداز", "پیروزی کوتاه‌مدت", "تثبیت تغییر", "فرهنگ سازمانی"],
+        theorists="جان پی. کاتر.",
+        theorists_text="مدل در سنت رهبری راهبردی و مدیریت تحول شکل گرفت.",
+        model="هشت گام متوالی تحول، از ایجاد فوریت تا نهادینه‌سازی تغییر در فرهنگ سازمان.",
+        studies=[
+            "مقالهٔ سال ۱۹۹۵ خطاهای تحول را برشمرد.",
+            "کتاب سال ۱۹۹۶ فرایند هشت‌مرحله‌ای را معرفی کرد.",
+            "مطالعات رسانه، گذار دیجیتال را با مدل تحلیل کردند.",
+            "پژوهش مدیریت، مدل را با رویکرد چابک مقایسه کرد.",
+            "مطالعات موردی، شکست تحول‌ها را با هشت خطا تحلیل کردند.",
+            "پژوهش رهبری، نقش ائتلاف را سنجید.",
+            "مطالعات دیجیتال، تحول پیوسته را جایگزین گام‌ها کردند.",
+            "پژوهش سازمانی، پیروزی زودهنگام را آزمود.",
+            "مطالعات تطبیقی، هشت گام را در رسانه‌های عمومی آزمودند.",
+            "پژوهش انتقادی، ایدئولوژی رهبری را بررسی کرد.",
+            "مطالعات موردی، فروپاشی ائتلاف رهبری را تحلیل کردند.",
+        ],
+    ),
+    "MC-640": dict(
+        year=1997,
+        summary="مدل دموکراسی مخاطب، که برنار مَنَن در کتاب اصول حکومت نمایندگی سال ۱۹۹۷ صورت‌بندی کرد، تاریخ حکومت نمایندگی را در سه دوره می‌بیند: دموکراسی پارلمانی، دموکراسی حزبی و دموکراسی مخاطب. در دورهٔ سوم، که با رسانه‌های الکترونیک و نظرسنجی شکل گرفت، سیاست به رابطهٔ مستقیم رهبر و تماشاگر بدل می‌شود و حزب و برنامه جای خود را به شخصیت، تصویر و ارتباط بی‌واسطه می‌دهند. شهروند در این الگو، مخاطبی است که تصویر نامزد را می‌سنجد، نه عضوی که در سازمان حزبی مشارکت می‌کند. مَنَن این وضع را نه خرابی دموکراسی، بلکه مرحلهٔ تازه‌ای از منطق نمایندگی می‌داند. تحلیل او با مفهوم نمایش گی دبور پیوند می‌خورد: سیاست به صحنه‌ای از تصاویر بدل می‌شود که رقابت بر آن جریان دارد. در رسانه، مدل توضیح می‌دهد چرا کمپین‌ها شخصیت‌محور، تلویزیونی و نظرسنجی‌محور شده‌اند. نقدهای اصلی به آن، نخبه‌گرایی، تقلیل شهروند به تماشاگر، خلط توصیف و تجویز، و نادیده‌گرفتن تعامل دیجیتال را برجسته می‌کنند؛ نقدهایی که پژوهش بعدی را به سوی نمایش مشارکتی سوق داد.",
+        definition="مدل دموکراسی مخاطب، مرحلهٔ سوم حکومت نمایندگی را توصیف می‌کند که در آن سیاست به رابطهٔ تصویری رهبر و تماشاگر بدل می‌شود و حزب و برنامه جای خود را به شخصیت و رسانه می‌دهند.",
+        main_problem="رسانه‌های الکترونیک چگونه منطق نمایندگی را دگرگون کرده‌اند و چرا سیاست معاصر بیش از برنامه و حزب، بر تصویر و شخصیت نامزد استوار شده است.",
+        mechanism="رسانه‌های فراگیر، رابطهٔ رهبر و شهروند را از سازمان حزبی جدا می‌کنند؛ نظرسنجی، تصویر را به ابزار سنجش بدل می‌کند و کمپین، نمایشی از شخصیت می‌سازد که مخاطب آن را ارزیابی می‌کند.",
+        assumptions=[
+            "نمایندگی مراحل تاریخی دارد.",
+            "رسانه، منطق نمایندگی را تغییر می‌دهد.",
+            "شهروند در این مرحله مخاطب است.",
+            "تصویر بر برنامه مقدم می‌شود.",
+            "نمایش بخشی از سازوکار است.",
+        ],
+        principles=[
+            "سیاست را به‌مثابه ارتباط تحلیل کن.",
+            "شخصیت‌محوری را جدی بگیر.",
+            "نقش نظرسنجی را بسنج.",
+            "مرز حزب و رسانه را ببین.",
+            "تماشاگری شهروند را نقد کن.",
+            "تعامل دیجیتال را به مدل بیفزا.",
+        ],
+        critiques=[
+            "نخبه‌گرا است.",
+            "شهروند را به تماشاگر تقلیل می‌دهد.",
+            "توصیف را با تجویز می‌آمیزد.",
+            "تعامل دیجیتال را کم می‌بیند.",
+            "نقش نهادهای مدنی را نادیده می‌گیرد.",
+            "سنجش تجربی آن دشوار است.",
+            "نقش رسانه‌های اجتماعی را دیر افزود.",
+            "به سیاست محلی کم می‌پردازد.",
+            "از دموکراسی مستقیم غافل است.",
+            "به نابرابری دسترسی رسانه‌ای کم می‌پردازد.",
+            "نقش احزاب محلی را نادیده می‌گیرد.",
+        ],
+        critique_text="منتقدان می‌گویند مدل دموکراسی مخاطب بینش مهمی دربارهٔ شخصیت‌محوری سیاست داد اما شهروند را به تماشاگر فروکاست و تعامل دیجیتال را ندید؛ با این حال، چارچوب اصلی تحلیل رسانه‌ای‌شدن نمایندگی است.",
+        applications=[
+            "تحلیل کمپین انتخاباتی.",
+            "پژوهش ارتباط سیاسی.",
+            "تحلیل شخصیت‌محوری.",
+            "آموزش روزنامه‌نگاری سیاسی.",
+            "سنجش نقش نظرسنجی.",
+            "تحلیل نمایش رسانه‌ای.",
+            "سنجش اثر تصویر نامزد.",
+            "نقد تلویزیونی‌شدن سیاست.",
+            "تحلیل گفت‌وگوی تلویزیونی و تصویر رهبر.",
+        ],
+        example_text="کمپینی که بی‌برنامهٔ حزبی و با تصویر و ویدیوی کوتاه رأی می‌گیرد، نمونهٔ دموکراسی مخاطب است؛ همان‌جا که رأی‌دهنده به تماشاگر بدل می‌شود و ارزیابی تصویر جای مشارکت سازمانی را می‌گیرد.",
+        evolution="کتاب سال ۱۹۹۷ مَنَن دوره‌بندی سه‌گانه را تثبیت کرد و مفهوم نمایش دبور، لایهٔ فرهنگی آن را غنی کرد؛ پژوهش‌های دیجیتال بعدی، مدل را به نمایش مشارکتی گستردند.",
+        key_concepts=["دموکراسی مخاطب", "دموکراسی حزبی", "شخصیت‌محوری", "نمایش", "نظرسنجی", "تماشاگر"],
+        theorists="برنار مَنَن؛ با پیوند مفهومی به گی دبور.",
+        theorists_text="مدل در سنت نظریهٔ نمایندگی و نقد فرهنگی رسانه شکل گرفت.",
+        model="مرحلهٔ سوم نمایندگی که در آن سیاست به رابطهٔ تصویری رهبر و مخاطب و به نمایش رسانه‌ای بدل می‌شود.",
+        studies=[
+            "کتاب سال ۱۹۹۷ دوره‌بندی سه‌گانه را ارائه کرد.",
+            "جامعهٔ نمایش سال ۱۹۶۷ لایهٔ فرهنگی را ساخت.",
+            "مطالعات کمپین، شخصیت‌محوری را سنجیدند.",
+            "پژوهش دیجیتال، تعامل تماشاگر را بررسی کرد.",
+            "مطالعات تطبیقی، سه دورهٔ مَنَن را آزمودند.",
+            "پژوهش کمپین، نقش نظرسنجی را تحلیل کرد.",
+            "مطالعات رسانه، منطق تماشاگری را بازخوانی کردند.",
+            "پژوهش دیجیتال، نمایش مشارکتی را تحلیل کرد.",
+            "مطالعات تاریخی، دوره‌های نمایندگی را مقایسه کردند.",
+            "پژوهش مخاطب، اعتماد به تصویر نامزد را سنجید.",
+        ],
+    ),
+    "MC-641": dict(
+        year=2004,
+        summary="مدل پس‌دموکراسی، که کالین کراچ در کتاب پس‌دموکراسی سال ۲۰۰۴ معرفی کرد، وضعیتی را توصیف می‌کند که در آن نهادهای رسمی دموکراسی سر جای خود می‌مانند اما جوهر دموکراتیک آن‌ها تهی می‌شود: انتخابات برگزار می‌شود، پارلمان کار می‌کند، اما تصمیم‌های کلیدی در شبکه‌های نخبگان سیاسی و اقتصادی گرفته می‌شود و شهروندان به تماشاگر بدل می‌شوند. کراچ این وضع را نتیجهٔ هم‌آمیزی قدرت شرکتی، نابرابری فزاینده و افول مشارکت مدنی می‌داند. رسانه در این چارچوب، میدان نمایش سیاست و ابزار مشروعیت‌سازی است: پوشش خبری، سیاست را به رقابت شخصیت‌ها و رسوایی‌ها فرو می‌کاهد و فضای بحث عمومی را تنگ می‌کند. مدل در تحلیل تبلیغات سیاسی، روابط عمومی حکومتی و مالکیت رسانه به کار می‌رود و با مفاهیم دموکراسی مخاطب و نمایش پیوند دارد. کراچ در کتاب سال ۲۰۲۰ این تز را با بحران مالی، شبکه‌های اجتماعی و ظهور پوپولیسم به‌روز کرد. نقدهای اصلی به آن، نوستالژی نسبت به دموکراسی گذشته، سنجش دشوار تهی‌شدن، کم‌توجهی به مقاومت مدنی و خطر تقلیل همه‌چیز به نخبگان را برجسته می‌کنند؛ با این حال، واژگان آن به تحلیل روزمرهٔ سیاست رسوخ کرده است.",
+        definition="مدل پس‌دموکراسی، وضعیتی را توصیف می‌کند که نهادهای رسمی دموکراسی باقی می‌مانند اما قدرت واقعی به نخبگان اقتصادی و سیاسی منتقل می‌شود و شهروند به تماشاگر بدل می‌گردد.",
+        main_problem="چگونه دموکراسی‌های رسمی می‌توانند در ظاهر سالم بمانند اما در عمل تهی شوند، و رسانه چه نقشی در پنهان‌کردن یا آشکارکردن این تهی‌شدن دارد.",
+        mechanism="هم‌آمیزی قدرت شرکتی و سیاسی، تصمیم‌ها را از نهادهای نمایندگی به شبکه‌های نخبگان می‌برد؛ رسانه با شخصیت‌محوری و رسوایی‌محوری، فضای بحث را تنگ و مشروعیت وضع موجود را بازتولید می‌کند.",
+        assumptions=[
+            "نهادها و جوهر دموکراسی جدا هستند.",
+            "نخبگان اقتصادی در تصمیم شریک‌اند.",
+            "مشارکت مدنی افول کرده است.",
+            "رسانه میدان مشروعیت‌سازی است.",
+            "نابرابری، تهی‌شدن را تشدید می‌کند.",
+        ],
+        principles=[
+            "فرم و جوهر دموکراسی را جدا بسنج.",
+            "شبکهٔ نخبگان را نقشه‌برداری کن.",
+            "مالکیت رسانه را تحلیل کن.",
+            "پوشش سیاسی را نقد کن.",
+            "مشارکت مدنی را پایش کن.",
+            "نابرابری را متغیر زمینه بگیر.",
+        ],
+        critiques=[
+            "نوستالژی نسبت به گذشته دارد.",
+            "سنجش تهی‌شدن دشوار است.",
+            "مقاومت مدنی را کم‌می‌بیند.",
+            "همه‌چیز را به نخبگان تقلیل می‌دهد.",
+            "نقش رسانهٔ مستقل را کم‌بررسی می‌گذارد.",
+            "مفهوم را کشسان می‌سازد.",
+            "رسانه‌های دیجیتال را کمرنگ می‌بیند.",
+            "به تجربهٔ دموکراسی‌های جنوب کم می‌پردازد.",
+            "مرز پس‌دموکراسی و اقتدارگرایی روشن نیست.",
+            "به اصلاحات نهادی و مقاومت مدنی کم می‌پردازد.",
+        ],
+        critique_text="منتقدان می‌گویند پس‌دموکراسی تصویری نیرومند از تهی‌شدن نهادی داد اما مفهوم را کشسان کرد و مقاومت مدنی و رسانهٔ مستقل را کم‌بررسی گذاشت؛ با این حال، چارچوب اصلی نقد دموکراسی معاصر است.",
+        applications=[
+            "تحلیل تبلیغات سیاسی.",
+            "پژوهش روابط عمومی حکومتی.",
+            "نقد مالکیت رسانه.",
+            "سنجش مشارکت انتخاباتی.",
+            "آموزش سیاست‌گذاری رسانه.",
+            "تحلیل پوپولیسم.",
+            "سنجش کیفیت فضای بحث عمومی و اعتماد.",
+        ],
+        example_text="کشوری که انتخابات منظم دارد اما تصمیم‌های اقتصادی در اتاق‌های بسته با مشورت شرکت‌ها گرفته می‌شود، نمونهٔ پس‌دموکراسی است؛ رسانه‌ای که همهٔ توجه را به رسوایی شخصی می‌دهد، این تهی‌شدن را می‌پوشاند.",
+        evolution="کتاب سال ۲۰۰۴ تز را در بستر نئولیبرالیسم صورت‌بندی کرد و کتاب سال ۲۰۲۰ آن را با بحران مالی، شبکه‌های اجتماعی و پوپولیسم بازخوانی کرد.",
+        key_concepts=["پس‌دموکراسی", "تهی‌شدن نهادی", "نخبگان", "مشروعیت‌سازی", "مشارکت مدنی", "نابرابری"],
+        theorists="کالین کراچ.",
+        theorists_text="مدل در سنت جامعه‌شناسی سیاسی و نقد نئولیبرالیسم شکل گرفت.",
+        model="بقای نهادهای رسمی دموکراسی با انتقال قدرت واقعی به نخبگان و رسانه به‌عنوان میدان مشروعیت‌سازی.",
+        studies=[
+            "کتاب سال ۲۰۰۴ تز پس‌دموکراسی را معرفی کرد.",
+            "کتاب سال ۲۰۲۰ آن را با بحران‌ها به‌روز کرد.",
+            "مطالعات رسانه، شخصیت‌محوری را سنجیدند.",
+            "پژوهش مشارکت، افول مدنی را ردیابی کرد.",
+            "مطالعات بحران، ارتباط مالی و دموکراسی را بررسی کردند.",
+            "پژوهش پوپولیسم، تز کراچ را آزمود.",
+            "مطالعات رسانه، مالکیت شرکتی را ردیابی کرد.",
+            "پژوهش تطبیقی، تهی‌شدن را بین کشورها سنجید.",
+            "مطالعات رسانه، پوشش رسوایی را تحلیل کرد.",
+            "پژوهش شبکه‌های اجتماعی، تهی‌شدن بحث عمومی را سنجید.",
+        ],
+    ),
+}
+
+NAME_FIX = {
+    "MC-630": ("مدل سه‌مرحله‌ای تغییر لوین", "Lewin's Three-Step Change Model",
+               "عنوان کارت زمینهٔ عمومی بود؛ هستهٔ آن مدل مشخص لوین ۱۹۴۷ است."),
+    "MC-631": ("مدل هشت‌مرحله‌ای تغییر کاتر", "Kotter's Eight-Step Change Model",
+               "برای تمایز از مدیریت تغییر عمومی، انتساب به کاتر روشن شد."),
+    "MC-640": ("دموکراسی مخاطب (تماشاگری)", "Audience Democracy (Manin)",
+               "کارت عنوان مبهم «دموکراسی نمایشی» داشت؛ مفهوم منیَن دموکراسی مخاطب است و نمایش دبور لایهٔ مکمل آن."),
+}
+YEAR_FIX = {
+    "MC-630": "متن نقد کارت قالب عمومی حرفه‌ای‌سازی بود و به مدل لوین ربطی نداشت؛ محتوا بر پایهٔ لوین ۱۹۴۷ بازنویسی شد.",
+    "MC-631": "متن کارت قالب عمومی حرفه‌ای‌سازی بود؛ محتوا بر پایهٔ کاتر ۱۹۹۵ و ۱۹۹۶ بازنویسی شد.",
+    "MC-640": "کارت سال ۱۹۹۵ و انتساب مبهم داشت؛ منبع اصلی مَنَن ۱۹۹۷ است و دبور ۱۹۶۷ لایهٔ مفهومی نمایش را می‌افزاید.",
+    "MC-641": "بدنهٔ کارت، مدل قدرت رسانه را به کراچ نسبت می‌داد که تفسیری است؛ هستهٔ پس‌دموکراسی کراچ ۲۰۰۴ و ۲۰۲۰ ثبت شد.",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 155}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH155 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,28 @@
+-- Phase B-4: gray-zone LLM-judged related links
+START TRANSACTION;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-technique-tech-pr', 'doc-card-121', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-technique-tech-pr', 'doc-card-141', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-analysis-information-flow-analysis', 'doc-card-193', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-framework-qual-narrative-analysis', 'doc-card-200', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-subfield-political', 'doc-card-202', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-theory-political-public-sphere', 'doc-card-214', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-concept-surveillance', 'doc-card-285', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-subfield-platform-studies', 'doc-card-405', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-theory-algorithmic-agency', 'doc-card-434', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-meth-techniques-digital', 'doc-card-437', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-technique-cross-cultural', 'doc-card-442', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-tradition-audience', 'doc-card-486', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-subfield-advertising-pr', 'doc-card-493', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-analysis-rumor-simulation', 'doc-card-674', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-tradition-audience', 'doc-card-716', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-theory-sensemaking', 'doc-card-728', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-quality-triangulation', 'doc-card-73', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-design-ethnographic', 'doc-card-79', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-subfield-international-comm', 'doc-new-book-17', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-theory-media-globalization', 'doc-new-book-18', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-technique-tech-digital-media', 'doc-new-journal-5', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-theory-media-globalization', 'doc-new-theory-2', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-approach-decolonial-knowledge', 'doc-new-theory-6', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-theory-cultural-imperialism', 'doc-new-theory-9', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+INSERT INTO entity_content_links (entity_id, content_id, link_type, sort_order) VALUES ('kg-theory-dependence', 'doc-theorist-21', 'related', 55) ON DUPLICATE KEY UPDATE link_type='related', sort_order=55;
+COMMIT;

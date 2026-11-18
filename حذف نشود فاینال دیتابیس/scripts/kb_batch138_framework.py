@@ -1,0 +1,522 @@
+# -*- coding: utf-8 -*-
+"""Batch 138 (MODEL): full documentation for MC-282, MC-301, MC-303, MC-304."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch138-model-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch138_model.json"
+
+S = {
+    "MC-282": [
+        dict(kind="OTHER",
+             title_en="Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification",
+             title_fa="سایه‌های جنسیت: نابرابری‌های دقت تقاطعی در طبقه‌بندی جنسیت تجاری",
+             authors="Buolamwini, J.; Gebru, T.", year=2018,
+             publisher="Proceedings of the 1st Conference on Fairness, Accountability and Transparency (PMLR 81)",
+             doi=None,
+             url="https://proceedings.mlr.press/v81/buolamwini18a",
+             language="en", isbn=None,
+             citation="Buolamwini, J., & Gebru, T. (2018). Gender shades: Intersectional accuracy disparities in commercial gender classification. Proceedings of Machine Learning Research, 81, 77-91.",
+             locator="81:77-91", locator_type="page_range",
+             supports="intersectional disaggregated error evaluation of commercial gender classifiers", verified=True),
+        dict(kind="OTHER",
+             title_en="Actionable Auditing: Investigating the Impact of Publicly Naming Biased Performance Results of Commercial AI Products",
+             title_fa="ممیزی کنش‌پذیر: بررسی اثر اعلام عمومی نتایج عملکرد سوگیرانهٔ محصولات هوش مصنوعی تجاری",
+             authors="Raji, I. D.; Buolamwini, J.", year=2019,
+             publisher="Proceedings of the 2019 AAAI/ACM Conference on AI, Ethics, and Society",
+             doi="10.1145/3306618.3314244",
+             url="https://dl.acm.org/doi/10.1145/3306618.3314244",
+             language="en", isbn=None,
+             citation="Raji, I. D., & Buolamwini, J. (2019). Actionable auditing: Investigating the impact of publicly naming biased performance results of commercial AI products. In Proceedings of the 2019 AAAI/ACM Conference on AI, Ethics, and Society (pp. 429-435). New York: ACM.",
+             locator="pp. 429-435", locator_type="page_range",
+             supports="follow-up audit showing effects of disaggregated public evaluation on vendors", verified=True),
+    ],
+    "MC-301": [
+        dict(kind="BOOK",
+             title_en="The Mathematical Theory of Communication",
+             title_fa="نظریهٔ ریاضی ارتباطات",
+             authors="Shannon, C. E.; Weaver, W.", year=1949,
+             publisher="University of Illinois Press",
+             doi=None,
+             url="https://www.press.uillinois.edu/books/?id=p725487",
+             language="en", isbn="9780252725487",
+             citation="Shannon, C. E., & Weaver, W. (1949). The Mathematical Theory of Communication. Urbana: University of Illinois Press.",
+             locator="book", locator_type="SECTION",
+             supports="source-transmitter-channel-receiver-destination model with noise", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="A Mathematical Theory of Communication",
+             title_fa="نظریهٔ ریاضی ارتباطات",
+             authors="Shannon, C. E.", year=1948,
+             publisher="Bell System Technical Journal",
+             doi="10.1002/j.1538-7305.1948.tb01338.x",
+             url="https://onlinelibrary.wiley.com/doi/10.1002/j.1538-7305.1948.tb01338.x",
+             language="en", isbn=None,
+             citation="Shannon, C. E. (1948). A mathematical theory of communication. Bell System Technical Journal, 27(3), 379-423 and 27(4), 623-656.",
+             locator="27(3):379-423", locator_type="page_range",
+             supports="formal information-theoretic foundation including entropy, channel capacity and noise", verified=True),
+    ],
+    "MC-303": [
+        dict(kind="BOOK_CHAPTER",
+             title_en="The Structure and Function of Communication in Society",
+             title_fa="ساختار و کارکرد ارتباطات در جامعه",
+             authors="Lasswell, H. D.", year=1948,
+             publisher="Harper & Brothers (The Communication of Ideas)",
+             doi=None,
+             url="http://www.irfanerdogan.com/dergiweb2008/24/12.pdf",
+             language="en", isbn=None,
+             citation="Lasswell, H. D. (1948). The structure and function of communication in society. In L. Bryson (Ed.), The Communication of Ideas (pp. 37-51). New York: Harper & Brothers.",
+             locator="pp. 37-51", locator_type="page_range",
+             supports="five-question analytic model and social functions of communication", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Reading Lasswell's Model of Communication Backward: Three Scholarly Misconceptions",
+             title_fa="خوانش مدل ارتباطی لاسول به‌صورت معکوس: سه بدفهمی پژوهشی",
+             authors="Sapienza, Z. S.; Iyer, N.; Veenstra, A. S.", year=2015,
+             publisher="Mass Communication and Society",
+             doi="10.1080/15205436.2015.1063666",
+             url="https://www.tandfonline.com/doi/abs/10.1080/15205436.2015.1063666",
+             language="en", isbn=None,
+             citation="Sapienza, Z. S., Iyer, N., & Veenstra, A. S. (2015). Reading Lasswell's model of communication backward: Three scholarly misconceptions. Mass Communication and Society, 18(5), 599-622.",
+             locator="18(5):599-622", locator_type="page_range",
+             supports="critical reassessment of the model's linearity and original purpose", verified=True),
+    ],
+    "MC-304": [
+        dict(kind="BOOK",
+             title_en="Rhetoric",
+             title_fa="فن خطابه",
+             authors="Aristotle", year=-350,
+             publisher="MIT Classics (trans. W. Rhys Roberts)",
+             doi=None,
+             url="https://classics.mit.edu/Aristotle/rhetoric.html",
+             language="en", isbn=None,
+             citation="Aristotle. (ca. 350 BCE). Rhetoric (W. Rhys Roberts, Trans.). MIT Classics Archive.",
+             locator="Book I, ch. 3", locator_type="SECTION",
+             supports="triad of speaker, speech and audience and the three modes of proof", verified=True),
+        dict(kind="WEBSITE",
+             title_en="Rhetoric (Perseus Catalog, Freese translation)",
+             title_fa="فن خطابه (کاتالوگ پرسئوس، ترجمهٔ فریز)",
+             authors="Aristotle; Freese, J. H. (trans.)", year=1926,
+             publisher="Perseus Digital Library",
+             doi=None,
+             url="https://catalog.perseus.org/catalog/urn:cts:greekLit:tlg0086.tlg038.perseus-eng1",
+             language="en", isbn=None,
+             citation="Aristotle. (1926). The Art of Rhetoric (J. H. Freese, Trans.). Loeb Classical Library. Perseus Digital Library.",
+             locator="urn:cts:greekLit:tlg0086.tlg038", locator_type="SECTION",
+             supports="scholarly edition documenting the rhetorical triad and genres", verified=True),
+    ],
+}
+
+ENRICH = {
+    "MC-282": dict(
+        year=2018,
+        summary="ارزیابی تفکیکی خطا و سوگیری گروهی، رویکردی در سنجش سامانه‌های هوش مصنوعی است که خواستار گزارش دقت و خطا به‌تفکیک زیرگروه‌های جمعیتی است و جوی بولامویینی و تیمنیت گبرو آن را در سال ۲۰۱۸ در پژوهش «سایه‌های جنسیت» صورت‌بندی کردند. ادعای مرکزی این است که میانگین دقت یک سامانه می‌تواند ضعف جدی آن را برای گروه‌های خاص پنهان کند. آنان سه سامانهٔ تجاری طبقه‌بندی جنسیت را بر مجموعه‌ای از تصاویر نمایندگان پارلمان در کشورهای آفریقایی و اروپایی سنجیدند و بر پایهٔ جنسیت و طیف رنگ پوست به زیرگروه‌ها تفکیک کردند. یافتهٔ کلیدی این بود که خطا برای زنان با پوست تیره به‌مراتب بیشتر از مردان با پوست روشن است و در برخی سامانه‌ها تا حدود یک‌سوم موارد می‌رسد. این نتیجه، مفهوم «تقاطع‌گرایی» را از نظریهٔ اجتماعی به ارزیابی فنی آورد و نشان داد که سنجهٔ واحد و کلی برای عدالت کافی نیست. پژوهش بعدی همین گروه نشان داد که اعلام عمومی نتایج تفکیکی می‌تواند رفتار فروشندگان را تغییر دهد و ممیزی را به ابزار پاسخ‌گویی تبدیل کند. نقدهای اصلی به این رویکرد، ساده‌سازی هویت در گروه‌های ثابت، پوشش‌ندادن همهٔ ابعاد عدالت، وابستگی به دادهٔ برچسب‌خوردهٔ محدود و شفاف‌نبودن سامانه‌های تجاری مربوط می‌شود.",
+        definition="ارزیابی تفکیکی خطا، رویکردی است که عملکرد سامانه را به‌جای یک میانگین کلی، در هر زیرگروه جمعیتی جداگانه می‌سنجد تا نابرابری‌های پنهان در دقت آشکار شود.",
+        main_problem="چگونه می‌توان نشان داد که یک سامانهٔ هوش مصنوعی با دقت کلی بالا، برای گروه‌های خاص به‌طور نظام‌مند ضعیف عمل می‌کند و این نابرابری را قابل مشاهده و پاسخ‌گو ساخت.",
+        mechanism="دادهٔ آزمون بر پایهٔ چند ویژگی هویتی هم‌زمان مانند جنسیت و رنگ پوست به زیرگروه‌ها تقسیم می‌شود؛ نرخ خطا و سایر سنجه‌ها در هر زیرگروه محاسبه و با یکدیگر مقایسه می‌گردد. شکاف میان بهترین و بدترین زیرگروه، معیار نابرابری می‌شود و میانگین کلی کنار گذاشته می‌شود.",
+        assumptions=[
+            "زیرگروه‌های جمعیتی را می‌توان برای ارزیابی تعریف کرد.",
+            "میانگین کلی می‌تواند ضعف زیرگروه‌ها را پنهان کند.",
+            "دقت در هر زیرگروه سنجهٔ معنادار عملکرد است.",
+            "برچسب‌های هویتی برای تحلیل تقاطعی در دسترس‌اند.",
+            "افشای عمومی نتایج، انگیزهٔ اصلاح ایجاد می‌کند.",
+        ],
+        principles=[
+            "دقت را همیشه به‌تفکیک زیرگروه گزارش کن.",
+            "تقاطع چند ویژگی هویتی را هم‌زمان بسنج.",
+            "بدترین زیرگروه را معیار حداقل عملکرد بدان.",
+            "دادهٔ آزمون را متنوع و مستند گردآوری کن.",
+            "نتایج ممیزی را برای پاسخ‌گویی عمومی منتشر کن.",
+            "سنجهٔ عدالت را با هدف کاربرد سامانه هماهنگ کن.",
+        ],
+        critiques=[
+            "تعریف گروه‌ها، هویت را به دسته‌های ثابت فرو می‌کاهد.",
+            "تفکیک خطا تنها بخشی از عدالت را پوشش می‌دهد.",
+            "سامانه‌های تجاری داده و الگوریتم خود را افشا نمی‌کنند.",
+            "مجموعهٔ آزمون محدود، تعمیم یافته‌ها را دشوار می‌کند.",
+            "برچسب‌گذاری جنسیت و رنگ پوست خود مناقشه‌برانگیز است.",
+        ],
+        critique_text="منتقدان می‌گویند ارزیابی تفکیکی خطا ابزار قدرتمندی برای آشکارسازی نابرابری پنهان ساخت اما با ثابت‌کردن دسته‌های هویتی، پیچیدگی و سیالیت هویت را نادیده می‌گیرد و تنها یک بُعد از عدالت را می‌سنجد؛ با این حال، معیار حداقلی ضروری برای ممیزی الگوریتمی شده است.",
+        applications=[
+            "ممیزی سامانه‌های تشخیص چهره و طبقه‌بندی جنسیت.",
+            "ارزیابی مدل‌های زبانی و سامانه‌های توصیه از نظر سوگیری.",
+            "تدوین استاندارد گزارش‌دهی عدالت الگوریتمی.",
+            "پژوهش سیاست‌گذاری دربارهٔ هوش مصنوعی پاسخ‌گو.",
+            "آموزش ارزیابان داده و طراحان سامانه.",
+        ],
+        example_text="اگر سامانه‌ای برای همهٔ کاربران دقت نود درصد گزارش کند اما دقت آن برای زنان با پوست تیره پنجاه درصد باشد، میانگین کلی گمراه‌کننده است؛ ارزیابی تفکیکی این شکاف را آشکار می‌کند و سازمان را ناچار به اصلاح داده یا مدل می‌سازد.",
+        evolution="رویکرد در سال ۲۰۱۸ با پژوهش سایه‌های جنسیت در حوزهٔ عدالت الگوریتمی تثبیت شد. ممیزی بعدی در سال ۲۰۱۹ اثر افشای عمومی را نشان داد و پس از آن، گزارش تفکیکی به بخشی از استانداردهای ارزیابی و پیشنهادهای قانون‌گذاری هوش مصنوعی تبدیل شد.",
+        key_concepts=["ارزیابی تفکیکی", "تقاطع‌گرایی", "شکاف دقت", "سوگیری الگوریتمی", "زیرگروه جمعیتی", "ممیزی الگوریتمی", "عدالت توزیعی"],
+        theorists="جوی بولامویینی و تیمنیت گبرو.",
+        theorists_text="رویکرد در سنت عدالت الگوریتمی و مطالعات تقاطع‌گرایی شکل گرفت.",
+        model="عملکرد سامانه به‌جای یک میانگین کلی، در هر زیرگروه جمعیتی جداگانه سنجیده و شکاف میان بهترین و بدترین زیرگروه به معیار نابرابری تبدیل می‌شود.",
+        studies=[
+            "پژوهش سال ۲۰۱۸ نابرابری دقت را در سه سامانهٔ تجاری نشان داد.",
+            "ممیزی سال ۲۰۱۹ اثر اعلام عمومی نتایج تفکیکی را سنجید.",
+            "پژوهش‌های بعدی رویکرد را به مدل‌های زبانی و توصیه گسترش دادند.",
+            "ادبیات سیاست‌گذاری، گزارش تفکیکی را در استانداردهای ممیزی گنجاند.",
+        ],
+    ),
+    "MC-301": dict(
+        year=1949,
+        summary="مدل انتقالی ارتباطات، چارچوبی مهندسی است که از نظریهٔ ریاضی ارتباطات کلود شانون در سال ۱۹۴۸ و مقالهٔ وارن ویور در کتاب سال ۱۹۴۹ سرچشمه می‌گیرد. ادعای مرکزی این است که ارتباط را می‌توان به‌صورت انتقال سیگنال از یک منبع اطلاعاتی به یک مقصد تحلیل کرد. پنج مؤلفهٔ مدل عبارت‌اند از منبع اطلاعات، فرستنده یا کدگذار، کانال همراه با نویز، گیرنده یا کدگشا، و مقصد. شانون به‌طور آگاهانه معنا را از مدل کنار گذاشت و بر مسئلهٔ فنی انتقال وفادارانهٔ سیگنال تمرکز کرد؛ ویور سپس سه سطح تحلیل فنی، معنایی و اثرگذاری را از هم جدا کرد. مدل، مفاهیمی مانند ظرفیت کانال، افزونگی، آنتروپی و نویز را وارد مطالعهٔ ارتباطات کرد و شالودهٔ مهندسی مخابرات و طراحی سامانه‌های اطلاعاتی شد. با این حال، در ارتباط انسانی، مدل انتقادهای جدی برانگیخت: یک‌سویه و بدون بازخورد است، معنا و تفسیر را نادیده می‌گیرد، قدرت و بافت اجتماعی را وارد تحلیل نمی‌کند و ارتباط را به «مجاری» انتقال فرو می‌کاهد. با وجود این نقدها، واژگان آن مانند کانال، نویز و افزونگی همچنان در پژوهش ارتباطات به کار می‌رود.",
+        definition="مدل انتقالی ارتباطات، مدلی است که ارتباط را انتقال خطی پیام از منبع به مقصد از راه فرستنده، کانال نویزی و گیرنده توصیف می‌کند و بر دقت فنی انتقال سیگنال تمرکز دارد.",
+        main_problem="چگونه می‌توان انتقال پیام را در یک کانال نویزی، با کمترین خطا و بیشترین ظرفیت، به‌صورت ریاضی مدل‌سازی و اندازه‌گیری کرد.",
+        mechanism="منبع، پیام را تولید می‌کند؛ فرستنده آن را به سیگنال قابل انتقال تبدیل می‌کند؛ کانال سیگنال را منتقل می‌کند و نویز به آن می‌افزاید؛ گیرنده سیگنال را به پیام بازمی‌گرداند و مقصد آن را دریافت می‌کند. افزونگی و کدگذاری، اثر نویز را کاهش می‌دهند.",
+        assumptions=[
+            "ارتباط را می‌توان به مؤلفه‌های قابل تفکیک تجزیه کرد.",
+            "پیام را می‌توان به سیگنال قابل انتقال تبدیل کرد.",
+            "نویز، اختلالی افزودنی در کانال است.",
+            "دقت انتقال را می‌توان جدا از معنا سنجید.",
+            "ظرفیت کانال محدود و قابل اندازه‌گیری است.",
+        ],
+        principles=[
+            "اطلاعات را با کاهش عدم‌قطعیت تعریف کن.",
+            "ظرفیت کانال و نرخ ارسال را هماهنگ کن.",
+            "برای مهار نویز از کدگذاری و افزونگی استفاده کن.",
+            "سطح فنی، معنایی و اثرگذاری را از هم جدا کن.",
+            "دقت انتقال را با سنجه‌های کمّی بسنج.",
+            "مدل مهندسی را برای ارتباط انسانی محدود بدان.",
+        ],
+        critiques=[
+            "مدل یک‌سویه است و بازخورد را در نظر نمی‌گیرد.",
+            "معنا، تفسیر و زمینه را از تحلیل بیرون می‌گذارد.",
+            "قدرت و روابط اجتماعی در آن جای ندارند.",
+            "ارتباط انسانی را به انتقال سیگنال فرو می‌کاهد.",
+            "فرض گیرندهٔ منفعل با شواهد ارتباطی سازگار نیست.",
+        ],
+        critique_text="منتقدان ارتباطات انسانی می‌گویند مدل انتقالی با کنار گذاشتن معنا و بازخورد، تصویری مکانیکی از ارتباط می‌دهد که برای مهندسی مخابرات کارآمد اما برای فهم تعامل انسانی ناکافی است؛ با این حال، واژگان فنی آن بنیاد پژوهش کمّی ارتباطات شد.",
+        applications=[
+            "طراحی و ارزیابی سامانه‌های مخابراتی.",
+            "تحلیل نویز و افزونگی در انتقال داده.",
+            "آموزش مفاهیم پایهٔ کانال و کدگذاری.",
+            "مطالعهٔ خطا در ارتباط سازمانی و فنی.",
+            "مبنای مقایسه با مدل‌های تعاملی ارتباطات.",
+        ],
+        example_text="در یک تماس تلفنی، صدا منبع اطلاعات است، گوشی فرستنده، خط تلفن کانال و گوشی شنونده گیرنده است؛ اختلال خط نویز نام دارد و تکرار جمله برای رفع سوءتفاهم نقش افزونگی را بازی می‌کند. مدل انتقالی همین زنجیره را صورت‌بندی می‌کند.",
+        evolution="مدل در سال ۱۹۴۸ در نظریهٔ ریاضی ارتباطات شانون و در سال ۱۹۴۹ با تفسیر ویور تثبیت شد. پس از آن، به چارچوب پایهٔ مهندسی مخابرات و آموزش ارتباطات تبدیل شد و در نیمهٔ دوم قرن بیستم، با ظهور مدل‌های تعاملی و فرهنگی به‌عنوان نقطهٔ مقابل نظری به کار رفت.",
+        key_concepts=["منبع اطلاعات", "کدگذار", "کانال", "نویز", "کدگشا", "مقصد", "افزونگی", "ظرفیت کانال", "آنتروپی"],
+        theorists="کلود شانون و وارن ویور.",
+        theorists_text="مدل در سنت مهندسی مخابرات و نظریهٔ ریاضی اطلاعات شکل گرفت.",
+        model="زنجیرهٔ خطی منبع، فرستنده، کانال نویزی، گیرنده و مقصد که انتقال وفادارانهٔ سیگنال را با کدگذاری و افزونگی ممکن می‌کند.",
+        studies=[
+            "مقالهٔ سال ۱۹۴۸ بنیاد ریاضی اطلاعات و ظرفیت کانال را گذاشت.",
+            "کتاب سال ۱۹۴۹ تفسیر ویور و سطوح سه‌گانهٔ تحلیل را افزود.",
+            "پژوهش‌های مخابرات، سنجه‌های نویز و افزونگی را گسترش دادند.",
+            "ادبیات ارتباطات، مدل را با مدل‌های تعاملی مقایسه و نقد کرد.",
+        ],
+    ),
+    "MC-303": dict(
+        year=1948,
+        summary="مدل پنج‌پرسشی لاسول، چارچوبی تحلیلی برای مطالعهٔ ارتباطات است که هارولد لاسول آن را در سال ۱۹۴۸ در مقالهٔ ساختار و کارکرد ارتباطات در جامعه معرفی کرد. ادعای مرکزی این است که هر کنش ارتباطی را می‌توان با پنج پرسش بررسی کرد: چه کسی، چه چیزی را، در چه کانالی، به چه کسی، با چه اثری می‌گوید. اهمیت مدل در آن است که هر پرسش را به یک حوزهٔ پژوهشی و روش متناظر پیوند می‌دهد: تحلیل کنترل و مالکیت رسانه، تحلیل محتوا، تحلیل رسانه، تحلیل مخاطب و تحلیل اثر. لاسول این پرسش‌ها را در چارچوب کارکردی نیز قرار داد و برای ارتباطات سه کارکرد نظارت بر محیط، همبستگی اجزای جامعه و انتقال میراث اجتماعی برشمرد. مدل، ساده و به‌شدت قابل آموزش است و به همین دلیل به چارچوب پایهٔ درس‌های ارتباطات و تحلیل تبلیغات تبدیل شد. با این حال، پژوهش انتقادی بعدی نشان داد که این مدل غالباً به‌صورت خطی و یک‌سویه خوانده شده است، در حالی که لاسول خود بر تحلیل کارکردی و زمینهٔ اجتماعی تأکید داشت. نقدهای اصلی، غفلت از بازخورد و تعامل، تمرکز بر قصد فرستنده، و بی‌توجهی به معنا، تفسیر و مناسبات قدرت را برجسته می‌کنند.",
+        definition="مدل پنج‌پرسشی لاسول، مدلی تحلیلی است که هر کنش ارتباطی را با پرسش‌های فرستنده، محتوا، کانال، مخاطب و اثر تحلیل می‌کند و به هر پرسش یک حوزهٔ پژوهشی نسبت می‌دهد.",
+        main_problem="چگونه می‌توان میدان پیچیدهٔ ارتباطات را به مؤلفه‌های قابل پژوهش تقسیم کرد و برای هر مؤلفه پرسش و روش متناظر تعریف نمود.",
+        mechanism="هر کنش ارتباطی از پنج مؤلفهٔ قابل تفکیک ساخته می‌شود؛ تحلیل هر مؤلفه، پرسشی مستقل و روش پژوهشی متناظر دارد. کارکردهای سه‌گانه نیز نشان می‌دهند ارتباط اجتماعی چه نقشی در نظارت، همبستگی و تداوم میراث فرهنگی جامعه ایفا می‌کند.",
+        assumptions=[
+            "ارتباط را می‌توان به مؤلفه‌های قابل تفکیک تجزیه کرد.",
+            "برای هر مؤلفه، حوزهٔ پژوهشی مستقلی وجود دارد.",
+            "اثر ارتباط را می‌توان جدا از فرایند آن سنجید.",
+            "ارتباط کارکردهای اجتماعی قابل شناسایی دارد.",
+            "مدل ابزار تحلیل است نه توصیف کامل فرایند.",
+        ],
+        principles=[
+            "هر کنش ارتباطی را با پنج پرسش پایه تحلیل کن.",
+            "هر پرسش را به روش پژوهشی متناظر پیوند بده.",
+            "فرستنده و مالکیت رسانه را در تحلیل کنترل بگنجان.",
+            "اثر را در بستر کارکرد اجتماعی ارتباط ببین.",
+            "مدل را چارچوب اکتشافی بدان نه نظریهٔ کامل.",
+            "خطی‌بودن مدل را آگاهانه نقد کن.",
+        ],
+        critiques=[
+            "خوانش رایج آن خطی و یک‌سویه است.",
+            "بازخورد و تعامل در آن جایی ندارد.",
+            "بر قصد فرستنده بیش از تفسیر گیرنده تأکید دارد.",
+            "معنا، بافت و مناسبات قدرت را کم‌رنگ می‌کند.",
+            "اثر را اغلب جدا از فرایند اجتماعی می‌سنجد.",
+        ],
+        critique_text="منتقدان می‌گویند مدل لاسول به‌راحتی به خوانشی خطی و مکانیکی فرو کاسته می‌شود و بازخورد و تفسیر را نادیده می‌گیرد؛ پژوهش تاریخی نیز نشان می‌دهد این خوانش با مقصود کارکردی لاسول فاصله دارد. با این حال، تقسیم‌بندی پنج‌گانه همچنان نقشهٔ راه پژوهش ارتباطات است.",
+        applications=[
+            "ساختاردهی درس مبانی ارتباطات.",
+            "تحلیل تبلیغ سیاسی و کنترل رسانه.",
+            "طراحی پژوهش تحلیل محتوا و مخاطب.",
+            "ارزیابی کارکرد رسانه در بحران.",
+            "مقایسهٔ چارچوب‌های کلاسیک و انتقادی ارتباطات.",
+        ],
+        example_text="در تحلیل یک کمپین انتخاباتی، پرسش چه کسی ستاد را به تحلیل مالکیت و کنترل، پرسش چه چیزی به تحلیل محتوای پیام، پرسش در چه کانالی به انتخاب رسانه، پرسش به چه کسی به تقسیم‌بندی مخاطب و پرسش با چه اثری به سنجش نگرش رأی‌دهندگان می‌رسد؛ مدل همین مسیر تحلیل را سازمان می‌دهد.",
+        evolution="مدل در مقالهٔ سال ۱۹۴۸ لاسول شکل گرفت و در دههٔ ۱۹۵۰ به چارچوب استاندارد آموزش ارتباطات تبدیل شد. پژوهش انتقادی سال ۲۰۱۵ با بازخوانی تاریخی، سه بدفهمی رایج دربارهٔ آن را بررسی کرد و بر مقصود تحلیلی و نه خطی آن تأکید گذاشت.",
+        key_concepts=["چه کسی", "چه چیزی", "کانال", "مخاطب", "اثر", "تحلیل کنترل", "تحلیل محتوا", "کارکرد نظارتی"],
+        theorists="هارولد لاسول.",
+        theorists_text="مدل در سنت تحلیل تبلیغات و جامعه‌شناسی ارتباطات شکل گرفت.",
+        model="پنج پرسش متوالی فرستنده، محتوا، کانال، مخاطب و اثر که هر یک به حوزهٔ پژوهشی و روش متناظر خود نگاشت می‌شود.",
+        studies=[
+            "مقالهٔ سال ۱۹۴۸ مدل و کارکردهای سه‌گانه را معرفی کرد.",
+            "پژوهش‌های تحلیل محتوا پرسش دوم را به روش استاندارد تبدیل کردند.",
+            "مطالعات اثر، پرسش پنجم را به سنت پژوهش اثرات پیوند دادند.",
+            "بازخوانی سال ۲۰۱۵ بدفهمی‌های تاریخی مدل را بررسی کرد.",
+        ],
+    ),
+    "MC-304": dict(
+        year=-350,
+        summary="مدل خطی ارسطویی، کهن‌ترین چارچوب صورت‌بندی‌شدهٔ ارتباط اقناعی است که در فن خطابهٔ ارسطو، حدود سدهٔ چهارم پیش از میلاد، تدوین شد. ادعای مرکزی این است که هر کنش خطابی از سه رکن گوینده، گفتار و شنونده ساخته می‌شود و موفقیت آن به توانایی گوینده در تنظیم این سه رکن بستگی دارد. ارسطو سه شیوهٔ اقناع را از هم جدا کرد: اقناع بر پایهٔ منش و اعتبار گوینده، اقناع بر پایهٔ احساس شنونده، و اقناع بر پایهٔ استدلال و برهان در خود گفتار. او همچنین سه گونهٔ خطابهٔ مشورتی، قضایی و نمایشی را برشمرد که هر یک مخاطب و هدف زمانی متفاوتی دارند. مدل ارسطویی، برخلاف مدل‌های مهندسی بعدی، به‌جای انتقال اطلاعات بر تأثیر و اقناع تمرکز دارد و مخاطب را نه گیرندهٔ منفعل بلکه داوری می‌داند که دربارهٔ گوینده و استدلال او قضاوت می‌کند. این چارچوب بر بلاغت کلاسیک، آموزش خطابه و مدل‌های بعدی ارتباطات مانند مدل لاسول و برلو اثر گذاشت. نقدهای اصلی به آن، خطی و یک‌سویه بودن، نبود بازخورد صریح، تمرکز بر موقعیت خطابهٔ مدنی و کم‌توجهی به نویز، رسانهٔ جمعی و مناسبات قدرت ساختاری است؛ با این حال، تقسیم سه‌گانهٔ اعتبار، احساس و استدلال همچنان یکی از پرکاربردترین چارچوب‌های تحلیل پیام است.",
+        definition="مدل خطی ارسطویی، مدلی است که ارتباط اقناعی را از سه رکن گوینده، گفتار و شنونده می‌سازد و اقناع را حاصل اعتبار گوینده، احساس مخاطب و استدلال گفتار می‌داند.",
+        main_problem="چگونه یک گوینده می‌تواند در موقعیت عمومی، شنونده را به پذیرش یک ادعا یا تصمیم وادار کند و چه عناصری در این اقناع نقش دارند.",
+        mechanism="گوینده با تکیه بر اعتبار خود، برانگیختن احساس مخاطب و ارائهٔ استدلال در گفتار، شنونده را به داوری مطلوب هدایت می‌کند. گونهٔ خطابه تعیین می‌کند که مخاطب دربارهٔ آینده، گذشته یا ارزش‌ها داوری کند و کدام شیوهٔ اقناع برجسته شود.",
+        assumptions=[
+            "ارتباط اقناعی از گوینده، گفتار و شنونده ساخته می‌شود.",
+            "اعتبار گوینده بر پذیرش پیام اثر می‌گذارد.",
+            "احساس مخاطب بخشی از فرایند اقناع است.",
+            "استدلال درون گفتار، داوری مخاطب را شکل می‌دهد.",
+            "مخاطب، داوری فعال دربارهٔ گوینده و استدلال است.",
+        ],
+        principles=[
+            "هر پیام اقناعی را با سه رکن گوینده، گفتار و شنونده تحلیل کن.",
+            "اعتبار، احساس و استدلال را هم‌زمان بسنج.",
+            "گونهٔ خطابه را با موقعیت و هدف مخاطب هماهنگ کن.",
+            "مخاطب را داوری فعال بدان نه گیرندهٔ منفعل.",
+            "پیام را برای موقعیت عمومی و جمعی طراحی کن.",
+            "مرز میان اقناع و فریب را با صداقت استدلال نگه دار.",
+        ],
+        critiques=[
+            "مدل خطی است و بازخورد صریح ندارد.",
+            "بر موقعیت خطابهٔ مدنی محدود می‌ماند.",
+            "نویز و رسانهٔ جمعی را در نظر نمی‌گیرد.",
+            "مناسبات قدرت ساختاری را کم‌رنگ می‌کند.",
+            "بر اقناع بیش از انتقال اطلاعات تمرکز دارد.",
+        ],
+        critique_text="منتقدان می‌گویند مدل ارسطویی برای موقعیت خطابهٔ رودرروی جهان باستان ساخته شد و با ارتباط رسانه‌ای، بازخورد و مخاطب پراکندهٔ امروز سازگاری کامل ندارد؛ با این حال، تقسیم سه‌گانهٔ اعتبار، احساس و استدلال هنوز چارچوب پایهٔ تحلیل پیام اقناعی است.",
+        applications=[
+            "تحلیل خطابهٔ سیاسی و مناظره.",
+            "آموزش نگارش و سخنرانی اقناعی.",
+            "ارزیابی تبلیغات از نظر اعتبار و احساس.",
+            "مطالعهٔ بلاغت در رسانه‌های جمعی.",
+            "مقایسهٔ مدل‌های کلاسیک و مدرن ارتباطات.",
+        ],
+        example_text="در یک مناظرهٔ انتخاباتی، گوینده نخست با اشاره به سابقهٔ خود اعتبار می‌سازد، سپس با روایت داستان یک خانواده احساس مخاطب را برمی‌انگیزد و در پایان با آمار و استدلال، ادعای خود را مستند می‌کند؛ سه رکن مدل ارسطویی در همین توالی دیده می‌شود.",
+        evolution="مدل در فن خطابهٔ ارسطو در سدهٔ چهارم پیش از میلاد صورت‌بندی شد و در سنت بلاغت رومی و آموزش قرون میانه بازتولید گردید. در قرن بیستم، با شکل‌گیری پژوهش ارتباطات، به‌عنوان نخستین مدل خطی ارتباط بازخوانی شد و بر مدل‌های فرستنده‌محور بعدی اثر گذاشت.",
+        key_concepts=["گوینده", "گفتار", "شنونده", "اعتبار", "احساس", "استدلال", "خطابهٔ مشورتی", "خطابهٔ قضایی", "خطابهٔ نمایشی"],
+        theorists="ارسطو.",
+        theorists_text="مدل در سنت بلاغت کلاسیک یونان شکل گرفت.",
+        model="سه‌گانهٔ گوینده، گفتار و شنونده که با اعتبار، احساس و استدلال، مخاطب را به داوری مطلوب هدایت می‌کند.",
+        studies=[
+            "فن خطابه، سه شیوهٔ اقناع و سه گونهٔ خطابه را صورت‌بندی کرد.",
+            "سنت بلاغت رومی چارچوب ارسطویی را آموزش داد و گسترش داد.",
+            "پژوهش قرن بیستم آن را نخستین مدل خطی ارتباط خواند.",
+            "مطالعات بلاغت معاصر سه‌گانهٔ اعتبار، احساس و استدلال را بازخوانی کرد.",
+        ],
+    ),
+}
+
+NAME_FIX = {}
+YEAR_FIX = {"MC-304": "تاریخ تقریبی؛ حدود سدهٔ چهارم پیش از میلاد (حدود ۳۵۰ پیش از میلاد)."}
+
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 138}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH138 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

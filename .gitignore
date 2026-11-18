@@ -1,0 +1,12 @@
+*.sqlite
+*.exe
+*.zip
+*.rar
+*.msi
+*.json
+qdrant/
+*.db
+node_modules/
+__pycache__/
+*.pyc
+*.log

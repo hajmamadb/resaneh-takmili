@@ -1,0 +1,654 @@
+# -*- coding: utf-8 -*-
+"""Batch 176 (WORK): MC-505 network effect, MC-573 primacy and recency, MC-574 anchoring, MC-575 decision framing."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch176-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch176.json"
+
+WORK_MAPPING = {"entity_type": "WORK", "content_type": "اثر رسانه‌ای (پدیده)", "needs_review": False}
+
+S = {
+    "MC-505": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Network Externalities, Competition, and Compatibility",
+             title_fa="صرفه‌جویی‌های خارجی شبکه‌ای، رقابت و سازگاری",
+             authors="Katz, M. L., & Shapiro, C.", year=1985,
+             publisher="American Economic Review, 75(3), 424-440",
+             doi=None,
+             url="https://www.jstor.org/stable/1814809",
+             language="en", isbn=None,
+             citation="Katz, M. L., & Shapiro, C. (1985). Network externalities, competition, and compatibility. American Economic Review, 75(3), 424-440.",
+             locator="75(3), pp. 424-440", locator_type="page_range",
+             supports="foundational economic analysis of network externalities", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Economics of Networks",
+             title_fa="اقتصاد شبکه‌ها",
+             authors="Economides, N.", year=1996,
+             publisher="International Journal of Industrial Organization, 14(6), 673-699",
+             doi="10.1016/0167-7187(96)01015-6",
+             url="https://doi.org/10.1016/0167-7187(96)01015-6",
+             language="en", isbn=None,
+             citation="Economides, N. (1996). The economics of networks. International Journal of Industrial Organization, 14(6), 673-699.",
+             locator="14(6), pp. 673-699", locator_type="page_range",
+             supports="comprehensive framework distinguishing direct and indirect network effects", verified=True),
+    ],
+    "MC-573": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Serial Position Effect of Free Recall",
+             title_fa="اثر موقعیت سریالی در یادآوری آزاد",
+             authors="Murdock, B. B., Jr.", year=1962,
+             publisher="Journal of Experimental Psychology, 64(5), 482-488",
+             doi="10.1037/h0045106",
+             url="https://doi.org/10.1037/h0045106",
+             language="en", isbn=None,
+             citation="Murdock, B. B., Jr. (1962). The serial position effect of free recall. Journal of Experimental Psychology, 64(5), 482-488.",
+             locator="64(5), pp. 482-488", locator_type="page_range",
+             supports="quantitative serial position curve with primacy and recency effects", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Two Storage Mechanisms in Free Recall",
+             title_fa="دو سازوکار ذخیره‌سازی در یادآوری آزاد",
+             authors="Glanzer, M., & Cunitz, A. R.", year=1966,
+             publisher="Journal of Verbal Learning and Verbal Behavior, 5(4), 351-360",
+             doi="10.1016/S0022-5371(66)80044-0",
+             url="https://doi.org/10.1016/S0022-5371(66)80044-0",
+             language="en", isbn=None,
+             citation="Glanzer, M., & Cunitz, A. R. (1966). Two storage mechanisms in free recall. Journal of Verbal Learning and Verbal Behavior, 5(4), 351-360.",
+             locator="5(4), pp. 351-360", locator_type="page_range",
+             supports="dual storage explanation of primacy and recency", verified=True),
+    ],
+    "MC-574": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Judgment under Uncertainty: Heuristics and Biases",
+             title_fa="قضاوت تحت عدم قطعیت: میانبرها و سوگیری‌ها",
+             authors="Tversky, A., & Kahneman, D.", year=1974,
+             publisher="Science, 185(4157), 1124-1131",
+             doi="10.1126/science.185.4157.1124",
+             url="https://doi.org/10.1126/science.185.4157.1124",
+             language="en", isbn=None,
+             citation="Tversky, A., & Kahneman, D. (1974). Judgment under uncertainty: Heuristics and biases. Science, 185(4157), 1124-1131.",
+             locator="185(4157), pp. 1124-1131", locator_type="page_range",
+             supports="original anchoring-and-adjustment account", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Anchoring-and-Adjustment Heuristic: Why the Adjustments Are Insufficient",
+             title_fa="میانبر لنگر و تعدیل: چرا تعدیل‌ها ناکافی‌اند",
+             authors="Epley, N., & Gilovich, T.", year=2006,
+             publisher="Psychological Science, 17(4), 311-318",
+             doi="10.1111/j.1467-9280.2006.01704.x",
+             url="https://doi.org/10.1111/j.1467-9280.2006.01704.x",
+             language="en", isbn=None,
+             citation="Epley, N., & Gilovich, T. (2006). The anchoring-and-adjustment heuristic: Why the adjustments are insufficient. Psychological Science, 17(4), 311-318.",
+             locator="17(4), pp. 311-318", locator_type="page_range",
+             supports="evidence that effortful adjustment remains insufficient", verified=True),
+    ],
+    "MC-575": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Framing of Decisions and the Psychology of Choice",
+             title_fa="چارچوب‌بندی تصمیم‌ها و روان‌شناسی انتخاب",
+             authors="Tversky, A., & Kahneman, D.", year=1981,
+             publisher="Science, 211(4481), 453-458",
+             doi="10.1126/science.7455683",
+             url="https://doi.org/10.1126/science.7455683",
+             language="en", isbn=None,
+             citation="Tversky, A., & Kahneman, D. (1981). The framing of decisions and the psychology of choice. Science, 211(4481), 453-458.",
+             locator="211(4481), pp. 453-458", locator_type="page_range",
+             supports="Asian disease experiments and prospect-theoretic explanation", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="All Frames Are Not Created Equal: A Typology and Critical Analysis of Framing Effects",
+             title_fa="همهٔ چارچوب‌ها یکسان نیستند: گونه‌شناسی و تحلیل انتقادی اثرهای چارچوب",
+             authors="Levin, I. P., Schneider, S. L., & Gaeth, G. J.", year=1998,
+             publisher="Organizational Behavior and Human Decision Processes, 76(2), 149-188",
+             doi="10.1006/obhd.1998.2804",
+             url="https://doi.org/10.1006/obhd.1998.2804",
+             language="en", isbn=None,
+             citation="Levin, I. P., Schneider, S. L., & Gaeth, G. J. (1998). All frames are not created equal: A typology and critical analysis of framing effects. Organizational Behavior and Human Decision Processes, 76(2), 149-188.",
+             locator="76(2), pp. 149-188", locator_type="page_range",
+             supports="typology distinguishing attribute, goal and action frames", verified=True),
+    ],
+}
+
+ENRICH = {
+    "MC-505": dict(
+        year=1985,
+        mapping=WORK_MAPPING,
+        summary="اثر شبکه‌ای یا صرفه‌جویی خارجی شبکه‌ای پدیده‌ای اقتصادی است که در آن ارزش یک کالا یا خدمت با افزایش شمار کاربران آن بیشتر می‌شود. کاتز و شاپیرو در سال ۱۹۸۵ با مقالهٔ مشهور خود دربارهٔ صرفه‌جویی‌های خارجی شبکه‌ای نشان دادند منفعت هر کاربر به شمار کاربران سازگار وابسته است و این وابستگی ساختار رقابت و انگیزهٔ سازگاری را تغییر می‌دهد. اکونومیدس در ۱۹۹۶ چارچوب اقتصادی جامعی برای شبکه‌ها ارائه کرد و میان اثر مستقیم و غیرمستقیم تمایز گذاشت. در رسانه و پلتفرم، اثر شبکه‌ای منبع رشد انفجاری و انحصار طبیعی است: هر کاربر تازه برای کاربران دیگر ارزش می‌آفریند. این اثر با بازخورد مثبت، هزینهٔ جابه‌جایی و قفل‌شدگی پیوند دارد و در اقتصاد توجه و بازار تبلیغات دیجیتال اهمیت دارد. نقدها بر بیش‌برآورد انحصار، نادیده گرفتن کیفیت محتوا و پیچیدگی سنجش تجربی اثر تأکید دارند.",
+        definition="اثر شبکه‌ای افزایش ارزش کالا یا خدمت برای هر کاربر در نتیجهٔ افزایش شمار کاربران آن است.",
+        main_problem="چگونه افزایش شمار کاربران ارزش شبکه را بالا می‌برد، رقابت را بازساخت می‌کند و به انحصار یا قفل‌شدگی می‌انجامد.",
+        mechanism="با پیوستن هر کاربر تازه شمار پیوندهای ممکن و منفعت کاربران موجود افزایش می‌یابد؛ این بازخورد مثبت تقاضا را جذب می‌کند، استاندارد برنده را تقویت می‌کند و هزینهٔ جابه‌جایی را بالا می‌برد، در نتیجه بازار به سمت تمرکز می‌رود.",
+        assumptions=[
+            "ارزش شبکه به شمار کاربران وابسته است.",
+            "منفعت هر کاربر به منفعت دیگران گره خورده است.",
+            "انتظار رشد شبکه بر انتخاب کاربر اثر می‌گذارد.",
+            "سازگاری محصولات هزینهٔ مبادله را کم می‌کند.",
+            "بازخورد مثبت رشد را تسریع می‌کند.",
+            "هزینهٔ جابه‌جایی قفل‌شدگی می‌سازد.",
+            "اثر مستقیم و غیرمستقیم قابل تفکیک است.",
+            "بازار شبکه به تعادل چندگانه میل می‌کند.",
+        ],
+        principles=[
+            "شمار و ترکیب کاربران را بسنج.",
+            "انتظارات کاربران را در مدل بگنجان.",
+            "اثر مستقیم و غیرمستقیم را جدا کن.",
+            "هزینهٔ جابه‌جایی را اندازه بگیر.",
+            "سازگاری و استاندارد را تحلیل کن.",
+            "بازخورد مثبت را الگومند ببین.",
+            "کیفیت را از اندازهٔ شبکه جدا کن.",
+        ],
+        critiques=[
+            "انحصار را بیش از اندازه قطعی می‌بیند.",
+            "کیفیت محتوا را کم می‌بیند.",
+            "سنجش تجربی اثر دشوار است.",
+            "به تفاوت کاربران کم توجه است.",
+            "به تنظیم‌گری رقابت کم می‌پردازد.",
+            "اثر منفی شلوغی را کم می‌بیند.",
+            "به بازارهای غیرغربی کم توجه است.",
+            "قفل‌شدگی را مطلق فرض می‌کند.",
+            "به چندخانگی کاربران کم توجه است.",
+            "تخمین ارزش شبکه ساده‌شده است.",
+        ],
+        critique_text="منتقدان می‌گویند اثر شبکه‌ای بیش از اندازه انحصار را قطعی می‌بیند و کیفیت، شلوغی و چندخانگی را کم می‌سنجد؛ با این حال کاتز و شاپیرو و اکونومیدس نشان دادند وابستگی منفعت کاربران به یکدیگر ساختار بازار رسانه و پلتفرم را واقعاً دگرگون می‌کند.",
+        applications=[
+            "تحلیل رشد پلتفرم اجتماعی.",
+            "پژوهش اقتصاد پیام‌رسان.",
+            "مطالعهٔ بازار تلفن همراه.",
+            "تحلیل استاندارد و سازگاری.",
+            "پژوهش انحصار پلتفرم.",
+            "مطالعهٔ هزینهٔ جابه‌جایی کاربر.",
+            "تحلیل تبلیغات دیجیتال.",
+            "پژوهش شبکهٔ پرداخت.",
+            "مطالعهٔ بازی آنلاین چندنفره.",
+            "تحلیل بازار نرم‌افزار.",
+            "پژوهش رسانهٔ اجتماعی و رشد.",
+            "مطالعهٔ قفل‌شدگی مصرف‌کننده.",
+            "مطالعهٔ اثر شبکه در بازار خبر دیجیتال.",
+        ],
+        example_text="هر کاربر تازهٔ یک پیام‌رسان شمار مخاطبان قابل دسترس را برای همهٔ کاربران پیشین بیشتر می‌کند؛ همین بازخورد مثبت رشد را شتاب می‌دهد و رقیب تازه‌وارد را در جذب کاربر دشوار می‌سازد.",
+        evolution="کاتز و شاپیرو در ۱۹۸۵ بنیان اقتصادی اثر را گذاشتند؛ اکونومیدس در ۱۹۹۶ چارچوب جامع شبکه را ارائه کرد. با ظهور پلتفرم‌های دیجیتال، پژوهش‌های دههٔ ۲۰۰۰ اثر شبکه‌ای را به رسانه، تبلیغات و انحصار پلتفرم پیوند دادند.",
+        key_concepts=["صرفه‌جویی خارجی شبکه‌ای", "بازخورد مثبت", "قفل‌شدگی", "هزینهٔ جابه‌جایی", "سازگاری", "انحصار طبیعی"],
+        theorists="مایکل کاتز، کارل شاپیرو و نیکولاس اکونومیدس.",
+        theorists_text="کاتز و شاپیرو در سنت اقتصاد صنعتی اثر را صورت‌بندی کردند و اکونومیدس آن را به نظریهٔ عمومی شبکه گسترد.",
+        model="مدل تقاضای وابسته به شبکه: منفعت هر کاربر تابع شمار کاربران سازگار است و تعادل بازار را به تمرکز می‌برد.",
+        studies=[
+            "مقالهٔ کاتز و شاپیرو در ۱۹۸۵.",
+            "مقالهٔ اکونومیدس در ۱۹۹۶.",
+            "پژوهش استاندارد و سازگاری.",
+            "تحلیل بازار پیام‌رسان.",
+            "مطالعهٔ هزینهٔ جابه‌جایی.",
+            "پژوهش انحصار پلتفرم.",
+            "تحلیل رشد شبکهٔ اجتماعی.",
+            "مطالعهٔ چندخانگی کاربران.",
+            "پژوهش اقتصاد اپلیکیشن.",
+            "تحلیل بازار تلفن همراه.",
+            "مطالعهٔ تبلیغات دیجیتال.",
+            "پژوهش قفل‌شدگی مصرف‌کننده.",
+        ],
+    ),
+    "MC-573": dict(
+        year=1962,
+        mapping=WORK_MAPPING,
+        summary="اثر تقدم و تأخر به برتری یادآوری یا تأثیرگذاری اقلام نخست و آخر یک فهرست یا پیام نسبت به اقلام میانی اشاره دارد. مرداک در سال ۱۹۶۲ منحنی موقعیت سریالی را در یادآوری آزاد ترسیم کرد و نشان داد اقلام آغازین و پایانی بهتر از اقلام میانی به یاد می‌آیند. گلانزر و کونیتز در ۱۹۶۶ با آزمون دو سازوکار ذخیره‌سازی، تقدم را به حافظهٔ بلندمدت و تأخر را به حافظهٔ کوتاه‌مدت نسبت دادند. در ارتباطات، این اثر توضیح می‌دهد چرا پیام‌های آغازین و پایانی کمپین‌ها بهتر به یاد می‌مانند و چرا جایگاه خبر در بولتن اهمیت دارد. اثر تقدم و تأخر با توجه، تکرار و فاصلهٔ زمانی تعدیل می‌شود و در تبلیغات، آموزش و طراحی پیام کاربرد دارد. نقدها بر ساده‌سازی فرایند حافظه، وابستگی به نوع تکلیف و تعمیم آزمایشگاهی تأکید دارند.",
+        definition="اثر تقدم و تأخر برتری یادآوری و تأثیر اقلام نخست و آخر یک مجموعه یا پیام نسبت به اقلام میانی است.",
+        main_problem="چرا اقلام آغازین و پایانی یک پیام بهتر از اقلام میانی به یاد می‌آیند یا اثر می‌گذارند و این الگو چگونه تبیین می‌شود.",
+        mechanism="اقلام آغازین فرصت بیشتری برای رمزگذاری و انتقال به حافظهٔ بلندمدت دارند؛ اقلام پایانی هنوز در حافظهٔ کوتاه‌مدت فعال‌اند؛ اقلام میانی از هر دو مزیت محروم‌اند و بیشتر فراموش می‌شوند.",
+        assumptions=[
+            "ترتیب ارائه بر یادآوری اثر می‌گذارد.",
+            "اقلام آغازین فرصت رمزگذاری بیشتری دارند.",
+            "اقلام پایانی در حافظهٔ کوتاه‌مدت می‌مانند.",
+            "اقلام میانی بیشترین افت را دارند.",
+            "تقدم و تأخر دو سازوکار متمایزند.",
+            "فاصلهٔ زمانی تأخر را تعدیل می‌کند.",
+            "تکرار اثر تقدم را تقویت می‌کند.",
+            "نوع تکلیف الگوی منحنی را تغییر می‌دهد.",
+        ],
+        principles=[
+            "جایگاه پیام را در تحلیل بگنجان.",
+            "اقلام میانی را با تکرار تقویت کن.",
+            "تأخر را از تقدم جدا بسنج.",
+            "فاصلهٔ سنجش را کنترل کن.",
+            "نوع تکلیف یادآوری را مشخص کن.",
+            "به توجه آغازین مخاطب تکیه کن.",
+            "از تعمیم بی‌هنگام به پیام پیچیده بپرهیز.",
+        ],
+        critiques=[
+            "فرایند حافظه را ساده می‌کند.",
+            "وابسته به نوع تکلیف است.",
+            "به تفاوت فردی کم توجه است.",
+            "تعمیم آزمایشگاهی محدود است.",
+            "به محتوای معنایی پیام کم می‌پردازد.",
+            "تأخر با تأخیر سنجش درهم می‌آمیزد.",
+            "به هیجان و انگیزه کم توجه است.",
+            "اثر در پیام‌های بلند ضعیف می‌شود.",
+            "به فرهنگ و زبان کم پرداخته است.",
+            "سنجش یادآوری با بازشناسی یکسان نیست.",
+        ],
+        critique_text="منتقدان می‌گویند اثر تقدم و تأخر بیش از اندازه به تکلیف آزمایشگاهی وابسته است و نقش معنا، هیجان و انگیزه را کم می‌بیند؛ با این حال منحنی موقعیت سریالی یکی از پایدارترین یافته‌های روان‌شناسی حافظه و طراحی پیام است.",
+        applications=[
+            "تحلیل ساختار خبر تلویزیونی.",
+            "پژوهش تبلیغات تلویزیونی.",
+            "مطالعهٔ سخنرانی سیاسی.",
+            "تحلیل برنامهٔ آموزشی.",
+            "پژوهش مصاحبهٔ استخدامی.",
+            "مطالعهٔ فهرست نامزدها.",
+            "تحلیل پیام انتخاباتی.",
+            "پژوهش یادگیری کلاسی.",
+            "مطالعهٔ طراحی وب.",
+            "تحلیل بولتن خبری.",
+            "پژوهش مذاکره.",
+            "مطالعهٔ شهادت شاهدان.",
+            "تحلیل چیدمان پیام در رسانهٔ اجتماعی.",
+            "پژوهش جایگاه خبر در اپلیکیشن خبری.",
+            "مطالعهٔ ترتیب ارائه در تبلیغات محیطی.",
+        ],
+        example_text="در یک بولتن خبری خبر نخست و خبر پایانی بیشتر از خبرهای میانی در حافظهٔ بیننده می‌مانند؛ همین الگو در چیدمان نامزدها در برگهٔ رأی و فهرست محصولات نیز دیده می‌شود.",
+        evolution="ابینگهاوس در سدهٔ نوزدهم منحنی فراموشی را ترسیم کرد؛ مرداک در ۱۹۶۲ منحنی موقعیت سریالی را کمّی کرد و گلانزر و کونیتز در ۱۹۶۶ آن را به دو سازوکار حافظه نسبت دادند. پژوهش‌های بعدی اثر را به ارتباطات و طراحی پیام گستردند.",
+        key_concepts=["منحنی موقعیت سریالی", "اثر تقدم", "اثر تأخر", "حافظهٔ کوتاه‌مدت", "حافظهٔ بلندمدت", "رمزگذاری"],
+        theorists="بننت مرداک، موری گلانزر و آنیتا کونیتز.",
+        theorists_text="مرداک در سنت روان‌شناسی آزمایشی حافظه منحنی را کمّی کرد و گلانزر و کونیتز تبیین دوگانهٔ آن را ارائه دادند.",
+        model="مدل دو ذخیره: تقدم از حافظهٔ بلندمدت و تأخر از حافظهٔ کوتاه‌مدت برمی‌خیزد و اقلام میانی از هر دو مزیت محروم‌اند.",
+        studies=[
+            "مقالهٔ مرداک در ۱۹۶۲.",
+            "آزمایش گلانزر و کونیتز در ۱۹۶۶.",
+            "پژوهش یادآوری آزاد.",
+            "مطالعهٔ سرعت ارائه.",
+            "تحلیل تکرار و تقدم.",
+            "پژوهش تأخیر و تأخر.",
+            "مطالعهٔ پیام تبلیغاتی.",
+            "تحلیل ساختار خبر.",
+            "پژوهش سخنرانی.",
+            "مطالعهٔ فهرست نامزدها.",
+            "تحلیل طراحی وب.",
+            "پژوهش شهادت شاهد.",
+        ],
+    ),
+    "MC-574": dict(
+        year=1974,
+        mapping=WORK_MAPPING,
+        summary="اثر لنگر سوگیری شناختی است که در آن برآورد یا قضاوت فرد به‌سوی یک مقدار اولیه یا مرجع، حتی نامربوط، کشیده می‌شود. تورسکی و کانمن در سال ۱۹۷۴ در مقالهٔ قضاوت تحت عدم قطعیت، لنگر و تعدیل را یکی از سه میانبر اصلی قضاوت معرفی کردند: فرد از یک نقطهٔ آغازین شروع می‌کند و به‌سوی برآورد نهایی تعدیل می‌کند، اما تعدیل معمولاً ناکافی است. اپلی و گیلوویچ در ۲۰۰۶ نشان دادند تلاش شناختی بیشتر تعدیل را بهتر می‌کند اما آن را کامل نمی‌کند. اثر لنگر در مذاکره، قیمت‌گذاری، حکم قضایی، برآورد عددی و تبلیغات قیمت کاربرد دارد. لنگر می‌تواند عددی، زمانی یا احساسی باشد و حتی لنگرهای هشدارداده‌شده هم اثر می‌گذارند. نقدها بر دشواری تفکیک سازوکارها، وابستگی به زمینه و اندازهٔ اثر تأکید دارند.",
+        definition="اثر لنگر تمایل قضاوت به‌سوی یک مقدار مرجع اولیه است، حتی هنگامی که آن مرجع نامربوط یا تصادفی باشد.",
+        main_problem="چرا برآورد و تصمیم افراد به‌سوی نخستین عدد یا مرجع ارائه‌شده کشیده می‌شود و تعدیل از آن ناکافی می‌ماند.",
+        mechanism="فرد از لنگر به‌عنوان نقطهٔ آغاز جست‌وجو یا قضاوت استفاده می‌کند و سپس تعدیل می‌کند؛ دسترسی‌پذیری لنگر و ناکافی بودن تعدیل برآورد نهایی را به لنگر نزدیک نگه می‌دارد.",
+        assumptions=[
+            "قضاوت از یک نقطهٔ آغازین شروع می‌شود.",
+            "لنگر نامربوط هم اثر می‌گذارد.",
+            "تعدیل از لنگر ناکافی است.",
+            "دسترسی‌پذیری لنگر قضاوت را جهت می‌دهد.",
+            "تلاش شناختی اثر را کم می‌کند نه حذف.",
+            "هشدار دربارهٔ لنگر اثر را کامل خنثی نمی‌کند.",
+            "لنگر عددی و احساسی هر دو عمل می‌کنند.",
+            "زمینهٔ ارائه لنگر اهمیت دارد.",
+        ],
+        principles=[
+            "نقطهٔ آغاز برآورد را ثبت کن.",
+            "لنگرهای نامربوط را حذف کن.",
+            "تعدیل را با معیار بیرونی بسنج.",
+            "هشدار را آزمون کن نه فرض.",
+            "لنگر عددی و احساسی را جدا کن.",
+            "به ترتیب ارائه اطلاعات توجه کن.",
+            "از برآورد نخست به‌عنوان دادهٔ تصمیم بپرهیز.",
+        ],
+        critiques=[
+            "سازوکار اثر یکدست نیست.",
+            "تفکیک لنگر و تعدیل دشوار است.",
+            "اندازهٔ اثر در شرایط واقعی متغیر است.",
+            "به تفاوت فردی کم توجه است.",
+            "به فرهنگ و آموزش کم پرداخته است.",
+            "لنگر نامربوط همیشه اثر ندارد.",
+            "تعمیم آزمایشگاهی محدود است.",
+            "به لنگر هیجانی کم توجه شده است.",
+            "سنجش تعدیل وابسته به معیار است.",
+            "سازوکار عصبی روشن نیست.",
+        ],
+        critique_text="منتقدان می‌گویند اثر لنگر مجموعه‌ای از سازوکارهای ناهمگون است و اندازهٔ آن در تصمیم‌های واقعی به زمینه و فرد وابسته است؛ با این حال آزمایش‌های تورسکی و کانمن و پژوهش اپلی و گیلوویچ نشان دادند لنگر نامربوط به‌شکل تکرارپذیر بر برآورد اثر می‌گذارد.",
+        applications=[
+            "تحلیل مذاکرهٔ قیمت.",
+            "پژوهش قیمت‌گذاری.",
+            "مطالعهٔ حکم قضایی.",
+            "تحلیل برآورد کارشناسی.",
+            "پژوهش تبلیغات قیمت.",
+            "مطالعهٔ پیشنهاد اولیه در معامله.",
+            "تحلیل نظرسنجی.",
+            "پژوهش تصمیم مصرف‌کننده.",
+            "مطالعهٔ مذاکرهٔ حقوق.",
+            "تحلیل برآورد ریسک.",
+            "پژوهش تصمیم پزشکی.",
+            "مطالعهٔ رفتار مالی.",
+            "مطالعهٔ لنگر در قیمت مسکن.",
+            "پژوهش برآورد خسارت بیمه.",
+            "تحلیل لنگر در مذاکرهٔ سیاسی.",
+            "مطالعهٔ لنگر زمانی در برنامه‌ریزی.",
+            "پژوهش لنگر در تبلیغ تخفیف.",
+            "تحلیل لنگر در برآورد بودجه.",
+            "مطالعهٔ لنگر در قضاوت خبری.",
+            "مطالعهٔ لنگر در انتخاب مدرسه.",
+        ],
+        example_text="فروشنده‌ای که نخست قیمت بالایی پیشنهاد می‌کند مذاکره را حول همان عدد لنگر می‌اندازد؛ خریدار حتی با چانه‌زنی به قیمتی نزدیک به پیشنهاد نخست می‌رسد، نه به ارزش واقعی کالا.",
+        evolution="تورسکی و کانمن در ۱۹۷۴ لنگر و تعدیل را در چارچوب میانبرهای قضاوت معرفی کردند؛ پژوهش‌های بعدی سازوکارهای دسترسی‌پذیری و تعدیل ناکافی را آزمودند و اپلی و گیلوویچ در ۲۰۰۶ نقش تلاش شناختی را روشن کردند.",
+        key_concepts=["لنگر و تعدیل", "دسترسی‌پذیری", "تعدیل ناکافی", "میانبر قضاوت", "سوگیری شناختی", "لنگر نامربوط"],
+        theorists="آموس تورسکی، دنیل کانمن و نیکلاس اپلی.",
+        theorists_text="تورسکی و کانمن در سنت روان‌شناسی قضاوت اثر را کشف کردند و پژوهش‌های بعدی سازوکارهای آن را گستردند.",
+        model="مدل لنگر و تعدیل: قضاوت از مرجع آغازین شروع می‌شود و تعدیل ناکافی برآورد را به لنگر نزدیک نگه می‌دارد.",
+        studies=[
+            "مقالهٔ تورسکی و کانمن در ۱۹۷۴.",
+            "آزمایش اپلی و گیلوویچ در ۲۰۰۶.",
+            "پژوهش لنگر نامربوط.",
+            "مطالعهٔ مذاکره.",
+            "تحلیل قیمت‌گذاری.",
+            "پژوهش حکم قضایی.",
+            "مطالعهٔ برآورد عددی.",
+            "تحلیل نظرسنجی.",
+            "پژوهش تصمیم مصرف‌کننده.",
+            "مطالعهٔ رفتار مالی.",
+            "تحلیل تصمیم پزشکی.",
+            "پژوهش لنگر هیجانی.",
+        ],
+    ),
+    "MC-575": dict(
+        year=1981,
+        mapping=WORK_MAPPING,
+        summary="اثر چارچوب تصمیم تغییر ترجیح فرد در نتیجهٔ تغییر صورت‌بندی منطقاً هم‌ارز یک مسئله است. تورسکی و کانمن در سال ۱۹۸۱ با مسئلهٔ بیماری آسیایی نشان دادند بیان یک پیامد به‌صورت سود یا زیان انتخاب افراد را وارونه می‌کند: افراد در چارچوب سود ریسک‌گریز و در چارچوب زیان ریسک‌پذیر می‌شوند. این اثر پایهٔ نظریهٔ چشم‌انداز است و نشان می‌دهد ترجیح‌ها به نقطهٔ مرجع وابسته‌اند، نه ثابت و سازگار. لوین و همکاران در ۱۹۹۸ گونه‌شناسی چارچوب‌ها را ارائه کردند و میان چارچوب ویژگی، هدف و کنش تمایز گذاشتند. اثر چارچوب در تبلیغات، سیاست، سلامت و رفتار مالی کاربرد گسترده دارد. نقدها بر وابستگی به زمینه، ناهمگونی اندازهٔ اثر و تفاوت چارچوب‌های قوی و ضعیف تأکید دارند.",
+        definition="اثر چارچوب تصمیم تغییر ترجیح یا انتخاب در نتیجهٔ تغییر صورت‌بندی هم‌ارز اطلاعات است.",
+        main_problem="چرا افراد با تغییر صورت‌بندی یک مسئله، بدون تغییر محتوای منطقی آن، ترجیح خود را تغییر می‌دهند و نقطهٔ مرجع چگونه انتخاب را جهت می‌دهد.",
+        mechanism="صورت‌بندی نقطهٔ مرجع سود و زیان را جابه‌جا می‌کند؛ در قلمرو سود فرد ریسک‌گریز و در قلمرو زیان ریسک‌پذیر می‌شود؛ ارزش ذهنی زیان بیشتر از سود هم‌اندازه احساس می‌شود و انتخاب به چارچوب وابسته می‌ماند.",
+        assumptions=[
+            "ترجیح‌ها به نقطهٔ مرجع وابسته‌اند.",
+            "سود و زیان نامتقارن احساس می‌شوند.",
+            "چارچوب هم‌ارز منطقی می‌تواند انتخاب را تغییر دهد.",
+            "در قلمرو سود ریسک‌گریزی غالب است.",
+            "در قلمرو زیان ریسک‌پذیری افزایش می‌یابد.",
+            "چارچوب‌ها انواع متمایز دارند.",
+            "قدرت چارچوب به زمینه وابسته است.",
+            "آگاهی از چارچوب اثر را کامل حذف نمی‌کند.",
+        ],
+        principles=[
+            "نقطهٔ مرجع را در تحلیل مشخص کن.",
+            "سود و زیان را نامتقارن بسنج.",
+            "چارچوب را از محتوا جدا کن.",
+            "نوع چارچوب را مشخص کن.",
+            "قدرت چارچوب را با معیار بسنج.",
+            "آزمون آگاهی از چارچوب را بگنجان.",
+            "از فرض ترجیح ثابت بپرهیز.",
+        ],
+        critiques=[
+            "اندازهٔ اثر ناهمگون است.",
+            "وابستگی به زمینه بالاست.",
+            "چارچوب قوی و ضعیف یکسان دیده می‌شوند.",
+            "به تفاوت فرهنگی کم توجه است.",
+            "به هیجان کم می‌پردازد.",
+            "تعمیم به تصمیم واقعی محدود است.",
+            "سنجش هم‌ارزی منطقی دشوار است.",
+            "به تصمیم گروهی کم توجه است.",
+            "به نقش تجربه کم می‌پردازد.",
+            "اثر در متخصصان تضعیف می‌شود.",
+        ],
+        critique_text="منتقدان می‌گویند اثر چارچوب به زمینه و نوع چارچوب وابسته است و اندازهٔ آن در تصمیم‌های واقعی یکدست نیست؛ با این حال آزمایش بیماری آسیایی نشان داد صورت‌بندی هم‌ارز می‌تواند انتخاب را وارونه کند و این یافته بنیان نظریهٔ چشم‌انداز شد.",
+        applications=[
+            "تحلیل تبلیغات سلامت.",
+            "پژوهش پیام سیاسی.",
+            "مطالعهٔ تصمیم مالی.",
+            "تحلیل بیمه و ریسک.",
+            "پژوهش بازاریابی.",
+            "مطالعهٔ کمپین واکسیناسیون.",
+            "تحلیل مذاکره.",
+            "پژوهش تصمیم پزشکی.",
+            "مطالعهٔ سیاست عمومی.",
+            "تحلیل پیام زیست‌محیطی.",
+            "پژوهش رفتار مصرف‌کننده.",
+            "مطالعهٔ ارتباطات بحران.",
+            "مطالعهٔ چارچوب در پیام مالیاتی.",
+            "پژوهش چارچوب در تبلیغ خودرو.",
+            "تحلیل چارچوب در همه‌پرسی.",
+            "مطالعهٔ چارچوب در مصرف انرژی.",
+            "پژوهش چارچوب در بیمهٔ سلامت.",
+            "تحلیل چارچوب در خبر اقتصادی.",
+            "مطالعهٔ چارچوب در تصمیم سازمانی.",
+            "پژوهش چارچوب در کمپین خیریه.",
+            "تحلیل چارچوب در مذاکرهٔ تجاری.",
+            "مطالعهٔ چارچوب در تبلیغ گردشگری.",
+        ],
+        example_text="پیام واکسیناسیون که می‌گوید نود درصد افراد سالم می‌مانند با پیامی که می‌گوید ده درصد بیمار می‌شوند از نظر منطقی یکسان است، اما پذیرش پیام نخست بیشتر است؛ این همان اثر چارچوب است.",
+        evolution="تورسکی و کانمن در ۱۹۸۱ اثر چارچوب را با مسئلهٔ بیماری آسیایی نشان دادند و به نظریهٔ چشم‌انداز پیوند دادند؛ لوین و همکاران در ۱۹۹۸ گونه‌شناسی چارچوب‌ها را ارائه کردند و پژوهش‌های بعدی اثر را در سلامت، مالی و سیاست آزمودند.",
+        key_concepts=["نقطهٔ مرجع", "زیان‌گریزی", "چارچوب ویژگی", "چارچوب هدف", "چارچوب کنش", "نظریهٔ چشم‌انداز"],
+        theorists="آموس تورسکی، دنیل کانمن و اروین لوین.",
+        theorists_text="تورسکی و کانمن در سنت روان‌شناسی تصمیم اثر را کشف کردند و لوین و همکاران گونه‌شناسی آن را نظام‌مند کردند.",
+        model="مدل چارچوب و نقطهٔ مرجع: صورت‌بندی مرجع سود و زیان را جابه‌جا می‌کند و انتخاب را به سمت ریسک‌گریزی یا ریسک‌پذیری می‌برد.",
+        studies=[
+            "آزمایش بیماری آسیایی در ۱۹۸۱.",
+            "گونه‌شناسی لوین در ۱۹۹۸.",
+            "پژوهش پیام سلامت.",
+            "مطالعهٔ تصمیم مالی.",
+            "تحلیل بیمه.",
+            "پژوهش تبلیغات.",
+            "مطالعهٔ کمپین واکسیناسیون.",
+            "تحلیل سیاست عمومی.",
+            "پژوهش مذاکره.",
+            "مطالعهٔ تصمیم پزشکی.",
+            "تحلیل پیام زیست‌محیطی.",
+            "پژوهش رفتار مصرف‌کننده.",
+        ],
+    ),
+}
+
+NAME_FIX = {}
+YEAR_FIX = {
+    "MC-573": "year field was 1974 without a verifiable source; anchored to Murdock (1962), the foundational serial-position study",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 176}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH176 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

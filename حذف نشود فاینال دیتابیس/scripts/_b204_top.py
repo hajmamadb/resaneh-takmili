@@ -1,0 +1,250 @@
+# -*- coding: utf-8 -*-
+"""Batch 204: MC-078, MC-199, MC-481, MC-582, MC-598 (FRAMEWORK)."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch204-20261117"
+NOW = "2026-11-17 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch204.json"
+
+S = {
+    "MC-078": [
+        dict(kind="BOOK",
+             title_en="Experimental and Quasi-Experimental Designs for Research",
+             title_fa="طرح‌های آزمایشی و شبه‌آزمایشی برای پژوهش",
+             authors="Donald T. Campbell; Julian C. Stanley", year=1963,
+             publisher="Rand McNally",
+             doi=None,
+             url=None,
+             language="en", isbn=None,
+             citation="Campbell, D. T., & Stanley, J. C. (1963). Experimental and Quasi-Experimental Designs for Research. Chicago: Rand McNally.",
+             locator="chs. 1-5",
+             locator_type="CHAPTER",
+             supports="internal and external validity and threats in experimental and quasi-experimental designs",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="Quasi-Experimentation: Design and Analysis Issues for Field Settings",
+             title_fa="شبه‌آزمایش: مسائل طرح و تحلیل در موقعیت‌های میدانی",
+             authors="Thomas D. Cook; Donald T. Campbell", year=1979,
+             publisher="Houghton Mifflin",
+             doi=None,
+             url="https://archive.org/details/quasiexperimenta00cook",
+             language="en", isbn=None,
+             citation="Cook, T. D., & Campbell, D. T. (1979). Quasi-Experimentation: Design and Analysis Issues for Field Settings. Boston: Houghton Mifflin.",
+             locator="chs. 1-2",
+             locator_type="CHAPTER",
+             supports="expanded validity typology including statistical conclusion and construct validity",
+             verified=True),
+    ],
+    "MC-199": [
+        dict(kind="REPORT",
+             title_en="Information Disorder: Toward an Interdisciplinary Framework for Research and Policy Making",
+             title_fa="اختلال اطلاعاتی: به‌سوی چارچوبی میان‌رشته‌ای برای پژوهش و سیاست‌گذاری",
+             authors="Claire Wardle; Hossein Derakhshan", year=2017,
+             publisher="Council of Europe",
+             doi=None,
+             url="https://shorensteincenter.org/wp-content/uploads/2017/10/Information-Disorder-Toward-an-interdisciplinary-framework.pdf",
+             language="en", isbn=None,
+             citation="Wardle, C., & Derakhshan, H. (2017). Information Disorder: Toward an Interdisciplinary Framework for Research and Policy Making. Strasbourg: Council of Europe.",
+             locator="pp. 1-107",
+             locator_type="PAGE",
+             supports="three-part typology of misinformation, disinformation and malinformation across phases and agents",
+             verified=True),
+        dict(kind="REPORT",
+             title_en="Information Disorder: The Essential Glossary",
+             title_fa="اختلال اطلاعاتی: واژه‌نامهٔ ضروری",
+             authors="Claire Wardle", year=2018,
+             publisher="Shorenstein Center, Harvard Kennedy School",
+             doi=None,
+             url=None,
+             language="en", isbn=None,
+             citation="Wardle, C. (2018). Information Disorder: The Essential Glossary. Cambridge, MA: Shorenstein Center on Media, Politics and Public Policy, Harvard Kennedy School.",
+             locator="glossary",
+             locator_type="SECTION",
+             supports="operational definitions distinguishing misinformation, disinformation and malinformation",
+             verified=True),
+    ],
+    "MC-481": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="On a New List of Categories",
+             title_fa="دربارهٔ فهرست تازه‌ای از مقولات",
+             authors="Charles S. Peirce", year=1867,
+             publisher="Proceedings of the American Academy of Arts and Sciences",
+             doi=None,
+             url=None,
+             language="en", isbn=None,
+             citation="Peirce, C. S. (1867). On a new list of categories. Proceedings of the American Academy of Arts and Sciences, 7, 287-298.",
+             locator="7, 287-298",
+             locator_type="PAGE",
+             supports="early formulation of the categories underlying the triadic sign",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="Collected Papers of Charles Sanders Peirce",
+             title_fa="مقالات گردآوری‌شدهٔ چارلز سندرس پیرس",
+             authors="Charles S. Peirce", year=1931,
+             publisher="Harvard University Press",
+             doi=None,
+             url="https://www.hup.harvard.edu/books/9780674138001",
+             language="en", isbn=None,
+             citation="Peirce, C. S. (1931-1958). Collected Papers of Charles Sanders Peirce (Vols. 1-8). Cambridge, MA: Harvard University Press.",
+             locator="vols. 1-8",
+             locator_type="BOOK",
+             supports="systematic account of sign, object, interpretant and semiosis",
+             verified=True),
+    ],
+    "MC-582": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The TARES Test: Five Principles for Ethical Persuasion",
+             title_fa="آزمون تارِس: پنج اصل برای اقناع اخلاقی",
+             authors="Sherry Baker; David L. Martinson", year=2001,
+             publisher="Journal of Mass Media Ethics",
+             doi=None,
+             url="http://www.communicationcache.com/uploads/1/0/8/8/10887248/the_tares_test-_five_principles_for_ethical_persuasion.pdf",
+             language="en", isbn=None,
+             citation="Baker, S., & Martinson, D. L. (2001). The TARES test: Five principles for ethical persuasion. Journal of Mass Media Ethics, 16(2-3), 148-175.",
+             locator="16(2-3), 148-175",
+             locator_type="PAGE",
+             supports="five-part ethical test of persuasive communication",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="Ethics in Human Communication",
+             title_fa="اخلاق در ارتباطات انسانی",
+             authors="Richard L. Johannesen", year=2002,
+             publisher="Waveland Press",
+             doi=None,
+             url="https://archive.org/details/ethicsinhumancom0000joha_i0u6",
+             language="en", isbn=None,
+             citation="Johannesen, R. L. (2002). Ethics in Human Communication (5th ed.). Prospect Heights, IL: Waveland Press.",
+             locator="chs. 1-4",
+             locator_type="CHAPTER",
+             supports="ethical perspectives and standards for communication practice",
+             verified=True),
+    ],
+    "MC-598": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="A Rhetorical Approach to Zones of Meaning and Organizational Prerogatives",
+             title_fa="رویکردی بلاغی به پهنه‌های معنا و اختیارات سازمانی",
+             authors="Robert L. Heath", year=1993,
+             publisher="Public Relations Review",
+             doi=None,
+             url="https://www.sciencedirect.com/science/article/pii/036381119390004V",
+             language="en", isbn=None,
+             citation="Heath, R. L. (1993). A rhetorical approach to zones of meaning and organizational prerogatives. Public Relations Review, 19(2), 141-155.",
+             locator="19(2), 141-155",
+             locator_type="PAGE",
+             supports="public relations as rhetorical negotiation of zones of meaning",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="On Barnyard Scrambles: Toward a Rhetoric of Public Relations",
+             title_fa="دربارهٔ کشمکش‌های حیاط مزرعه: به‌سوی بلاغتی برای روابط عمومی",
+             authors="Øyvind Ihlen", year=2011,
+             publisher="Management Communication Quarterly",
+             doi="10.1177/0893318911409533",
+             url="https://journals.sagepub.com/doi/10.1177/0893318911409533",
+             language="en", isbn=None,
+             citation="Ihlen, Ø. (2011). On barnyard scrambles: Toward a rhetoric of public relations. Management Communication Quarterly, 25(3), 455-473. https://doi.org/10.1177/0893318911409533",
+             locator="25(3), 455-473",
+             locator_type="PAGE",
+             supports="rhetorical framework for public relations as strategic meaning making",
+             verified=True),
+    ],
+}
+
+ENRICH = {
+    "MC-078": dict(
+        needs_enrichment=False,
+        level="روش‌شناختی",
+        key_concepts=["اعتبار درونی", "اعتبار بیرونی", "تهدید اعتبار", "گمارش تصادفی",
+                      "طرح شبه‌آزمایشی", "اعتبار سازه", "اعتبار آماری"],
+        principles=["اعتبار درونی، امکان استنتاج علّی را می‌سنجد.", "اعتبار بیرونی، تعمیم‌پذیری یافته به موقعیت‌های دیگر است.",
+                    "گمارش تصادفی، تهدیدهای درونی را کاهش می‌دهد اما تعمیم‌پذیری را تضمین نمی‌کند.",
+                    "طرح شبه‌آزمایشی، در نبود تصادفی‌سازی نیازمند گروه کنترل و پیش‌آزمون است.",
+                    "تهدیدهای اعتبار باید پیش از اجرا فهرست و مهار شوند.",
+                    "اعتبار سازه و آماری نیز بخشی از ارزیابی طرح‌اند.", "تعمیم نتیجه به مخاطب، رسانه و زمان دیگر نیازمند شواهد است."],
+        constructs=("• اعتبار درونی: اطمینان از اینکه تغییر مشاهده‌شده ناشی از مداخله است، نه عوامل دیگر.\n"
+                    "• اعتبار بیرونی: تعمیم‌پذیری نتیجه به جمعیت‌ها، موقعیت‌ها و زمان‌های دیگر.\n"
+                    "• تهدیدهای اعتبار: رویداد هم‌زمان، بلوغ، آزمون، ابزار، انتخاب و ریزش نمونه.\n"
+                    "• طرح شبه‌آزمایشی: طرح بدون گمارش تصادفی که با گروه کنترل و پیش‌آزمون، استنتاج علّی را ممکن می‌کند."),
+        related_approaches="روش کمّی؛ روش کیفی؛ روش ترکیبی؛ تحلیل محتوا؛ فراتحلیل؛ طرح آزمایشی میدانی.",
+        recommended_sources="«طرح‌های آزمایشی و شبه‌آزمایشی برای پژوهش» (کمپبل و استنلی، ۱۹۶۳)؛ «شبه‌آزمایش» (کوک و کمپبل، ۱۹۷۹)؛ «طرح‌های آزمایشی و شبه‌آزمایشی» (شادیش، کوک و کمپبل، ۲۰۰۲).",
+    ),
+    "MC-199": dict(
+        needs_enrichment=False,
+        key_concepts=["اطلاعات نادرست", "اطلاعات بدخواهانه", "اطلاعات گمراه‌کننده", "زمینهٔ نادرست",
+                      "محتوای دستکاری‌شده", "عاملان و مراحل انتشار"],
+        principles=["اختلال اطلاعاتی سه‌گانه است: نادرست، بدخواهانه و گمراه‌کننده.",
+                    "قصد عامل انتشار، مرز میان اطلاعات نادرست و بدخواهانه را می‌سازد.",
+                    "محتوای اصیل می‌تواند با زمینهٔ نادرست گمراه‌کننده شود.",
+                    "اختلال در سه مرحلهٔ ساخت، تولید و توزیع تحلیل می‌شود.",
+                    "بازیگران دولتی، رسانه‌ای و کاربری نقش متفاوتی دارند.",
+                    "راه‌حل تنها فناورانه نیست و سواد رسانه‌ای و پاسخ‌گویی نهادی را می‌طلبد."],
+        constructs=("• اطلاعات نادرست: محتوای غلط بدون قصد آسیب.\n"
+                    "• اطلاعات بدخواهانه: محتوای غلط با قصد فریب و آسیب.\n"
+                    "• اطلاعات گمراه‌کننده: محتوای درست با قصد آسیب یا زمینهٔ فریب‌دهنده.\n"
+                    "• سه مرحله: ساخت، تولید و توزیع محتوای مسئله‌دار."),
+        related_approaches="روزنامه‌نگاری و راستی‌آزمایی؛ سواد رسانه‌ای؛ مطالعات تبلیغات؛ ارتباطات سیاسی؛ حاکمیت پلتفرم.",
+        recommended_sources="«اختلال اطلاعاتی: چارچوبی میان‌رشته‌ای» (واردل و درخشان، ۲۰۱۷)؛ «واژه‌نامهٔ اختلال اطلاعاتی» (واردل، ۲۰۱۸)؛ پژوهش‌های راستی‌آزمایی و سواد رسانه‌ای.",
+    ),
+    "MC-481": dict(
+        needs_enrichment=False,
+        level="نظری",
+        key_concepts=["نشانه", "موضوع", "تفسیرگر", "سه‌گانهٔ نشانه‌ای", "شمایل، نمایه و نماد", "فرایند نشانه‌ای"],
+        principles=["نشانه هرگز به‌تنهایی معنا ندارد؛ سه‌گانهٔ نشانه، موضوع و تفسیرگر لازم است.",
+                    "معنا در فرایند نشانه‌ای و تفسیر پیوسته ساخته می‌شود، نه در شیء.",
+                    "شمایل با شباهت، نمایه با پیوند علّی و نماد با قرارداد عمل می‌کند.",
+                    "تفسیرگر خود نشانهٔ تازه‌ای است و فرایند را ادامه می‌دهد.",
+                    "نشانه‌شناسی پیرس با نشانه‌شناسی دوسویهٔ سوسور متفاوت است.",
+                    "تحلیل رسانه می‌تواند نشانه را در سه سطح شمایلی، نمایه‌ای و نمادین بخواند."],
+        constructs=("• نشانه: چیزی که چیزی دیگر را برای کسی بازنمایی می‌کند.\n"
+                    "• موضوع: آنچه نشانه به آن ارجاع می‌دهد.\n"
+                    "• تفسیرگر: معنایی که در ذهن مفسر ساخته می‌شود.\n"
+                    "• سه‌گانهٔ نشانه‌ای: نسبت ضروری میان سه رکن بالا.\n"
+                    "• فرایند نشانه‌ای: زنجیرهٔ تفسیرهای پیوسته."),
+        related_approaches="نشانه‌شناسی؛ تحلیل گفتمان؛ تحلیل روایت؛ مطالعات بصری؛ نشانه‌شناسی اجتماعی.",
+        recommended_sources="«دربارهٔ فهرست تازه‌ای از مقولات» (پیرس، ۱۸۶۷)؛ «مقالات گردآوری‌شدهٔ پیرس» (۱۹۳۱ تا ۱۹۵۸)؛ «نشانه‌شناسی: مبانی» (چندلر، ۲۰۰۷).",
+    ),
+    "MC-582": dict(
+        needs_enrichment=False,
+        key_concepts=["راست‌گویی", "اصالت", "احترام", "انصاف", "مسئولیت اجتماعی"],
+        principles=["اقناع اخلاقی باید راستگو و مستند باشد.", "پیام باید با هویت و ارزش‌های فرستنده اصالت داشته باشد.",
+                    "مخاطب باید به‌عنوان هدف اخلاقی محترم شمرده شود، نه ابزار.", "اقناع نباید اطلاعات لازم برای تصمیم را پنهان کند.",
+                    "فرستنده در قبال پیامدهای اجتماعی پیام مسئول است.", "آزمون اخلاقی باید پیش از انتشار، نه پس از آن، اجرا شود.",
+                    "معیارهای اخلاقی، تبلیغ تجاری و اقناع سیاسی را یکسان در بر می‌گیرد."],
+        constructs=("• راست‌گویی: صدق محتوای پیام.\n"
+                    "• اصالت: هم‌خوانی پیام با ارزش‌های واقعی فرستنده.\n"
+                    "• احترام: به‌رسمیت شناختن مخاطب و حق انتخاب او.\n"
+                    "• انصاف: توزیع برابر منافع و دسترسی به اطلاعات.\n"
+                    "• مسئولیت اجتماعی: پاسخ‌گویی در قبال پیامدهای عمومی پیام."),
+        related_approaches="اخلاق ارتباطات؛ اقناع و تغییر نگرش؛ ارتباطات بازاریابی؛ روابط عمومی؛ سواد رسانه‌ای.",
+        recommended_sources="«آزمون تارِس: پنج اصل برای اقناع اخلاقی» (بیکر و مارتینسون، ۲۰۰۱)؛ «اخلاق در ارتباطات انسانی» (یوهانسن، ۲۰۰۲)؛ «پویایی اقناع» (پرلاف، ۲۰۰۳).",
+    ),
+    "MC-598": dict(
+        needs_enrichment=False,
+        title_fa="چارچوب «روابط عمومی به‌عنوان مدیریت معنا»",
+        constructs=("• پهنهٔ معنا: فضای مشترک تفسیر که سازمان و عمومی‌ها در آن معنا می‌سازند.\n"
+                    "• بازار معنا: رقابت روایت‌ها و تعریف‌ها در فضای عمومی.\n"
+                    "• پاسخ‌گویی بلاغی: تعهد سازمان به توضیح و دفاع از تصمیم‌ها.\n"
+                    "• چارچوب‌بندی سازمانی: تلاش سازمان برای تعریف موضوع و مرز مسئولیت.\n"
+                    "• گفت‌وگوی عمومی: فرایند دوسویهٔ مذاکرهٔ معنا با ذی‌نفعان."),
+        core_logic="روابط عمومی نه انتقال پیام، بلکه مدیریت معناست: سازمان در پهنهٔ معنا و بازار رقابتی روایت‌ها، با بلاغت، چارچوب‌بندی و گفت‌وگو می‌کوشد تعریف خود و مسئولیت‌هایش را در ذهن عمومی‌ها تثبیت کند.",
+        detailed_analysis=("۱. بنیان و منطق نظری\nهیث (۱۹۹۳) روابط عمومی را کنشی بلاغی می‌داند که در پهنه‌های معنا رخ می‌دهد. "
+                           "سازمان و عمومی‌ها در فضایی از تعریف‌های رقیب، دربارهٔ معنا، مسئولیت و مشروعیت مذاکره می‌کنند و روابط عمومی ابزار مدیریت این مذاکره است. "
+                           "در این چارچوب، پیام فقط انتقال اطلاعات نیست؛ کنشی است که مرز مسئولیت سازمان را تعیین می‌کند و پاسخ‌گویی بلاغی می‌سازد. "
+                           "ایهلن (۲۰۱۱) این دیدگاه را با تأکید بر بلاغت به‌عنوان هستهٔ روابط عمومی گسترش داد و نشان داد که سازمان‌ها در بازار معنا با روایت‌های دیگر رقابت می‌کنند.\n\n"
+                           "۲. کاربرد و نقد\nاین چارچوب در تحلیل بحران، مسئولیت اجتماعی سازمان و روابط با ذی‌نفعان کاربرد دارد و پژوهشگر را از پرسش «چه پیامی فرستاده شد؟» به پرسش «چه معنایی ساخته و به رسمیت شناخته شد؟» می‌برد. "
+                           "نقد اصلی، خطر تقلیل روابط عمومی به مدیریت تصویر و کم‌توجهی به نابرابری قدرت در گفت‌وگوست؛ پاسخ به این نقد، تأکید بر پاسخ‌گویی و گفت‌وگوی واقعی با ذی‌نفعان است."),
+        related_approaches="بلاغت سازمانی؛ روابط عمومی راهبردی؛ مدیریت بحران؛ مسئولیت اجتماعی سازمان؛ نظریهٔ ذی‌نفعان.",
+        recommended_sources="«رویکردی بلاغی به پهنه‌های معنا» (هیث، ۱۹۹۳)؛ «به‌سوی بلاغتی برای روابط عمومی» (ایهلن، ۲۰۱۱)؛ «راهنمای روابط عمومی» (هیث، ۲۰۰۱).",
+    ),
+}
+
+NAME_FIX = {}
+
+YEAR_FIX = {
+    "MC-078": "year=1963 (Campbell & Stanley 1963); Cook & Campbell 1979 verified; removed Latin glosses and generic-methods recommendations",
+    "MC-199": "year=2017 (Wardle & Derakhshan 2017); Wardle 2018 glossary verified (single author); removed Latin glosses and newsroom-template recommendations",
+    "MC-481": "year=1867 (Peirce 1867); Collected Papers 1931-1958 verified; replaced Barthes-template constructs and Latin glosses",
+    "MC-582": "year=2001 (Baker & Martinson 2001); pages corrected to 16(2-3), 148-175; Johannesen 2002 verified; removed persuasion-template fields",
+    "MC-598": "year=1993 (Heath 1993); Ihlen 2011 verified (25(3), 455-473); removed media-economics-template fields and garbled recommendations",
+}

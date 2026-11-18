@@ -1,0 +1,456 @@
+# -*- coding: utf-8 -*-
+"""Batch 197: SFL-016..SFL-019 (SUBFIELD)."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch197-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch197.json"
+
+SFL_MAP = {"entity_type": "SUBFIELD", "content_type": "زیرحوزه نوظهور (Subfield)",
+           "needs_review": False, "taxonomy_section": "3-1"}
+
+S = {
+    "SFL-016": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Logic of Connective Action: Digital Media and the Personalization of Contentious Politics",
+             title_fa="منطق کنش پیوندی: رسانه‌های دیجیتال و شخصی‌سازی سیاست منازعه‌آمیز",
+             authors="W. Lance Bennett; Alexandra Segerberg", year=2012,
+             publisher="Information, Communication & Society",
+             doi="10.1080/1369118X.2012.670661",
+             url="https://www.tandfonline.com/doi/abs/10.1080/1369118x.2012.670661",
+             language="en", isbn=None,
+             citation="Bennett, W. L., & Segerberg, A. (2012). The logic of connective action: Digital media and the personalization of contentious politics. Information, Communication & Society, 15(5), 739-768. https://doi.org/10.1080/1369118X.2012.670661",
+             locator="15(5), 739-768",
+             locator_type="PAGE",
+             supports="the theory of connective action in which personalized digital media become the organizational structure of protest",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="Twitter and Tear Gas: The Power and Fragility of Networked Protest",
+             title_fa="توییتر و گاز اشک‌آور: قدرت و شکنندگی اعتراض شبکه‌ای",
+             authors="Zeynep Tufekci", year=2017,
+             publisher="Yale University Press",
+             doi=None,
+             url="https://yalebooks.yale.edu/book/9780300234176/twitter-and-tear-gas/",
+             language="en", isbn=None,
+             citation="Tufekci, Z. (2017). Twitter and Tear Gas: The Power and Fragility of Networked Protest. New Haven, CT: Yale University Press.",
+             locator="chapters on networked protest, capacity and the fragility of leaderless movements",
+             locator_type="CHAPTER",
+             supports="the account of networked movements' speed, capacity deficits and vulnerability to repression",
+             verified=True),
+    ],
+    "SFL-017": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Real-Time City? Big Data and Smart Urbanism",
+             title_fa="شهر زمان‌واقعی؟ کلان‌داده و شهرنشینی هوشمند",
+             authors="Rob Kitchin", year=2014,
+             publisher="GeoJournal",
+             doi=None,
+             url="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2289141",
+             language="en", isbn=None,
+             citation="Kitchin, R. (2014). The real-time city? Big data and smart urbanism. GeoJournal, 79(1), 1-14.",
+             locator="79(1), 1-14",
+             locator_type="PAGE",
+             supports="the critical account of real-time urban data, technocratic governance and the politics of smart systems",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="AI-Mediated Communication: Definition, Research Agenda, and Ethical Considerations",
+             title_fa="ارتباطات با میانجی‌گری هوش مصنوعی: تعریف، دستور کار پژوهشی و ملاحظات اخلاقی",
+             authors="Jeffrey T. Hancock; Mor Naaman; Karen Levy", year=2020,
+             publisher="Journal of Computer-Mediated Communication",
+             doi=None,
+             url="https://academic.oup.com/jcmc/article/25/1/89/5714020",
+             language="en", isbn=None,
+             citation="Hancock, J. T., Naaman, M., & Levy, K. (2020). AI-Mediated Communication: Definition, Research Agenda, and Ethical Considerations. Journal of Computer-Mediated Communication, 25(1), 89-100.",
+             locator="25(1), 89-100",
+             locator_type="PAGE",
+             supports="the definition and research agenda for communication in which AI systems mediate, augment or generate messages",
+             verified=True),
+    ],
+    "SFL-018": [
+        dict(kind="BOOK",
+             title_en="The Media Equation: How People Treat Computers, Television, and New Media Like Real People and Places",
+             title_fa="معادلهٔ رسانه: چگونه مردم با رایانه، تلویزیون و رسانه‌های نوین مانند انسان و مکان واقعی رفتار می‌کنند",
+             authors="Byron Reeves; Clifford Nass", year=1996,
+             publisher="Cambridge University Press",
+             doi=None,
+             url="https://archive.org/details/mediaequationhow0000reev",
+             language="en", isbn=None,
+             citation="Reeves, B., & Nass, C. (1996). The Media Equation: How People Treat Computers, Television, and New Media Like Real People and Places. Cambridge: Cambridge University Press.",
+             locator="studies on social responses to computers and the computers-as-social-actors paradigm",
+             locator_type="CHAPTER",
+             supports="the finding that people apply social rules and expectations to computers and other media",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="Human-Machine Reconfigurations: Plans and Situated Actions",
+             title_fa="بازآرایی انسان و ماشین: طرح‌ها و کنش‌های موقعیتی",
+             authors="Lucy A. Suchman", year=2007,
+             publisher="Cambridge University Press",
+             doi=None,
+             url="https://www.cambridge.org/core/books/humanmachine-reconfigurations/9D53E602BA9BB5209271460F92D00EFE",
+             language="en", isbn="9780521675888",
+             citation="Suchman, L. A. (2007). Human-Machine Reconfigurations: Plans and Situated Actions. Cambridge: Cambridge University Press.",
+             locator="chapters on situated action and the reconfiguration of human and machine agency",
+             locator_type="CHAPTER",
+             supports="the situated-action account of human-machine communication and the mutual reconfiguration of agencies",
+             verified=True),
+    ],
+    "SFL-019": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Ethics of Algorithms: Mapping the Debate",
+             title_fa="اخلاق الگوریتم‌ها: نقشه‌برداری از مناقشه",
+             authors="Brent D. Mittelstadt; Patrick Allo; Mariarosaria Taddeo; Sandra Wachter; Luciano Floridi", year=2016,
+             publisher="Big Data & Society",
+             doi="10.1177/2053951716679679",
+             url="https://journals.sagepub.com/doi/10.1177/2053951716679679",
+             language="en", isbn=None,
+             citation="Mittelstadt, B. D., Allo, P., Taddeo, M., Wachter, S., & Floridi, L. (2016). The ethics of algorithms: Mapping the debate. Big Data & Society, 3(2). https://doi.org/10.1177/2053951716679679",
+             locator="3(2)",
+             locator_type="PAGE",
+             supports="the map of ethical concerns around algorithmic mediation, including opacity, bias, and accountability gaps",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="A Unified Framework of Five Principles for AI in Society",
+             title_fa="چارچوبی یکپارچه از پنج اصل برای هوش مصنوعی در جامعه",
+             authors="Luciano Floridi; Josh Cowls", year=2019,
+             publisher="Harvard Data Science Review",
+             doi=None,
+             url="https://hdsr.mitpress.mit.edu/pub/l0jsh9d1",
+             language="en", isbn=None,
+             citation="Floridi, L., & Cowls, J. (2019). A Unified Framework of Five Principles for AI in Society. Harvard Data Science Review, 1(1).",
+             locator="1(1)",
+             locator_type="PAGE",
+             supports="the synthesis of five principles: beneficence, non-maleficence, autonomy, justice and explicability",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="Automating the News: How Algorithms Are Rewriting the Media",
+             title_fa="خودکارسازی خبر: چگونه الگوریتم‌ها رسانه را بازنویسی می‌کنند",
+             authors="Nicholas Diakopoulos", year=2019,
+             publisher="Harvard University Press",
+             doi=None,
+             url="https://www.hup.harvard.edu/books/9780674976986",
+             language="en", isbn="9780674976986",
+             citation="Diakopoulos, N. (2019). Automating the News: How Algorithms Are Rewriting the Media. Cambridge, MA: Harvard University Press.",
+             locator="chapters on algorithmic accountability, transparency and human influence in news automation",
+             locator_type="CHAPTER",
+             supports="the analysis of algorithmic news production and the accountability and transparency problems it raises",
+             verified=True),
+    ],
+}
+
+ENRICH = {
+    "SFL-016": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        summary="به کنشگری و بسیج در بستر شبکه‌ها می‌پردازد: چگونه جنبش‌ها و کنش‌های اجتماعی با ابزارهای دیجیتال سازمان‌یابی، گسترش و بازتاب می‌یابند. این زیرحوزه به شکل‌های نوین کنش جمعی شبکه‌ای می‌پردازد.",
+        theorists_text="مانوئل کاستلز (کنش شبکه‌ای)؛ لنس بنت و الکساندرا سگربرگ (کنش پیوندی)؛ زینب توفکچی (اعتراض شبکه‌ای)",
+        definition="مطالعات کنشگری شبکه‌ای حوزه‌ای است که سازمان‌یابی، گسترش و اثرگذاری کنش جمعی را در محیط رسانه‌های اجتماعی بررسی می‌کند و می‌پرسد وقتی رسانهٔ دیجیتال خود به ساختار سازمانی بدل می‌شود، هماهنگی، رهبری و تداوم جنبش چگونه تغییر می‌کند.",
+        mechanism="چرخه با روایت شخصی آغاز می‌شود: کنشگر تجربهٔ خود را با هشتگ، تصویر یا ویدیو به اشتراک می‌گذارد و چارچوبی قابل پیوند می‌سازد. سپس شبکهٔ پیوندهای ضعیف محتوا را سریع پخش می‌کند و کنش‌های پراکنده را به هم متصل می‌سازد. در گام بعد کنش خیابانی و پوشش خبری، فشار عمومی می‌سازد و کنشگران تازه‌ای را به مدار می‌کشاند. سرانجام جنبش برای مذاکره، تصمیم‌گیری و تداوم نیازمند ظرفیت سازمانی است؛ نبود این ظرفیت، دستاورد سریع را به شکنندگی می‌کشاند و جنبش را در برابر سرکوب و فرسایش آسیب‌پذیر می‌سازد.",
+        critiques="۱. مفهوم کنش پیوندی می‌تواند ضعف سازمان‌دهی را به ویژگی فرهنگی مثبت بدل کند. ۲. سنجش اثربخشی جنبش اغلب به شمار هشتگ و حضور رسانه‌ای فروکاسته می‌شود. ۳. تمرکز بر نمونه‌های موفق، جنبش‌های ناکام و سرکوب‌شده را از چشم می‌اندازد. ۴. نظارت پلتفرم و شناسایی کنشگران، خطر امنیتی جدی می‌سازد. ۵. تجربهٔ خاورمیانه و آمریکای لاتین نشان می‌دهد الگوی سازمان‌یابی به بافت سیاسی وابسته است. ۶. رهبری غیررسمی می‌تواند به نابرابری جنسیتی و حاشیه‌رانی درونی بینجامد. ۷. معیار «موفقیت» اغلب از سنجه‌های خود پلتفرم گرفته می‌شود و به منطق تجاری اندازه‌گیری وابسته می‌ماند.",
+        evolution="حوزه با موج جنبش‌های ۲۰۱۱ در خاورمیانه و جنبش‌های اشغال گسترش یافت، در ۲۰۱۲ با نظریهٔ کنش پیوندی چارچوب یافت، در ۲۰۱۷ با تحلیل شکنندگی اعتراض شبکه‌ای عمق انتقادی گرفت و امروز بر کنشگری داده‌محور، سرکوب الگوریتمی، پیوند آنلاین و آفلاین و نسبت جنبش‌های شبکه‌ای با نهادهای رسمی و احزاب متمرکز است.",
+        principles=["تفکیک پخش پیام از ظرفیت سازمان‌دهی", "توجه به پیوند آنلاین و آفلاین", "ملاحظهٔ امنیت و نظارت کنشگران", "پرهیز از تعمیم نمونه‌های موفق", "توجه به نابرابری درونی جنبش", "تفکیک سنجهٔ پلتفرمی از اثر سیاسی واقعی", "توجه به رابطهٔ جنبش با نهاد و حزب", "بررسی هزینهٔ سرکوب و ریسک کنشگران", "سنجش اثر سیاسی نه فقط تعامل"],
+        assumptions=["رسانهٔ دیجیتال می‌تواند نقش ساختار سازمانی ایفا کند.", "پیوندهای ضعیف برای گسترش سریع بسیج کافی‌اند.", "تداوم جنبش به ظرفیت سازمانی وابسته است.", "بافت سیاسی بر شکل و سرنوشت جنبش اثر می‌گذارد.", "معیارهای تعامل پلتفرم معادل اثر سیاسی واقعی نیستند.", "کنش آنلاین بی‌واکنش نهادی معمولاً به تغییر پایدار نمی‌رسد."],
+        applications=["تحلیل کمپین هشتگ و کنش خیابانی", "طراحی ابزار ایمن ارتباط کنشگران", "پژوهش سرکوب و نظارت دیجیتال", "مقایسهٔ جنبش‌های ملی و فراملی", "طراحی چارچوب حقوقی برای اعتراض آنلاین", "آموزش امنیت دیجیتال به کنشگران", "سنجش ظرفیت سازمانی پیش از کنش گسترده"],
+        studies=[
+            "بنت و سگربرگ (۲۰۱۲) منطق کنش پیوندی را معرفی کردند و نشان دادند رسانه‌های دیجیتال شخصی‌سازی‌شده می‌توانند به ساختار سازمانی اعتراض بدل شوند.",
+            "توفکچی (۲۰۱۷) نشان داد جنبش‌های شبکه‌ای سریع رشد می‌کنند اما در ساخت ظرفیت تصمیم‌گیری و پایدار ماندن ضعیف‌اند و در برابر سرکوب آسیب‌پذیرند؛ به باور او، ظرفیت سازمانی برآمده از تجربهٔ پیشین اعتراض، توان جنبش را در برابر فشار تعیین می‌کند.",
+        ],
+        detailed_analysis="کنشگری شبکه‌ای نه جانشین سازمان‌دهی سنتی است و نه صرفاً همان سازمان‌دهی با ابزار تازه. تفاوت اصلی در هزینهٔ هماهنگی و سرعت مقیاس‌پذیری است. شبکهٔ پیوندهای ضعیف می‌تواند در چند روز توجه جهانی بسازد، اما تصمیم مشترک، تقسیم کار و مذاکره با نهادها نیازمند سازوکار پایدار است. پژوهش دقیق باید هم توان بسیج و هم ظرفیت ادارهٔ جنبش را بسنجد و نقش سرکوب، نظارت و شکاف درونی را در کنار فرصت پلتفرم ببیند.",
+    ),
+    "SFL-017": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        tags=["ارتباطات هوشمند", "اینترنت اشیا", "رسانهٔ پوشیدنی", "داده‌محور"],
+        summary="به ارتباطات هوشمند می‌پردازد: کاربرد فناوری‌های هوشمند (حس‌گر، اینترنت اشیا، هوش مصنوعی، عینک و دستبند هوشمند) در گسترش و دگرگونی کانال‌ها و تجربهٔ ارتباط. این زیرحوزه به ارتباطات فراگیر و داده‌محور می‌پردازد.",
+        key_concepts=[
+            {"term_fa": "اینترنت اشیا", "definition": "شبکه‌سازی اشیاء و جریان دادهٔ محیطی."},
+            {"term_fa": "ارتباطات هوشمند", "definition": "ارتباطات مبتنی بر داده و پاسخ‌گویی خودکار."},
+            {"term_fa": "رسانهٔ پوشیدنی", "definition": "بسترهای ارتباطی متصل به بدن."},
+            {"term_fa": "داده‌محوری محیطی", "definition": "تبدیل وضعیت محیط و بدن به دادهٔ قابل پردازش و واکنش."},
+        ],
+        theorists_text="راب کیچین (شهر هوشمند و دادهٔ زمان‌واقعی)؛ جفری هانکاک، مور نامان و کارن لوی (ارتباطات با میانجی‌گری هوش مصنوعی)",
+        definition="مطالعات ارتباطات هوشمند حوزه‌ای است که جریان ارتباط را در محیط‌های حس‌گرمحور، پوشیدنی و مبتنی بر هوش مصنوعی بررسی می‌کند؛ محیطی که در آن دستگاه‌ها وضعیت کاربر و جهان را می‌سنجند، استنباط می‌کنند و پاسخ می‌دهند.",
+        mechanism="چرخه با حس‌گری آغاز می‌شود: حرکت، صدا، موقعیت و نشانه‌های زیستی به داده تبدیل می‌شوند. سپس سیستم داده را تفسیر می‌کند و وضعیت کاربر یا محیط را استنباط می‌نماید. در گام بعد پاسخ خودکار ساخته می‌شود: اعلان، پیشنهاد، تغییر تنظیمات یا کنش دستگاه. سرانجام واکنش کاربر به‌عنوان دادهٔ تازه به سیستم بازمی‌گردد و چرخهٔ تنظیم پیوسته شکل می‌گیرد.",
+        critiques="۱. دادهٔ محیطی و بدنی می‌تواند حریم خصوصی را در سطحی بی‌سابقه نقض کند. ۲. منطق راه‌حل فناورانه، مسائل سیاسی و اجتماعی را به مسئلهٔ فنی فرو می‌کاهد. ۳. دقت حس‌گر و کیفیت داده، سوگیری و خطای تصمیم می‌سازد. ۴. وابستگی به زیرساخت و فروشنده، هزینه و قفل‌شدگی ایجاد می‌کند. ۵. پاسخ خودکار می‌تواند توجه و تصمیم انسانی را حاشیه‌ای کند. ۶. هزینهٔ انرژی و زیست‌محیطی گسترش انبوه دستگاه‌ها کمتر حساب می‌شود. ۷. زبان طراحی «هوشمند» می‌تواند مسئولیت خطا را از نهاد به کاربر منتقل کند و خطای سامانه را به کوتاهی کاربر بدل سازد.",
+        evolution="حوزه از رایانش فراگیر دههٔ ۱۹۹۰ آغاز شد، در دههٔ ۲۰۱۰ با اینترنت اشیا و شهر هوشمند گسترش یافت، در دههٔ ۲۰۲۰ با دستیارهای هوش مصنوعی و رسانهٔ پوشیدنی به جریان اصلی ارتباطات وارد شد و امروز بر حکمرانی داده، شفافیت الگوریتمی، عدالت دسترسی و پیوند سامانه‌های هوشمند با زیرساخت‌های عمومی شهری متمرکز است.",
+        principles=["شفافیت دربارهٔ گردآوری و استفادهٔ داده", "طراحی مبتنی بر رضایت و کنترل کاربر", "توجه به خطا و سوگیری حس‌گر", "پرهیز از راه‌حل فناورانه برای مسئلهٔ اجتماعی", "قابلیت هم‌کنش و پرهیز از قفل‌شدگی", "روشن‌سازی توزیع مسئولیت میان کاربر و تأمین‌کننده", "سنجش اثر بر توجه و تصمیم انسانی"],
+        assumptions=["دستگاه‌های هوشمند می‌توانند وضعیت کاربر و محیط را استنباط کنند.", "پاسخ خودکار بر تجربهٔ ارتباط اثر می‌گذارد.", "دادهٔ محیطی ارزش اقتصادی و خطر نظارتی دارد.", "پذیرش فناوری به سودمندی روزمره و اعتماد بستگی دارد.", "قفل‌شدگی فنی می‌تواند انتخاب و رقابت کاربر را محدود کند."],
+        applications=["طراحی دستیار سلامت و یادآور هوشمند", "ارزیابی حریم خصوصی دستگاه پوشیدنی", "سیاست‌گذاری دادهٔ شهری زمان‌واقعی", "پژوهش اعتماد به پاسخ خودکار", "طراحی برچسب شفافیت دادهٔ حس‌گر", "ارزیابی عدالت دسترسی به خدمات هوشمند"],
+        studies=[
+            "کیچین (۲۰۱۴) نشان داد دادهٔ زمان‌واقعی شهری می‌تواند حکمرانی را کاراتر کند، اما پرسش قدرت، شفافیت و راه‌حل‌گرایی فناورانه را نیز برمی‌انگیزد.",
+            "هانکاک، نامان و لوی (۲۰۲۰) ارتباطات با میانجی‌گری هوش مصنوعی را تعریف کردند و دستور کار پژوهشی آن را حول بازنمایی، اعتماد و اخلاق سازمان دادند؛ به باور آنان، تفاوت کلیدی این ارتباطات در آن است که ماشین نه فقط واسطهٔ انتقال، بلکه هم‌سازندهٔ پیام است.",
+        ],
+        detailed_analysis="ارتباطات هوشمند زمانی معنای تحلیلی روشنی دارد که میان سه لایه تفکیک بگذاریم: حس‌گری محیط، استنباط ماشینی و پاسخ ارتباطی. خطا در هر لایه به لایهٔ بعد منتقل می‌شود و کاربر اغلب نمی‌داند کدام لایه اشتباه کرده است. به همین دلیل، شفافیت و توضیح‌پذیری برای اعتماد ضروری است. همچنین باید پرسید آیا هوشمندی، ارتباط را انسانی‌تر می‌کند یا فقط آن را خودکارتر؛ پاسخ به طراحی و حکمرانی بستگی دارد، نه به توان فنی.",
+    ),
+    "SFL-018": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        summary="به تعامل و مرز میان انسان و ماشین در ارتباطات می‌پردازد: از چت‌بات و دستیارهای صوتی تا پرسش‌هایی دربارهٔ هویت، اعتماد و معنای ارتباط وقتی طرف مقابل ماشین است. این زیرحوزه به انسان‌وارگی و ماشین‌وارگی در گفت‌وگو می‌پردازد.",
+        main_problem="تعامل انسان و ماشین در ارتباطات چگونه است و مرزها، هویت و معنای ارتباط وقتی طرف مقابل ماشین است چه می‌شود؟",
+        key_concepts=[
+            {"term_fa": "تعامل انسان-ماشین", "definition": "میانجی‌گری و گفت‌وگو با سامانه‌های هوشمند."},
+            {"term_fa": "انسان‌وارگی", "definition": "بهره‌برداری از ویژگی‌های انسانی در طراحی ماشین."},
+            {"term_fa": "اعتماد به ماشین", "definition": "بُعد روان‌شناختی اعتماد به سامانهٔ غیرانسانی."},
+            {"term_fa": "کنش موقعیتی", "definition": "سازمان‌یابی کنش در بافت و شرایط عملی، نه فقط بر پایهٔ طرح پیشین."},
+        ],
+        theorists_text="بایرون ریوز و کلیفورد نس (رایانه به‌عنوان کنشگر اجتماعی)؛ لوسی ساچمن (کنش موقعیتی و بازآرایی انسان و ماشین)",
+        definition="مطالعات انسان و ماشین حوزه‌ای است که تعامل ارتباطی انسان با سامانه‌های مصنوعی را بررسی می‌کند و می‌پرسد کاربر چه زمانی ماشین را ابزار، همکار یا دیگری اجتماعی می‌بیند و این ادراک چگونه بر اعتماد، مسئولیت و معنا اثر می‌گذارد.",
+        mechanism="تعامل با نشانه‌های طراحی آغاز می‌شود: صدا، نام، لحن و شخصیت ساختگی ماشین. کاربر این نشانه‌ها را با قواعد اجتماعی آشنا تفسیر می‌کند و به ماشین نیت و شخصیت نسبت می‌دهد. سپس انتظار پاسخ مناسب شکل می‌گیرد و در صورت خطا، اعتماد بازتنظیم می‌شود. در سطح نهادی، سازندهٔ سیستم مرز توانایی و مسئولیت را تعیین می‌کند و کاربر اغلب این مرز را نمی‌داند.",
+        critiques="۱. انسان‌وارگی طراحی می‌تواند کاربر را دربارهٔ توان و نیت سیستم فریب دهد. ۲. اعتماد به ماشین اغلب بیش‌برآورد یا کم‌برآورد می‌شود و با اعتماد به انسان یکسان نیست. ۳. در خطای مشترک، مسئولیت میان کاربر و سازنده گم می‌شود. ۴. یافته‌های آزمایشگاهی با تعامل روزمره و بلندمدت تفاوت دارد. ۵. هنجارهای تعامل با ماشین در فرهنگ‌ها و زبان‌ها یکسان نیست. ۶. تمرکز بر گفت‌وگوی متنی، تعامل چندحسی و بدنی را کم‌برجسته می‌کند. ۷. همراهی مصنوعی می‌تواند به وابستگی عاطفی و جانشینی روابط انسانی بینجامد بی‌آنکه کاربر پیامد آن را بسنجد.",
+        evolution="حوزه با پژوهش پاسخ‌های اجتماعی به رایانه در دههٔ ۱۹۹۰ آغاز شد، با رویکرد کنش موقعیتی به بازاندیشی مرز انسان و ماشین انجامید، در دههٔ ۲۰۱۰ با چت‌بات و دستیار صوتی گسترش یافت و امروز با عامل‌های مولد و همراهان مصنوعی بر اخلاق، وابستگی، هویت و افشای هویت ماشین متمرکز است.",
+        principles=["شفافیت دربارهٔ توان و هویت ماشین", "طراحی انسان‌وارگی مسئولانه و غیرفریبنده", "کالیبراسیون اعتماد کاربر", "روشن‌سازی مسئولیت در خطای مشترک", "توجه به تنوع فرهنگی تعامل", "پرهیز از جانشینی نامحسوس روابط انسانی", "بررسی تعامل بلندمدت و روزمره"],
+        assumptions=["کاربر به ماشین ویژگی‌های اجتماعی نسبت می‌دهد.", "نشانه‌های طراحی بر ادراک و اعتماد اثر می‌گذارد.", "مسئولیت خطا میان انسان و سازنده تقسیم می‌شود.", "بافت فرهنگی هنجار تعامل را شکل می‌دهد.", "اعتماد کاربر به شفافیت هویت ماشین وابسته است."],
+        applications=["طراحی چت‌بات خدمات عمومی", "ارزیابی اعتماد به دستیار صوتی", "سیاست افشای هویت ماشین", "پژوهش وابستگی به همراه مصنوعی", "طراحی افشای مرز توانایی در عامل‌های مولد"],
+        studies=[
+            "ریوز و نس (۱۹۹۶) نشان دادند مردم قواعد و انتظارات اجتماعی را به رایانه و رسانه‌ها تعمیم می‌دهند و الگوی «رایانه به‌عنوان کنشگر اجتماعی» را پایه گذاشتند.",
+            "ساچمن (۲۰۰۷) با رویکرد کنش موقعیتی استدلال کرد که مرز انسان و ماشین ثابت نیست و عاملیت دو طرف در تعامل بازآرایی می‌شود؛ از این منظر، طرح پیشینی و برنامهٔ ماشین هرگز تمام موقعیت تعامل را پوشش نمی‌دهد.",
+        ],
+        detailed_analysis="پرسش کانونی این حوزه فقط فنی نیست: آیا ماشین می‌تواند طرف ارتباط باشد، و اگر باشد، چه نوع طرفی. پاسخ به دو سطح وابسته است: توان مدل در تولید پاسخ معنادار و ادراک کاربر از آن پاسخ. حتی وقتی کاربر می‌داند طرف مقابل ماشین است، ممکن است به آن احترام بگذارد، از آن خشمگین شود یا به آن اعتماد کند. پژوهش دقیق باید این ادراک را جدی بگیرد و از دو خطا بپرهیزد: فروکاستن تعامل به مهندسی رابط، و نسبت‌دادن آگاهی انسانی به سیستم.",
+    ),
+    "SFL-019": dict(
+        mapping=dict(SFL_MAP),
+        needs_enrichment=False,
+        summary="به ابعاد اخلاقی هوش مصنوعی در رسانه می‌پردازد: سوگیری الگوریتم، عدالت، شفافیت، مسئولیت، حریم خصوصی و اثر اخلاقی سامانه‌های هوشمند بر تولید، توزیع و مصرف محتوا. این زیرحوزه به پرسش «چگونه باید باشد» در فناوری‌های ارتباطی هوشمند می‌پردازد.",
+        definition="مطالعات اخلاق هوش مصنوعی و رسانه حوزه‌ای است که طراحی، آموزش و استقرار سامانه‌های هوشمند در تولید و توزیع محتوا را از منظر ارزش‌های اخلاقی بررسی می‌کند و می‌پرسد چه کسی در برابر سوگیری، آسیب و خطا پاسخ‌گوست.",
+        mechanism="زنجیرهٔ مسئولیت با تصمیم طراحی آغاز می‌شود: چه داده‌ای گردآوری و چه هدفی بهینه شود. سپس مدل آموزش می‌بیند و خطا و سوگیری در آن انباشته می‌شود. در استقرار، تصمیم ماشین بر دیده‌شدن، دسترسی و شهرت افراد اثر می‌گذارد و تصمیم‌های کوچک انباشته به الگوی تبعیض بدل می‌شوند. سرانجام سازوکار حکمرانی — ممیزی، شفافیت، شکایت و جبران — تعیین می‌کند که آسیب شناسایی و جبران شود یا پنهان بماند.",
+        critiques="۱. فاصلهٔ اصول اخلاقی و عمل سازمانی، اخلاق را به تشریفات بدل می‌کند. ۲. شفافیت فنی بدون قدرت پاسخ‌گویی، کاربر را توانمند نمی‌سازد. ۳. ممیزی بیرونی به دسترسی به داده و مدل وابسته است که کمتر فراهم می‌شود. ۴. تمرکز بر سوگیری الگوریتم می‌تواند نابرابری ساختاری بازار و کار را نادیده بگیرد. ۵. اصول جهان‌شمول با بافت‌های محلی و زبان‌های غیرانگلیسی کم‌سازگارند. ۶. کار انسانی برچسب‌گذاری و تعدیل محتوا در تحلیل اخلاقی کم‌دیده می‌ماند. ۷. محتوای مولد مرز میان بازنمایی واقعیت و ساختگی‌بودن را مخدوش می‌کند و اصول موجود برای آن کافی نیست.",
+        evolution="حوزه از مناقشهٔ اخلاق الگوریتم در میانهٔ دههٔ ۲۰۱۰ شکل گرفت، در ۲۰۱۹ با چارچوب پنج اصل به‌سوی همگرایی مفهومی رفت، در دههٔ ۲۰۲۰ با مقررات هوش مصنوعی و الزام ارزیابی اثر گسترش یافت و امروز بر پاسخ‌گویی، عدالت زبانی، مالکیت و رضایت در دادهٔ آموزشی، اثر محتوای مولد و پیوند اخلاق با حقوق مصرف‌کننده متمرکز است.",
+        principles=["سودمندی و پرهیز از آسیب", "احترام به خودمختاری کاربر", "عدالت و عدم تبعیض", "توضیح‌پذیری و پاسخ‌گویی", "شفافیت دربارهٔ منشأ و محدودیت سیستم", "افشای کاربرد هوش مصنوعی در تولید محتوا", "حق اعتراض و امکان جبران آسیب", "ارزیابی اثر پیش از استقرار"],
+        assumptions=["طراحی و داده بر پیامد اخلاقی سیستم اثر می‌گذارد.", "مسئولیت اخلاقی به انسان و نهاد قابل ارجاع است.", "شفافیت بدون پاسخ‌گویی کافی نیست.", "ارزش‌های اخلاقی در بافت‌های فرهنگی متفاوت تفسیر می‌شوند.", "کاربر حق دانستن منشأ و محدودیت سیستم را دارد.", "سنجش اثر اخلاقی باید پیش و پس از استقرار انجام شود."],
+        applications=["ممیزی سوگیری در توصیه‌گر خبری", "طراحی سیاست افشای محتوای مولد", "ارزیابی عدالت در تخصیص توجه", "آموزش اخلاق حرفه‌ای برای روزنامه‌نگاران", "طراحی سازوکار شکایت و جبران آسیب", "سنجش اثر محتوای مولد بر اعتماد عمومی", "نظارت مستقل بر سامانه‌های تصمیم خودکار"],
+        studies=[
+            "میتل‌اشتات و همکاران (۲۰۱۶) نقشهٔ مناقشهٔ اخلاق الگوریتم را با محورهای پنهان‌بودگی، سوگیری، تبدیل داده و پیامدهای غیرقابل پیش‌بینی ترسیم کردند.",
+            "فلوریدی و کاولز (۲۰۱۹) پنج اصل سودمندی، پرهیز از آسیب، خودمختاری، عدالت و توضیح‌پذیری را به‌عنوان چارچوبی یکپارچه برای اخلاق هوش مصنوعی پیشنهاد کردند و توضیح‌پذیری را شرط امکان پاسخ‌گویی دانستند.",
+            "دیاکوپولوس (۲۰۱۹) خودکارسازی خبر را تحلیل کرد و نشان داد پرسش پاسخ‌گویی الگوریتمی و شفافیت، به طراحی سازمانی و نه فقط فنی وابسته است.",
+        ],
+        detailed_analysis="اخلاق هوش مصنوعی در رسانه زمانی اثر دارد که از سطح اصول به سازوکار عملی گره بخورد: چه کسی داده را بررسی می‌کند، چه کسی خطا را گزارش می‌دهد، و کاربر چگونه جبران می‌گیرد. اصول پنج‌گانه چارچوب مفیدی برای گفت‌وگو فراهم می‌کنند، اما بدون نهاد ممیزی مستقل و حق دسترسی پژوهشگر، به بیانیهٔ نیّت بدل می‌شوند. پرسش ارتباطی مهم این است که سیستم‌های هوشمند چه کسانی را دیده و چه کسانی را نادیده می‌گیرند، و آیا صدای گروه‌های حاشیه‌ای در طراحی و اعتراض شنیده می‌شود.",
+    ),
+}
+
+NAME_FIX = {}
+
+YEAR_FIX = {
+    "SFL-016": "no year set (subfield card); note: typo in summary corrected; theorist line extended with Bennett, Segerberg and Tufekci; documentation rebuilt from Bennett & Segerberg (2012) and Tufekci (2017)",
+    "SFL-017": "no year set (subfield card); note: typo in summary corrected and Latin tokens removed from key concepts; documentation rebuilt from Kitchin (2014) and Hancock, Naaman & Levy (2020)",
+    "SFL-018": "no year set (subfield card); note: missing-space typo in main problem corrected and Latin token removed from key concepts; documentation rebuilt from Reeves & Nass (1996) and Suchman (2007)",
+    "SFL-019": "no year set (subfield card); documentation rebuilt from Mittelstadt et al. (2016), Floridi & Cowls (2019) and Diakopoulos (2019)",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 197}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH197 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

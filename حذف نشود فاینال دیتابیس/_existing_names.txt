@@ -1,0 +1,801 @@
+
+===== CONCEPT (8) =====
+MC-054	اصل آسیب	Harm Principle	
+MC-057	دعاوی راهبردی علیه مشارکت عمومی	SLAPP	
+MC-249	معادله‌ی رسانه و پارادایم رایانه به‌مثابه کنشگر اجتماعی	The Media Equation & Computers Are Social Actors	
+MC-412	مدل پذیرش فناوری	Technology Acceptance Model	
+MC-524	شماره دانبار	Dunbar's Number	
+MC-555	مفهوم جریان اصلی	The Mainstream Concept	
+MC-556	مفهوم طنین	The Concept of Resonance	
+MC-730	پلتفرمی‌شدن	Platformization	
+
+===== FRAMEWORK (45) =====
+card-403	نظم نوین جهانی اطلاعات و ارتباطات	New Global Information and Communication Order	
+MC-005	چارچوب‌های هم‌ارزی و تأکیدی	Equivalence vs. Emphasis Framing	
+MC-031	بازارهای دوسویه و چندسویه	Two-Sided / Multi-Sided Markets	
+MC-078	اعتبار درونی و بیرونی در طرح‌های آزمایشی	Validity in Experimental Designs	
+MC-120	شکاف دیجیتال	Digital Divide	
+MC-123	چارچوب تقویت اجتماعی ریسک	Social Amplification of Risk Framework	
+MC-128	ارتباطات مسئولیت اجتماعی شرکتی	CSR Communication	
+MC-168	بوم مدل کسب‌وکار	Business Model Canvas	
+MC-199	اختلال اطلاعاتی	Information Disorder	
+MC-221	بوم‌شناسی رسانه	Media Ecology	
+MC-236	پرسش‌های انتقادی درباره‌ی داده‌های بزرگ	Critical Questions for Big Data	
+MC-357	سه دوره مخاطب‌شناسی	Three Phases of Audience Research	
+MC-363	فعال‌سازی آبشاری چارچوب‌ها	Cascading Frame Activation	
+MC-419	پسانسان‌گرایی در عصر رسانه	Posthumanism in the Media Age	
+MC-432	دوقطبی‌سازی عاطفی	Affective Polarization	
+MC-442	ابعاد فرهنگی هافستده	Hofstede's Cultural Dimensions	
+MC-461	پسااستعمارگرایی و بازنمایی دیگری	Postcolonialism and Representation of the Other	
+MC-481	نشانه سهگانه	The Semiotic Triad	
+MC-499	مدیریت اعتبار و شهرت	Credibility and Reputation Management	
+MC-500	ارتباطات راهبردی	Strategic Communication	
+MC-520	واقعیت مجازی	Virtual Reality	
+MC-538	بازیهای جدی و گیمیفیکیشن	Serious Games and Gamification	
+MC-572	چارچوب مراحل تغییر رفتار	Stages of Change Framework	
+MC-582	چارچوب اخلاق اقناع	Ethics Framework of Persuasion	
+MC-598	چارچوب «PR بهعنوان مدیریت معنا»	PR as Meaning Management Framework	
+MC-600	قانون متکالف	Metcalfe's Law	
+MC-601	قانون رید	Reed's Law	
+MC-607	استراتژیهای عمومی پورتر	Porter's Generic Strategies	
+MC-627	چارچوب شایستگی	Competency Framework	
+MC-637	نظریه مالکیت مسئله	Issue Ownership Theory	
+MC-638	اثر سیانان	CNN Effect	
+MC-642	چارچوب حاکمیت اینترنت	Internet Governance Framework	
+MC-645	UTAUT2	UTAUT2	
+MC-647	بازواسازی/ترمیم رسانه	Media Remediation/Restoration	
+MC-653	چارچوب TOE (فناوری–سازمان–محیط)	TOE Framework (Technology-Organization-Environment)	
+MC-660	بستار سهگانه	Triple Substrate	
+MC-678	چارچوب یادآوری/فراموشی جمعی	Collective Remembering/Forgetting Framework	
+MC-694	گزارش مکبراید	McBride Report	
+MC-695	چارچوب آینه/بازتاب در برابر برساخت	Mirror/Reflection vs. Construction Framework	
+MC-702	چارچوب روزنامهنگاری راهحلمحور	Solutions Journalism Framework	
+MC-706	نظریه یادگیری اجتماعی	Social Learning Theory	
+MC-712	چارچوب اختلال بازی اینترنتی	Internet Gaming Disorder Framework	
+MC-728	حس‌سازی سازمانی	Sensemaking in Organizations	
+MC-729	مدیریت استراتژیک در رسانه	Strategic Management in the Media	
+MC-731	عمومیت‌های عاطفی	Affective Publics	
+
+===== HYPOTHESIS (17) =====
+MC-011	فرضیه شکاف دانش	Knowledge Gap Hypothesis	
+MC-192	فرضیه‌ی نمایه‌سازی	Indexing Hypothesis	
+MC-201	فرضیه‌ی مالیخولیای سیاسی	Media Malaise Hypothesis	
+MC-466	فرضیه تأثیر محدود	Limited Effects Hypothesis	
+MC-490	فرضیه ایندکسکردن	Indexing Hypothesis	
+MC-535	فرضیه انتقال تحریک	Arousal Transfer Hypothesis	
+MC-551	فرضیه جریان چندمرحلهای	Multi-Stage Flow Hypothesis	
+MC-552	فرضیه جریان یکمرحلهای	Single-Stage Flow Hypothesis	
+MC-553	فرضیه «بازگشت به تأثیرات قوی»	The Return to Strong Effects Hypothesis	
+MC-558	فرضیه اثر شخص سوم	Third-Person Effect Hypothesis	
+MC-559	فرضیه اثر شخص اول	First-Person Effect Hypothesis	
+MC-560	فرضیه اثر ارابه/همراهی	Bandwagon/Ride-Along Effect Hypothesis	
+MC-561	فرضیه اثر زیردستی	Underdog Effect Hypothesis	
+MC-562	فرضیه همسویی/تقویت	Congruence/Reinforcement Hypothesis	
+MC-563	فرضیه کاتارسیس (تخلیه هیجانی)	Catharsis Hypothesis (Emotional Discharge)	
+MC-564	فرضیه سرکوب/محرک تهاجم	Inhibition/Aggression Cue Hypothesis	
+MC-565	فرضیه ناکامی–پرخاشگری	Frustration-Aggression Hypothesis	
+
+===== INDICATOR (1) =====
+MC-265	خالص نمره‌ی مروّج	Net Promoter Score	
+
+===== LAW (4) =====
+MC-602	قانون نیلسن	Nielsen's Law	
+MC-603	قانون مور	Moore's Law	
+MC-604	قانون گیندر	Gilder's Law	
+MC-605	قانون آمارا	Amaro's Law	
+
+===== METHOD (12) =====
+card-71	نظریه داده‌بنیاد	Grounded Theory	
+card-77	روش Q	Q-Methodology	
+MC-072	تحلیل محتوا	Content Analysis	
+MC-073	سه‌سوسازی	Triangulation	
+MC-234	پژوهش کنش‌مشارکتی	Participatory Action Research	
+MC-237	نت‌نوگرافی	Netnography	
+MC-239	روش‌های ترکیبی	Mixed Methods Research	
+MC-267	تحلیل کوهورت و منحنی نگهداشت	Cohort Retention Curves	
+MC-484	تحلیل روایت	Narrative Analysis	
+MC-716	قومنگاری مخاطب	Ethnography of Audiences	
+MC-717	قومنگاری رسانههای دیجیتال	Ethnography of Digital Media	
+MC-718	تحلیل شبکه اجتماعی	Social Network Analysis	
+
+===== METHODOLOGY (3) =====
+MC-714	تحلیل چارچوب	Framing Analysis	
+MC-715	تحلیل نشانهشناسی	Semiotic Analysis	
+MC-719	روش آزمایشی در ارتباطات	Experimental Method in Communication	
+
+===== MODEL (124) =====
+card-212	الگوی بومرنگ و شبکه‌های حمایتی فراملی	Boomerang Pattern & Transnational Advocacy Networks	
+card-540	مدل هلیکال (مارپیچ)	The Helical (Spiral) Model	
+card-59	پاسخگویی الگوریتمی	Algorithmic Accountability	
+MC-014	مدل رمزگذاری و رمزگشایی	Encoding/Decoding Model	
+MC-021	مدل احتمال بسط	Elaboration Likelihood Model (ELM)	
+MC-022	مدل اکتشافی-نظام‌مند	Heuristic-Systematic Model	
+MC-028	مدل فرانظری (مراحل تغییر)	Transtheoretical Model	
+MC-029	انتقال روایی و مدل بسط‌یافته	Narrative Transportation & Extended Elaboration Likelihood Model	
+MC-034	مدل‌های درآمدی رسانه	Media Revenue Models	
+MC-040	اقتصاد خبر و بحران مدل کسب‌وکار روزنامه‌نگاری	News Economics & the Crisis of the Journalism Business Model	
+MC-062	نیروهای پنج‌گانه	Five Forces Model	
+MC-069	کارت امتیازی متوازن	Balanced Scorecard	
+MC-081	مدل لاسول	Lasswell's Model of Communication	
+MC-082	مدل ریاضی ارتباط شانون و ویور	Shannon-Weaver Mathematical Model of Communication	
+MC-106	مدل عمومی پرخاشگری	General Aggression Model	
+MC-107	مدل ظرفیت محدود پردازش پیام‌های رسانه‌ای	Limited Capacity Model of Motivated Mediated Message Processing	
+MC-108	مدل حساسیت دیفرانسیلی به اثرات رسانه	Differential Susceptibility to Media Effects Model	
+MC-119	تخیل الگوریتمی	The Algorithmic Imaginary	
+MC-121	مدل‌های چهارگانه روابط عمومی	Four Models of Public Relations	
+MC-131	دانش شیوه‌ی ترغیب	Persuasion Knowledge Model	
+MC-132	مدل توازی گسترده ترس	Extended Parallel Process Model	
+MC-133	مدل باور سلامت	Health Belief Model	
+MC-135	سلسله‌مراتب اثرات تبلیغ	Hierarchy of Effects Model	
+MC-143	مدیریت برداشت	Impression Management	
+MC-156	نقش‌های مدیریتی	Managerial Roles	
+MC-173	چرخه‌ی عمر محصول	Product Life Cycle	
+MC-174	ماتریس آنسوف	Ansoff Matrix	
+MC-175	منحنی تجربه	Experience Curve	
+MC-185	مدل تمایز مکانی هتلینگ	Hotelling's Model of Spatial Competition	
+MC-225	فرهنگ الگوریتمی	Algorithmic Culture	
+MC-230	حاکمیت الگوریتمی	Algorithmic Governance	
+MC-235	مدل‌سازی موضوعی	Topic Modeling	
+MC-244	مدل ابرشخصی	Hyperpersonal Model	
+MC-245	مدل هویت اجتماعی پدیده‌های فردیت‌زدایی	Social Identity Model of Deindividuation Effects	
+MC-264	چرخه‌ی وفاداری و ریزش	Loyalty Cycle and Churn	
+MC-274	مدل قلاب	Hook Model	
+MC-275	مدل رفتاری فاگ	Fogg Behavior Model	
+MC-276	الگوهای فریبنده	Dark Patterns	
+MC-281	الگوریتم‌های سرکوب	Algorithms of Oppression	
+MC-282	ارزیابی تفکیکی خطا و سوگیری گروهی	Disaggregated Error Evaluation	
+MC-301	مدل انتقالی ارتباطات	Transmission Model of Communication	
+MC-303	مدل ۵ پرسشی لاسول	Lasswell's Five Questions Model	
+MC-304	مدل خطی ارسطویی	Aristotle's Linear Model	
+MC-305	مدل چرخه‌ای و تعاملی اسکم	Schramm's Cyclic-Interactive Model	
+MC-306	مدل تعادل نیوکامب	Newcomb's Equilibrium (ABX) Model	
+MC-307	مدل وستلی–مکلین	Westley–MacLean Model	
+MC-308	مدل اس‌ام‌سی‌آر برلو	Berlo's SMCR Model	
+MC-309	مدل ادراکی گربر	Gerbner's Perceptual Model	
+MC-310	مدل تراکنشی ارتباطات	Transactional Model of Communication	
+MC-319	مدل احتمال تفصیل / بسط	Elaboration Likelihood Model	
+MC-320	مدل پردازش نظام‌مند-اکتشافی	Systematic-Heuristic Processing Model	
+MC-325	مدل فرآیند موازی گسترده	Extended Parallel Chain Model	
+MC-326	مدل دانش اقناع	Persuasion Knowledge Model	
+MC-345	نشانه‌شناسی سه‌گانه	The Semiotic Triad	
+MC-348	خواننده الگو / متن باز و بسته	Model Reader / Open and Closed Texts	
+MC-350	رویکرد شناختی-اجتماعی در تحلیل گفتمان	Cognitive-Social Approach in Discourse Analysis	
+MC-367	مدل مطبوعاتی و اغراق نمایشی	Pressurization and Dramatization Model	
+MC-368	مدل انتشار صادقانه اطلاعات	Candor Model of Public Relations	
+MC-421	روزنامه‌نگاری خودکار و الگوریتمی	Automated and Algorithmic Journalism	
+MC-462	مدل حلقه/چرخه اسکم	Schramm's Loop Model	
+MC-463	مدل نیوکامب ABX	Newcomb's ABX Model	
+MC-464	مدل برلو SMCR	Berlo's SMCR Model	
+MC-465	مدل گربر	Gerbner's Model	
+MC-467	مدل احتمال تدوین/تفصیل	Elaboration Likelihood Model	
+MC-468	مدل اکتشافی–سیستماتیک	Heuristic-Systematic Model (HSM)	
+MC-489	مدل حرفهایگرایی و اتونومی خبری	Professionalization and News Autonomy Model	
+MC-493	مدل مطبوعاتی/تبلیغاتی	Pressurization/Advertising Model	
+MC-494	مدل اطلاعات عمومی	Public Information Model of PR	
+MC-495	مدل گفتوگویی	The Dialogic Model of Public Relations	
+MC-497	مدل بحران و ارتباطات بحران	Crisis and Crisis Communication Model	
+MC-501	مدل دو بازار	Two-Sided Market Model	
+MC-503	هزینه و بیماری هزینه	Cost and Cost Disease (Baumol's Cost Disease)	
+MC-504	مدل دُم بلند	The Long Tail Model	
+MC-526	نظریه برچسب/امتیازدهی الگوریتمی	Algorithmic Labeling/Scoring Theory	
+MC-531	مدل هوش مصنوعی مولد در رسانه	Generative AI Model in Media	
+MC-541	مدل رایلی و رایلی (جامعهشناختی)	Riley and Riley Model (Sociological)	
+MC-542	مدل جاکوبسون	Jakobson's Model	
+MC-543	مدل مالِتزکه	Maltzke Model	
+MC-544	مدل بوم/ارابه	Ecosystem/Bandwagon Model	
+MC-545	مدل راس و بیتسون	Ross and Bateson Model	
+MC-546	مدل تخصیص معنا	Meaning Allocation Model	
+MC-547	مدل ساختاری–کارکردی ارتباط جمعی	Structural-Functional Model of Mass Communication	
+MC-548	مدل انتقالی در برابر آیینی	Transmission vs. Ritual Model	
+MC-549	مدل «ارتباط بهمثابه فرهنگ»	Communication as Culture Model	
+MC-550	مدل شماتیک گربر	Gerbner's Schematic Model	
+MC-554	مدل وابستگی رسانه–مخاطب	Media-Audience Dependency Model	
+MC-566	فرضیه پرخاشگری–رشد	Aggression-Growth Hypothesis	
+MC-567	مدل شرطیسازی رسانه	Media Conditioning Model	
+MC-569	مدل سرگرمی و غلبه بر مقاومت	Entertainment and Resistance-Overcoming Model	
+MC-577	اثر ترس	هیجانات و اقناع / Fear Appeals / EPPM	
+MC-583	مدل دوسویه متقارن	Two-Way Symmetrical Model	
+MC-584	مدل انگیزه مختلط	Mixed Motivation Model	
+MC-587	مدل همجهتیابی	Congruencing Model	
+MC-588	مدل «دزدیدن رعد»	Stealing Thunder Model	
+MC-590	مدل ارتباطات خطر	Risk Communication Model	
+MC-591	مدل ارتباطات بحران اجتماعی–رسانهای	Social-Media Crisis Communication Model	
+MC-593	مدل شهرت و اعتبار سازمانی	Organizational Reputation and Credibility Model	
+MC-594	مدل اینترنت و روابط عمومی	Internet and Public Relations Model	
+MC-595	مدل رسانههای اجتماعی و روابط عمومی	Social Media and Public Relations Model	
+MC-597	مدل عمومی روابط عمومی	General Public Relations Model	
+MC-599	مدل بازار دوسویه	Two-Sided Market Model	
+MC-606	پنج نیروی پورتر	Porter's Five Forces	
+MC-609	مدل هاتلینگ مکانی	Hotelling's Spatial Model	
+MC-610	اقتصاد سازندگان	Maker Economy	
+MC-611	مدل رسانه عمومی	Public Media Model	
+MC-619	مدل ویژگیهای شغل	Job Characteristics Model	
+MC-620	مدل تقاضاها–منابع شغلی	Demands-Resources Model (JD-R)	
+MC-630	مدیریت تغییر	Change Management	
+MC-631	مدل هشت مرحلهای تغییر	Eight-Stage Change Model	
+MC-640	مدل دموکراسی نمایشی	Spectacle Democracy	
+MC-641	مدل پسدموکراسی	Post-Democracy Model	
+MC-643	مدل رژیم ترکیبی و رسانه	Hybrid Regime and Media Model	
+MC-649	مدل محیط رسانهای	Media Environment Model	
+MC-650	مدل خودکارسازی خبر	News Automation Model	
+MC-652	مدل موفقیت سیستمهای اطلاعاتی	Information Systems Success Model	
+MC-654	مدل تناسب وظیفه–فناوری	Task-Technology Fit Model	
+MC-674	مدل اشاعه اطلاعات جعلی	Fake News Diffusion Model	
+MC-679	مدل اسطوره و رسانه	Myth and Media Model	
+MC-697	مدل مذاکره/حاشیهنشینی خبر	Negotiation/Marginalization Model of News	
+MC-700	مدل همزیستی رسانه و منبع	Media-Source Symbiosis Model	
+MC-703	مدل روزنامهنگاری بلندفرم/کند	Longform/Slow Journalism Model	
+MC-704	چارچوب دروازهبانی الگوریتمی	Algorithmic Gatekeeping Framework	
+MC-705	مدل اخبار جعلی و راستیآزمایی	Fake News and Fact-Checking Model	
+MC-711	مدل اعتیاد به اینترنت و رسانه	Internet and Media Addiction Model	
+
+===== PARADIGM (9) =====
+MC-015	پارادایم اثرات محدود (و بازاندیشی در «سوزن تزریقی»)	Limited/Minimal Effects Paradigm	
+MC-233	ارتباطات توسعه و پارادایم نوسازی	Development Communication & Modernization Paradigm	
+MC-570	پارادایم روایی	Narrative Paradigm	
+MC-720	کارکردگرایی ساختاری	Structural Functionalism	
+MC-722	پدیدارشناسی	Phenomenology	
+MC-723	فمینیسم رسانهای	Media Feminism	
+MC-725	پساساختارگرایی	Post-Structuralism	
+MC-726	عملگرایی	Actantialism	
+MC-727	فلسفه رسانه	Philosophy of Media	
+
+===== PERSON (39) =====
+th-1	ماکسول مک‌کامبز	Maxwell McCombs	
+th-10	هارولد لاسول	Harold Lasswell	
+th-11	مانوئل کاستلز	Manuel Castells	
+th-12	رابرت انتمن	Robert Entman	
+th-13	شانتو اینگار	Shanto Iyengar	
+th-14	دنیس مک‌کوایل	Denis McQuail	
+th-15	والتر لیپمن	Walter Lippmann	
+th-16	کرت لوین	Kurt Lewin	
+th-17	پیر بوردیو	Pierre Bourdieu	
+th-18	ژان بودریار	Jean Baudrillard	
+th-19	تئودور آدورنو	Theodor Adorno	
+th-2	دونالد شاو	Donald Shaw	
+th-20	ملوین دفلور	Melvin DeFleur	
+th-21	ساندرا بال‌روکیچ	Sandra Ball-Rokeach	
+th-22	هنری جنکینز	Henry Jenkins	
+th-23	استیگ هیارد	Stig Hjarvard	
+th-24	نیک کولدری	Nick Couldry	
+th-25	دانیل کانمن	Daniel Kahneman	
+th-26	دیوید آلتهاید	David Altheide	
+th-27	رولان بارت	Roland Barthes	
+th-28	ایلیا کتز	Elihu Katz	
+th-29	فیلیپ تیچنور	Philip Tichenor	
+th-3	مارشال مک‌لوهان	Marshall McLuhan	
+th-30	دیوید منینگ وایت	David Manning White	
+th-31	نیل پستمن	Neil Postman	
+th-32	دالاس اسمایث	Dallas Smythe	
+th-33	یوهان گالتونگ	Johan Galtung	
+th-34	ریچارد اِی. پتی	Richard E. Petty	
+th-35	کارل وایک	Karl Weick	
+th-36	لوسی کونگ	Lucy Kung	
+th-37	زیزی پاپاچاریسی	Zizi Papacharissi	
+th-38	دیوید هزمندهالگ	David Hesmondhalgh	
+th-39	دیوید نیبورگ	David Nieborg	
+th-4	یورگن هابرماس	Jürgen Habermas	
+th-5	استوارت هال	Stuart Hall	
+th-6	جورج گربنر	George Gerbner	
+th-7	الیزابت نوئل-نویمان	Elisabeth Noelle-Neumann	
+th-8	اروینگ گافمن	Erving Goffman	
+th-9	پل لازارسفلد	Paul Lazarsfeld	
+
+===== SCHOOL (8) =====
+card-479	فلسفه تکنولوژی	Philosophy of Technology	
+MC-333	مطالعات فرهنگی بریتانیا	British Cultural Studies	
+MC-339	سرگرم تا سرحد مرگ	Amusing Ourselves to Death	
+MC-344	فلسفه فناوری و گشتل	Philosophy of Technology and Gestell	
+MC-472	عقلانیت ابزاری / انسان تکساحتی	Instrumental Rationality / One-Dimensional Man	
+MC-473	رسانه سرد و گرم	Hot and Cold Media	
+MC-476	فناوری و تمدن	Technology and Civilization	
+MC-478	زیمل و جامعهشناسی صورتها	Simmel and the Sociology of Appearance	
+
+===== STRATEGY (3) =====
+MC-151	استراتژی‌های عمومی رقابتی	Porter's Generic Strategies	
+MC-153	استراتژی اقیانوس آبی	Blue Ocean Strategy	
+MC-277	گیمیفیکیشن	Gamification	
+
+===== SUBFIELD (1) =====
+MC-080	علوم اجتماعی محاسباتی	Computational Social Science	
+
+===== THEORY (479) =====
+card-248	نظریه‌ی نقض انتظار	Expectancy Violations Theory	
+card-322	نظریه توازن	Balance Theory	
+card-323	نظریه واکنش روانی	Psychological Reactance Theory	
+card-388	سرمایه انسانی	Human Capital	
+card-391	نظریه X و Y	Theory X and Theory Y	
+card-430	جماعت‌های شبکه‌ای	Network Communities	
+card-456	نظریه بازی در فرهنگ و ارتباطات	Play Theory in Culture and Communication	
+card-90	جبر فناورانه در برابر ساخت اجتماعی فناوری	Technological Determinism vs. Social Construction of Technology	
+MC-001	برجسته‌سازی دستور کار	Agenda-Setting Theory	
+MC-002	برجسته‌سازی شبکه‌ای (سطح سوم برجسته‌سازی)	Network Agenda-Setting (NAS) Model	
+MC-003	پرایمینگ و زمینه‌سازی رسانه‌ای	Media Priming	
+MC-004	چارچوب‌بندی رسانه‌ای	Media Framing Theory	
+MC-006	نظریه کاشت و سندرم جهان بی‌رحم	Cultivation Theory & Mean World Syndrome	
+MC-007	نظریه مارپیچ سکوت	Spiral of Silence Theory	
+MC-008	استفاده و خشنودی	Uses and Gratifications	
+MC-009	نظریه وابستگی به نظام رسانه‌ای	Media System Dependency Theory	
+MC-012	جریان دو مرحله‌ای ارتباطات	Two-Step Flow of Communication	
+MC-013	نظریه دروازه‌بانی خبر	Gatekeeping Theory	
+MC-016	جامعه شبکه‌ای و قدرت ارتباطات	The Network Society & Communication Power	
+MC-017	جامعه پساصنعتی و جامعه اطلاعاتی	Post-Industrial Society / Information Society	
+MC-018	منطق رسانه	Media Logic	
+MC-019	رسانه‌ای‌شدن	Mediatization	
+MC-020	ساخت اجتماعی واقعیت	The Social Construction of Reality	
+MC-023	نظریه ناهماهنگی شناختی	Cognitive Dissonance Theory	
+MC-024	نظریه انگیزش محافظت	Protection Motivation Theory	
+MC-025	نظریه تلقیح	Inoculation Theory	
+MC-026	جاذبه‌های بلاغی ارسطویی در عصر دیجیتال	Rhetorical Appeals: Ethos, Pathos, Logos in the Digital Age	
+MC-027	نظریه رفتار برنامه‌ریزی‌شده	Theory of Planned Behavior	
+MC-030	نظریه واکنش‌گرایی روانشناختی	Psychological Reactance Theory	
+MC-032	اقتصاد توجه	Attention Economy	
+MC-035	تمرکز مالکیت و رقابت رسانه‌ای	Media Concentration & Ownership	
+MC-036	صرفه‌های مقیاس و دامنه و ساختار هزینه کالای رسانه‌ای	Economies of Scale & Scope; Media Cost Structure	
+MC-037	دم بلند	The Long Tail	
+MC-038	اقتصاد سیاسی رسانه	Political Economy of the Media	
+MC-039	نوآوری مخرب در رسانه	Disruptive Innovation in Media	
+MC-041	حوزه عمومی	Public Sphere	
+MC-042	قوه چهارم	The Fourth Estate	
+MC-043	عینیت خبری	Journalistic Objectivity	
+MC-044	نظریه‌های چهارگانه مطبوعات	Four Theories of the Press	
+MC-045	نظریه مسئولیت اجتماعی	Social Responsibility Theory	
+MC-046	سلسله‌مراتب تأثیرات	Hierarchy of Influences	
+MC-047	میدان روزنامه‌نگاری	Journalistic Field	
+MC-048	نظام رسانه‌ای ترکیبی	Hybrid Media System	
+MC-049	نظریه‌های هنجاری روزنامه‌نگاری	Normative Theories of Journalism	
+MC-050	روزنامه‌نگاری شهروندی	Citizen Journalism	
+MC-051	حریم خصوصی	Privacy	
+MC-052	یکپارچگی بافتاری	Contextual Integrity	
+MC-053	بازار اندیشه‌ها	Marketplace of Ideas	
+MC-055	حق فراموش‌شدن	Right to be Forgotten	
+MC-056	حاکمیت داده	Data Sovereignty	
+MC-058	بدخواهی واقعی	Actual Malice	
+MC-060	حاکمیت پلتفرم و مصونیت میانجی	Platform Governance & Safe Harbor	
+MC-061	نظریه ذی‌نفعان	Stakeholder Theory	
+MC-063	دیدگاه مبتنی بر منابع	Resource-Based View	
+MC-064	قابلیت‌های پویا	Dynamic Capabilities	
+MC-065	اکولوژی جمعیتی سازمان‌ها	Population Ecology of Organizations	
+MC-066	هم‌شکلی نهادی	Institutional Isomorphism	
+MC-067	هزینه مبادله	Transaction Cost Economics	
+MC-068	نظریه نمایندگی	Agency Theory	
+MC-070	معناسازی	Sensemaking	
+MC-074	تحلیل گفتمان انتقادی	Critical Discourse Analysis	
+MC-075	نشانه‌شناسی	Semiotics	
+MC-076	نظریه کنشگر-شبکه	Actor-Network Theory	
+MC-079	قوم‌نگاری تحریریه	Newsroom Ethnography	
+MC-083	نظریه جامعه توده‌ای	Mass Society Theory	
+MC-084	صنعت فرهنگ	The Culture Industry	
+MC-085	افکار عمومی و محیط کاذب	Public Opinion & the Pseudo-Environment	
+MC-086	نظریه اشاعه نوآوری	Diffusion of Innovations	
+MC-087	مواجهه، ادراک و بازیابی گزینشی	Selective Exposure, Perception & Retention	
+MC-088	نظریه شناختی اجتماعی (یادگیری مشاهده‌ای)	Social Cognitive Theory	
+MC-089	نظریه رسانه (مدیوم)	Medium Theory	
+MC-091	هژمونی فرهنگی	Cultural Hegemony	
+MC-092	ایدئولوژی و دستگاه‌های ایدئولوژیک دولت	Ideology & Ideological State Apparatuses	
+MC-093	امپریالیسم فرهنگی و رسانه‌ای	Cultural & Media Imperialism	
+MC-094	جامعه نمایش	The Society of the Spectacle	
+MC-095	شرق‌شناسی و نظریه پسااستعماری رسانه	Orientalism & Postcolonial Media Theory	
+MC-096	نگاه مردانه	The Male Gaze	
+MC-097	وحشت اخلاقی	Moral Panic	
+MC-098	رویدادهای رسانه‌ای	Media Events	
+MC-099	دیدگاه آیینی ارتباطات	Ritual View of Communication	
+MC-100	جوامع تصوری	Imagined Communities	
+MC-102	تعامل پاراسوشیال	Parasocial Interaction	
+MC-103	نظریه مقایسه اجتماعی	Social Comparison Theory	
+MC-104	نظریه مدیریت خلق	Mood Management Theory	
+MC-105	انتقال برانگیختگی	Excitation Transfer Theory	
+MC-111	امکان‌دهی‌ها	Affordances	
+MC-112	حباب فیلتر	Filter Bubble	
+MC-113	اتاق پژواک	Echo Chamber	
+MC-114	فرهنگ مشارکتی	Participatory Culture	
+MC-115	فردگرایی شبکه‌ای	Networked Individualism	
+MC-116	فروپاشی بافتار	Context Collapse	
+MC-117	جامعه پلتفرمی	Platform Society	
+MC-118	سرمایه‌داری نظارتی	Surveillance Capitalism	
+MC-122	نظریه ارتباطات بحران وضعیتی	Situational Crisis Communication Theory	
+MC-124	هویت و تصویر سازمانی	Organizational Identity and Image	
+MC-125	نظریه وضعیت جمهورها	Situational Theory of Publics	
+MC-126	قاب‌بندی سود و زیان در پیام‌رسانی	Gain vs. Loss Framing in Messaging	
+MC-127	مدیریت سمعه شرکتی	Corporate Reputation Management	
+MC-129	ارتباطات ریسک	Risk Communication	
+MC-130	اقتصاد رسانه	Media Economics	
+MC-134	نظریه داوری اجتماعی	Social Judgment Theory	
+MC-136	اصول نفوذ	Principles of Influence	
+MC-137	تلنگر رفتاری و معماری انتخاب	Nudge & Choice Architecture	
+MC-138	اعتبار منبع	Source Credibility	
+MC-139	قدرت نرم	Soft Power	
+MC-140	دیپلماسی عمومی	Public Diplomacy	
+MC-141	نظریه برتری روابط عمومی	Excellence Theory	
+MC-142	نظریه ترمیم تصویر	Image Repair Theory	
+MC-144	نظریه ساخت دستور کار رسانه‌ای	Agenda-Building Theory	
+MC-145	نظریه مدیریت رابطه	Relationship Management Theory	
+MC-146	ارتباط گفت‌وگومدار	Dialogic Communication Theory	
+MC-147	برابری مشتری-بنیاد برند	Customer-Based Brand Equity	
+MC-148	شخصیت برند	Brand Personality	
+MC-149	نظریه انتساب	Attribution Theory	
+MC-150	ارتباطات بازاریابی یکپارچه	Integrated Marketing Communications	
+MC-152	زنجیره‌ی ارزش	Value Chain	
+MC-154	دیدگاه مبتنی بر توجه	Attention-Based View of the Firm	
+MC-155	یادگیری سازمانی (تک‌حلقه و دوحلقه)	Organizational Learning	
+MC-157	بیماری هزینه‌ی بومول	Baumol's Cost Disease	
+MC-158	کالای عمومی و شکست بازار	Public Goods & Market Failure	
+MC-159	کالای مخاطب	The Audience Commodity	
+MC-160	بسته‌سازی کالاهای اطلاعاتی	Bundling of Information Goods	
+MC-161	اقتصاد ابرستاره‌ها و بازار برنده‌همه‌چیز	Superstar Economics & Winner-Take-All Markets	
+MC-162	تبعیض قیمتی و نسخه‌بندی محصول	Price Discrimination & Versioning	
+MC-163	بازار «لیموهای» و عدم تقارن اطلاعات	The Market for Lemons & Information Asymmetry	
+MC-164	کالای اعتباری	Credence Goods	
+MC-165	تبلیغات به‌مثابه اطلاعات در برابر تبلیغات اقناعی	Advertising as Information vs. Persuasive Advertising	
+MC-166	صنایع فرهنگی	The Cultural Industries	
+MC-167	کار خلاق، ناپایداری و «بدون یقه»	Creative Labor, Precarity & "No-Collar" Work	
+MC-169	گسترش پلتفرمی	Platform Envelopment	
+MC-170	وابستگی به مسیر	Path Dependence	
+MC-171	هم‌رقابتی	Co-opetition	
+MC-172	نظریه‌ی وابستگی منابع	Resource Dependence Theory	
+MC-176	گروه‌های راهبردی	Strategic Groups	
+MC-177	ابررقابت	Hypercompetition	
+MC-178	حراج تبلیغاتی و قاعده‌ی قیمت دوم	Ad Auctions & Generalized Second-Price Auction	
+MC-179	نظریه‌ی محدودیت‌ها	Theory of Constraints	
+MC-180	استارتاپ ناب	The Lean Startup	
+MC-181	عقلانیت محدود	Bounded Rationality	
+MC-182	نشانگری	Signaling	
+MC-183	آبشار اطلاعاتی	Information Cascades	
+MC-184	مسابقه‌ی زیبایی کینز	Keynes's Beauty Contest	
+MC-186	مصرف نمایشی	Conspicuous Consumption	
+MC-187	خروج، اعتراض و وفاداری	Exit, Voice, and Loyalty	
+MC-188	نظریه‌ی دو عاملی انگیزش	Two-Factor Theory	
+MC-189	فرهنگ سازمانی	Organizational Culture	
+MC-190	اختیارهای واقعی	Real Options	
+MC-191	ارزش‌های خبری	News Values	
+MC-193	جریان یک‌سویه‌ی اخبار جهانی	One-Way Flow of Global News	
+MC-194	جهانی‌محلی‌سازی	Glocalization	
+MC-195	روزنامه‌نگاری صلح	Peace Journalism	
+MC-196	دموکراسی مشورتی	Deliberative Democracy	
+MC-197	کثرت‌گرایی آگونیستیک	Agonistic Pluralism	
+MC-198	تسخیر رسانه	Media Capture	
+MC-200	روایت‌های راهبردی	Strategic Narratives	
+MC-202	پوشش مسابقه‌ای انتخابات	Horse-Race Coverage	
+MC-203	سوگیری منفی در اخبار سیاسی	Negativity Bias in Political News	
+MC-204	مالکیت موضوع	Issue Ownership	
+MC-205	قطبی‌شدن عاطفی	Affective Polarization	
+MC-206	ارتباط پوپولیستی	Populist Communication Style	
+MC-207	بازاریابی سیاسی و حزب بازارگرا	Market-Oriented Party	
+MC-208	شخصی‌سازی سیاست	Personalization of Politics	
+MC-209	استدلال انگیزشی	Motivated Reasoning	
+MC-210	میان‌بُرهای اطلاعاتی	Informational Shortcuts	
+MC-213	جامعه‌ی مدنی جهانی	Global Civil Society	
+MC-214	حوزه‌ی عمومی فراملی	Transnational Public Sphere	
+MC-215	جهان‌وطنی و ارتباطات فراملی	Cosmopolitanism	
+MC-216	نزدیکی فرهنگی	Cultural Proximity	
+MC-217	برندسازی ملی	Nation Branding	
+MC-218	تروریسم رسانه‌ای‌شده	Mass-Mediated Terrorism	
+MC-219	تماشاگری بشردوستانه (تماشای رنج)	Humanitarian Spectatorship	
+MC-220	چارچوب روایت سیاستی	Narrative Policy Framework	
+MC-222	سرمایه‌داری پلتفرمی	Platform Capitalism	
+MC-223	داده‌محوری و دیتاایسم	Datafication and Dataism	
+MC-224	راه‌حل‌گرایی فناورانه	Technological Solutionism	
+MC-226	کار قابل‌رؤیت	Visibility Labour	
+MC-227	پروپاگاندای محاسباتی	Computational Propaganda	
+MC-228	رسانه‌ی مصنوعی و جعل عمیق	Synthetic Media and Deepfakes	
+MC-229	کار دیجیتال رایگان	Free Labour	
+MC-231	میانجی‌گری فرهنگی	Mediations	
+MC-232	استعمار قدرت	Coloniality of Power	
+MC-238	سرایت هیجانی و اخلاق آزمایش‌های پلتفرمی	Emotional Contagion & Platform Experiments	
+MC-240	ولایتی کردن اروپا	Provincializing Europe	
+MC-241	نظریه‌ی حضور اجتماعی	Social Presence Theory	
+MC-242	نظریه‌ی غنای رسانه	Media Richness Theory	
+MC-243	نظریه‌ی پردازش اطلاعات اجتماعی	Social Information Processing Theory	
+MC-247	نظریه‌ی کاهش عدم قطعیت	Uncertainty Reduction Theory	
+MC-250	نظریه‌ی مدیریت حریم ارتباطی	Communication Privacy Management Theory	
+MC-251	قوت پیوندهای ضعیف	The Strength of Weak Ties	
+MC-252	حفره‌های ساختاری	Structural Holes	
+MC-253	شبکه‌های جهان کوچک	Small-World Networks	
+MC-254	شبکه‌های بی‌مقیاس و پیوست ترجیحی	Scale-Free Networks & Preferential Attachment	
+MC-255	سرایت پیچیده	Complex Contagion	
+MC-256	سرمایه‌ی اجتماعی (پیونددهنده و پل‌زن)	Social Capital	
+MC-257	هم‌سانی‌گزینی	Homophily	
+MC-258	سایت‌های شبکه‌ی اجتماعی و عموم‌های شبکه‌ای	Social Network Sites & Networked Publics	
+MC-259	نظریه‌ی ساخت‌یابی	Structuration Theory	
+MC-260	عدد دانبار	Dunbar's Number	
+MC-261	اقتصاد اشتراکی	The Sharing Economy	
+MC-262	اقتصاد اشتراک	Subscription Economy	
+MC-263	ارزش طول عمر مشتری	Customer Lifetime Value	
+MC-266	هزینه‌ی جابه‌جایی و قفل‌شدگی مشتری	Switching Costs and Customer Lock-in	
+MC-268	سامانه‌ی توصیه‌گر و ریزش در ویدئوی درخواستی	Recommender Systems and Churn in VOD	
+MC-269	کار مشتری‌محور	Jobs-to-be-Done	
+MC-270	اقتصاد تجربه	The Experience Economy	
+MC-271	پانوپتیکون و قدرت انضباطی	Panopticon & Disciplinary Power	
+MC-272	حکمرانی‌مندی و قدرت زیستی	Governmentality & Biopower	
+MC-273	قدرت ارتباطی	Communication Power	
+MC-278	استعمار داده	Data Colonialism	
+MC-279	کد قانون است	Code Is Law	
+MC-280	نظریه‌ی خودتعیینی و اثر بیش‌توجیه	Self-Determination Theory & Overjustification Effect	
+MC-283	کد جدید جیم	The New Jim Code	
+MC-284	عدالت داده	Data Justice	
+MC-285	داده‌نظارتی	Dataveillance	
+MC-286	همکاری‌گرایی پلتفرمی	Platform Cooperativism	
+MC-287	حاکمیت مشترک و اصول طراحی منابع مشترک	Commons Governance & Design Principles	
+MC-288	طراحی حساس به ارزش	Value Sensitive Design	
+MC-289	مصرف‌تولید (پروسیومپشن)	Prosumption	
+MC-290	رسانه‌ی عمومی	Public Service Media	
+MC-291	قدرت سه‌بعدی	Lukes' Three-Dimensional Power	
+MC-292	قدرت نمادین	Symbolic Power	
+MC-293	پارادوکس حریم خصوصی	Privacy Paradox	
+MC-294	خودمدیریتی حریم و معضل رضایت	Privacy Self-Management & the Consent Dilemma	
+MC-295	امین‌های اطلاعاتی	Information Fiduciaries	
+MC-296	جعبه‌ی سیاه جامعه	The Black Box Society	
+MC-297	امین‌های داده	Data Trusts	
+MC-298	تنظیم‌گری‌ساختگی	Regulatory Capture	
+MC-299	تخیل‌های اجتماعی-فنی	Sociotechnical Imaginaries	
+MC-300	فئودالیسم فناورانه	Technofeudalism	
+MC-302	نظریه ریاضی اطلاعات	Mathematical Theory of Information	
+MC-311	سایبرنتیک	Cybernetics	
+MC-312	نظریه عمومی سیستم‌ها	General Systems Theory	
+MC-313	برساخت‌گرایی اجتماعی	Social Constructivism	
+MC-314	کنش متقابل نمادین	Symbolic Interactionism	
+MC-315	گلوله جادویی / سوزن تزریقی	Magic Bullet / Hypodermic Needle Theory	
+MC-316	رهبران افکار	Opinion Leaders	
+MC-317	تأثیرات محدود رسانه	Limited Effects of Media	
+MC-318	وابستگی به سیستم رسانه‌ای	Media System Dependency Theory	
+MC-321	نظریه قضاوت اجتماعی	Social Judgment Theory	
+MC-324	نظریه خودادراکی	Self-Perception Theory	
+MC-327	نظریه غرق‌شدگی روایی	Narrative Transportation Theory	
+MC-328	چارچوب‌بندی	News Framing	
+MC-329	آماده‌سازی ذهنی	Priming	
+MC-330	اثر هنری در عصر بازتولید مکانیکی	The Work of Art in the Age of Mechanical Reproduction	
+MC-331	انسان تک‌ساحتی / عقلانیت ابزاری	One-Dimensional Man / Instrumental Rationality	
+MC-332	کنش ارتباطی	Communicative Action	
+MC-334	رسانه پیام است	The Medium Is the Message	
+MC-335	دهکده جهانی	Global Village	
+MC-336	رسانه‌های سرد و گرم	Hot and Cool Media	
+MC-337	سوگیری رسانه‌ها	Media Bias	
+MC-338	وانموده و حادواقعیت	Simulacra and Hyperreality	
+MC-340	درومولوژی / سرعت و فناوری	Dromology / Speed and Technology	
+MC-341	پست‌مدرنیسم و وضعیت پسامدرن	Postmodernism and the Postmodern Condition	
+MC-342	نظریه نمایشی	Dramaturgy / Presentation of Self	
+MC-343	جامعه‌شناسی صورت‌ها و فضا	Sociology of Appearance and Space	
+MC-346	اسطوره‌شناسی و دلالت ضمنی	Myth and Connotation	
+MC-347	مرگ مؤلف	The Death of the Author	
+MC-349	تحلیل گفتمان میشل فوکو	Foucauldian Discourse Analysis	
+MC-351	نشانه‌شناسی اجتماعی	Social Semiotics	
+MC-352	ریخت‌شناسی و روایت‌شناسی ساختارگرا	Structuralist Morphology & Narratology	
+MC-353	نظریه ژانر در رسانه	Genre Theory in Media	
+MC-354	نظریه دریافت	Reception Theory	
+MC-355	مخاطب فعال و مقاومت عامه	Active Audience	
+MC-356	جماعت‌های تفسیری	Interpretive Communities	
+MC-358	مشارکت هواداری	Fan Participation	
+MC-359	مخاطب خیالی در رسانه‌های اجتماعی	Imagined Audience in Social Media	
+MC-360	رسانه‌های پراکنده و مخاطب غیرمستقر	Diffuse Media and Itinerant Audiences	
+MC-361	عینیت به عنوان مناسک دفاعی	Objectivity as Defensive Ritual	
+MC-362	نظریه نمایه کردن خبر	News Indexing Theory	
+MC-364	روزنامه‌نگاری توسعه	Development Journalism	
+MC-365	روزنامه‌نگاری داده‌محور	Data Journalism	
+MC-366	روزنامه‌نگاری مشارکتی	Participatory Journalism	
+MC-369	مهندسی رضایت	Engineering Consent	
+MC-370	پروپاگاندا و دستکاری افکار عمومی	Propaganda and Public Opinion Manipulation	
+MC-371	نظریه تعالی روابط عمومی	Excellence Theory of Public Relations	
+MC-372	نظریه موقعیتی توده‌ها	Situational Crowd Theory	
+MC-373	روابط عمومی گفت‌وگومحور	Dialogic Public Relations	
+MC-374	نظریه اقتضایی سازگاری در روابط عمومی	PR Contingency Theory	
+MC-375	نظریه ارتباطات بحران موقعیتی	Situational Crisis Communication Strategy	
+MC-376	عذرخواهی سازمانی	Organizational Apology	
+MC-377	نقش‌های روابط عمومی	Roles of Public Relations	
+MC-378	روابط عمومی در نظریه سیستم‌ها	Public Relations in Systems Theory	
+MC-379	مدیریت شهرت و اعتبار	Reputation and Credibility Management	
+MC-380	ارتباطات استراتژیک	Strategic Communication	
+MC-381	اقتصاد بازارهای دوسویه رسانه	Two-Sided Market Economics of Media	
+MC-382	کالایی‌شدن مخاطب	Audience Commodity	
+MC-383	تاجران توجه	Merchants of Attention	
+MC-384	تخریب خلاق	Creative Destruction	
+MC-385	دُم دراز	The Long Tail	
+MC-386	نوآوری برهم‌زننده	Disruptive Innovation	
+MC-387	نظریه نهادی در رسانه	Institutional Theory of Media	
+MC-389	سرمایه فکری	Intellectual Capital	
+MC-390	سلسله‌مراتب نیازها	Hierarchy of Needs	
+MC-392	نظریه انتظار	Expectancy Theory	
+MC-393	نظریه برابری	Equity Theory	
+MC-394	کار عاطفی	Emotional Labor	
+MC-395	پره‌کاری و ناامنی شغلی در کار خلاق	Precarity and Job Insecurity in Creative Work	
+MC-396	کار رایگان در وب	Free Labor on the Web	
+MC-397	تولید‌مصرف‌کننده	Prosumer	
+MC-398	کاربری-تولید	User-Generated Content / Producer-User	
+MC-399	ساختن و تولید رضایت	Manufacturing Consent	
+MC-400	رسانه به عنوان رکن چهارم دموکراسی	Media as Fourth Estate of Democracy	
+MC-401	روزنامه‌نگاری سگ نگهبان	Watchdog Journalism	
+MC-402	قدرت تیز	Sharp Power	
+MC-404	حاکمیت دیجیتال	Digital Governance	
+MC-405	تنظیم‌گری پلتفرمی	Platform Regulation	
+MC-406	قدرت ارتباطات	Communicative Power	
+MC-407	موج سوم	The Third Wave	
+MC-408	جبرگرایی فناورانه	Technological Determinism	
+MC-409	نظریه کنشگر–شبکه	Actor-Network Theory	
+MC-410	نظریه رسانه به عنوان بستر	Media as Environment Theory	
+MC-411	اهلی‌سازی فناوری	Domestication of Technology	
+MC-413	نظریه یکپارچه پذیرش و کاربست فناوری	Unified Theory of Acceptance and Use of Technology (UTAUT)	
+MC-414	نظریه امکان‌پذیری‌ها / کنش‌یاری	Affordance / Agency Theory	
+MC-415	پلتفرمیزاسیون	Platformization	
+MC-416	ایدئولوژی کالیفرنیایی	The Californian Ideology	
+MC-417	وب به مثابه فضای باز	The Web as Open Space	
+MC-418	سایبرفرهنگ و هوش جمعی	Cyberculture and Collective Intelligence	
+MC-420	باستان‌شناسی رسانه	Media Archaeology	
+MC-422	قدرت پیوندهای ضعیف	Strength of Weak Ties	
+MC-423	شش درجه جدایی	Six Degrees of Separation	
+MC-424	نظریه جهان کوچک در شبکه‌ها	Small-World Theory in Networks	
+MC-425	سوراخ‌های ساختاری	Structural Holes	
+MC-426	هموفیلی / همسانی	Homophily	
+MC-427	سرمایه اجتماعی	Social Capital	
+MC-428	انتشار نوآوری‌ها	Diffusion of Innovations	
+MC-429	سایت‌های شبکه اجتماعی	Social Network Sites	
+MC-431	جماعت‌های عاطفی	Communities of Feeling / Affect	
+MC-433	داده‌سازی	Datification	
+MC-434	نظریه جعبه سیاه الگوریتم‌ها	Algorithmic Black Box Theory	
+MC-435	نظارت سراسربین / پانوپتیکون	Omniscient Surveillance / Panopticon	
+MC-436	نظارت از پایین / سوپروایزنس معکوس	Surveillance from Below / Reverse Surveillance	
+MC-437	داده‌بانی و ردگیری اطلاعاتی	Databending and Information Tracing	
+MC-438	عصر پسا-حقیقت	The Post-Truth Era	
+MC-439	نظریه تطابق ارتباطی	Communication Accommodation	
+MC-440	نظریه مذاکره چهره	Face Negotiation Theory	
+MC-441	مدیریت اضطراب / عدم قطعیت	Anxiety/Uncertainty Management Theory	
+MC-443	نظریه نقطه دیدگاه	Perspective-Taking Theory	
+MC-444	نظریه گروه خاموش	Silent Group Theory	
+MC-445	نظریه هم‌فرهنگی	Co-Cultural Theory	
+MC-446	ساختاریابی ارتباطات سازمانی	Structuring Organizational Communication	
+MC-447	نظریه حس‌سازی و تولید معنا در سازمان	Organizational Sensemaking Theory	
+MC-448	نظریه انتقال انگیختگی	Arousal Transfer Theory	
+MC-449	تعامل پیرااجتماعی	Parasocial Interaction	
+MC-450	نظریه شناخت اجتماعی	Social Cognition Theory	
+MC-451	حساسیت‌زدایی در رسانه	Desensitization in Media	
+MC-452	نظریه تمایلات خلقی-دراماتیک	Mood-Dramatic Disposition Theory	
+MC-453	فرهنگ همگرایی	Convergence Culture	
+MC-454	رسانه‌های پخش‌پذیر	Broadcastable Media	
+MC-455	روایت‌گری فرا-رسانه‌ای	Transmedia Storytelling	
+MC-457	جهانی‌محلی‌شدن	Glocalization	
+MC-458	چشم‌اندازهای پنج‌گانه جهانی‌شدن	Five Scenarios of Globalization	
+MC-459	رسانه‌های فراملی و دیاسپورا	Transnational and Diaspora Media	
+MC-460	نظریه جریان‌های متقابل رسانه‌ای	Reciprocal Media Flows Theory	
+MC-469	نظریه واکنشپذیری	Reactivity Theory	
+MC-470	نظریه انگیزش حفاظت	Protection Motivation Theory	
+MC-471	نظریه حملونقل روایی	Narrative Transportation Theory	
+MC-474	وانمایی / وانمودگی	Simulation	
+MC-475	سرگرمی تا حد مرگ	Amusing Ourselves to Death	
+MC-477	امپریالیسم فرهنگی/رسانهای	Cultural/Media Imperialism	
+MC-480	نشانهشناسی ساختاری	Structural Semiotics	
+MC-482	اسطورهشناسی و رمزگان	Mythology and Codes	
+MC-483	تحلیل انتقادی گفتمان	Critical Discourse Analysis	
+MC-485	جماعت تفسیری	Interpretive Communities	
+MC-486	سهگانه مخاطب	The Audience Triad	
+MC-487	فرهنگ هواداران	Fan Culture	
+MC-488	عینیتگرایی خبر	News Objectivity	
+MC-491	نظریه آبشاری فعالسازی	Cascading Activation Theory	
+MC-492	نظریه تعالی	Excellence Theory	
+MC-496	نظریه اقتضایی روابط عمومی	PR Contingency Theory	
+MC-498	نظریه سیستمی روابط عمومی	Systems Theory of Public Relations	
+MC-502	تجار توجه	Merchants of Attention	
+MC-506	رسانه بهعنوان صنعت خلاق	Media as Creative Industry	
+MC-507	مدیریت رسانه	Public Service Media	
+MC-508	نظریه برابری/عدالت سازمانی	Organizational Equity/Fairness Theory	
+MC-509	کار هیجانی	Emotional Labor	
+MC-510	کار خلاق و نامطمئن	Precarious Creative Work	
+MC-511	پرودusage / کاربر تولیدکننده	Prosumer / Producer-User	
+MC-512	تولیدگر	Maker	
+MC-513	نظریه نظام جهانی اطلاعات	World Information Order Theory	
+MC-514	رسانه و دموکراسی	Media and Democracy	
+MC-515	قطعیت تکنولوژیک	Technological Determinism	
+MC-516	نظریه رسانه بهعنوان واسطه	Media as Intermediary Theory	
+MC-517	UTAUT	UTAUT (Unified Theory of Acceptance and Use of Technology)	
+MC-518	نظریه کارکردها/امکانات	Affordance/Functions Theory	
+MC-519	نظریه وب بهعنوان محیط	The Web as Environment Theory	
+MC-521	شبکههای بیدرجه	Scale-Free Networks	
+MC-522	همسانی	Homophily	
+MC-523	تسهیم نوآوری	Diffusion of Innovations	
+MC-525	کلانداده	Glocalization	
+MC-527	پانوپتیکن	Panopticon	
+MC-528	سورویانس	Surveillance	
+MC-529	نظریه دادهبرداری/دادهکاوی	Data Extraction/Data Mining Theory	
+MC-530	اطلاعات نادرست/جعلی و پست-حقیقت	Misinformation/Disinformation and Post-Truth	
+MC-532	نظریه همانندی ارتباطی	Communication Similarity Theory	
+MC-533	نظریه نقطهنظر	Perspective-Taking Theory	
+MC-534	ارتباطات سازمانی بهعنوان تولید معنا	Organizational Communication as Meaning-Making	
+MC-536	تعامل فرامرزی	Cross-Border Interaction	
+MC-537	بازیگرایی	Gamism	
+MC-539	نظریه جهانیشدن فرهنگی	Cultural Globalization Theory	
+MC-557	سندرم جهان خشن	Mean World Syndrome	
+MC-568	نظریه تمایلات عاطفی	Emotional Disposition Theory	
+MC-571	نظریه عمل منطقی	Rational Action Theory	
+MC-585	نظریه وضعیتی افکار عمومی	Situational Public Opinion Theory	
+MC-586	نظریه وضعیتی حل مسئله	Situational Problem-Solving Theory	
+MC-589	نظریه مدیریت مسائل	Issue Management Theory	
+MC-592	سهگانه سود	Triple Bottom Line	
+MC-596	نظریه مرزگذاری سازمان	Organizational Boundary Theory	
+MC-608	زنجیره ارزش	Value Chain	
+MC-612	هرم نیازهای مازلو	Maslow's Hierarchy of Needs	
+MC-613	نظریه ERG	ERG Theory	
+MC-614	نظریه دو عاملی (انگیزش–بهداشت)	Two-Factor (Motivation-Hygiene) Theory	
+MC-615	نظریه Z	Theory Z	
+MC-616	نظریه هدفگذاری	Goal-Setting Theory	
+MC-617	نظریه تقویت	Reinforcement Theory	
+MC-618	نظریه نیازهای اکتسابی	Acquired Needs Theory	
+MC-621	قرارداد روانشناختی	Psychological Contract	
+MC-622	تعهد سازمانی	Organizational Commitment	
+MC-623	قدرت هیجانی کار	The Emotional Power of Work	
+MC-624	تولیدمصرفی	Produsage	
+MC-625	نظریه کار خلاق نامطمئن	Precarious Creative Work Theory	
+MC-626	مدیریت استعداد	Talent Management	
+MC-628	مدیریت دانش	Knowledge Management	
+MC-629	سازمان یادگیرنده	Learning Organization	
+MC-632	رهبری تحولآفرین/تعاملی	Transformational/Transactional Leadership	
+MC-633	رهبری موقعیتی	Situational Leadership	
+MC-634	رهبری خدمتگزار	Servant Leadership	
+MC-635	هوش عاطفی	Emotional Intelligence	
+MC-636	برند کارفرما	Employer Branding	
+MC-644	نظریه رسانه	Media State Relations	
+MC-646	نظریه امکانات/کارکردها	Affordances/Functions Theory	
+MC-648	همگرایی رسانهای	Media Convergence	
+MC-651	چرخه اغراق گارتنر	Gartner Hype Cycle	
+MC-655	نظریه غنای رسانه	Media Richness Theory	
+MC-656	نظریه همزمانی رسانهای	Media Synchronicity Theory	
+MC-657	نظریه گسترش کانال	Channel Expansion Theory	
+MC-658	چسبندگی ترجیحی	Preferential Stickiness	
+MC-659	همسانی/همرنگی	Homophily/Conformity	
+MC-661	تفکیک پیوند چسبنده–پُلی	Sticky-Bridge Tie Distinction	
+MC-662	نظریه پخش نوآوری	Diffusion of Innovations	
+MC-663	عمومهای عاطفی	Affective Publics	
+MC-664	نظریه برجستگی/نفوذ	Salience/Penetration Theory	
+MC-665	نظریه پیوند ضعیف در شبکههای آنلاین	Weak Tie Theory in Online Networks	
+MC-666	هرم DIKW	DIKW Pyramid	
+MC-667	نظریه برجستگی الگوریتمی	Algorithmic Salience Theory	
+MC-668	نظریه خودکارسازی تصمیم و تبعیض الگوریتمی	Decision Automation and Algorithmic Bias Theory	
+MC-669	سوپاناپتیکن	Supra-Panopticon	
+MC-670	محاسبه حریم خصوصی	Privacy Calculus	
+MC-671	یکپارچگی زمینهای	Field Integrity	
+MC-672	دادهکاوی سیاسی	Political Data Mining	
+MC-673	نظریه پستحقیقت	Post-Truth Theory	
+MC-675	مخاطب پراکنده	Diffuse Audience	
+MC-676	اقتصاد عاطفی	Emotional Economy	
+MC-677	نظریه حافظه جمعی و رسانه	Collective Memory and Media Theory	
+MC-680	نظریه تقلیل عدمقطعیت	Uncertainty Reduction Theory	
+MC-681	نظریه نفوذ اجتماعی	Social Penetration Theory	
+MC-682	نظریه ادب	Theories of Politeness	
+MC-683	نظریه عمل گفتاری	Speech Act Theory	
+MC-684	اصول تعاون گرایس	Grice's Cooperative Principles	
+MC-685	مدیریت هماهنگ معنا	Meaning Harmony Management	
+MC-686	دیالکتیکهای رابطهای	Relational Dialectics	
+MC-687	نظریه تبادل اجتماعی	Social Exchange Theory	
+MC-688	نظریه وابستگی متقابل	Interdependence Theory	
+MC-689	نظریه دلبستگی	Attachment Theory	
+MC-690	ابعاد فرهنگی هوفستده	Hofstede's Cultural Dimensions	
+MC-691	نظریه ارزشهای فرهنگی شوارتز	Schwartz's Cultural Values Theory	
+MC-692	نظریه پرواز پرنده سیاه	Black Bird Flight Theory	
+MC-693	نظریه سامانه–جهان	System-World Theory	
+MC-696	نظریه برساخت اجتماعی خبر	Social Construction of News Theory	
+MC-698	نظریه پارادایم روزنامهنگاری	News Paradigm Theory	
+MC-699	نظریه همزیستی خبر و روابط عمومی	News-PR Symbiosis Theory	
+MC-701	نظریه چرخش خبری	News Spin Theory	
+MC-707	نظریه خودگربه/طبقهبندی خود	Self-Categorization Theory	
+MC-708	نظریه مدیریت ترس	هیجانات و اقناع / Fear Appeals / EPPM	
+MC-709	نظریه سرگرمی بهعنوان بازی	Entertainment Theory	
+MC-710	نظریه انتخاب مواجهه	Exposure Selection Theory	
+MC-713	نظریه تصویر بدن و رسانه	Body Image and Media Theory	
+MC-721	نظریه تعارض	Conflict Theory	
+MC-724	نظریه کوئیر و رسانه	Queer Theory and Media	
+
+===== WORK (18) =====
+card-33	اثرات شبکه‌ای	Network Effects	
+card-581	اثر بومرنگ	Boomerang Effect	
+MC-010	اثر شخص سوم	Third-Person Effect	
+MC-101	اثر رسانه خصمانه	Hostile Media Effect	
+MC-109	اثر خواب‌آلود	Sleeper Effect	
+MC-110	اثر حقیقت‌نمایی (تکرار)	Illusory Truth Effect	
+MC-211	اثر CNN	The CNN Effect	
+MC-246	اثر بی‌بازداری آنلاین	Online Disinhibition Effect	
+MC-505	اثر شبکهای	Network Effect	
+MC-573	اثر تقدم و تأخر	Primacy and Recency Effect	
+MC-574	اثر لنگر	Anchoring Effect	
+MC-575	اثر چارچوب تصمیم	Decision Framing Effect	
+MC-576	سوگیری تأیید	Confirmation Bias	
+MC-578	اثر اجماع کاذب	False Consensus Effect	
+MC-579	اثر تکرار در اقناع	Repetition Effect in Persuasion	
+MC-580	اثر هاله	Halo Effect	
+MC-639	اثر گردهمایی دور پرچم	Rally 'Round the Flag Effect	
+res-e081bac707848a7377a4	نظریه‌های ارتباطات	Communication Theories	

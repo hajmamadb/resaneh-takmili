@@ -1,0 +1,420 @@
+# -*- coding: utf-8 -*-
+"""Batch 199: MC-712, MC-419, MC-120, MC-520, MC-221 (FRAMEWORK)."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch199-20261117"
+NOW = "2026-11-17 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch199.json"
+
+S = {
+    "MC-712": [
+        dict(kind="STANDARD",
+             title_en="International Classification of Diseases, 11th Revision (ICD-11): Gaming Disorder (6C51)",
+             title_fa="طبقه‌بندی بین‌المللی بیماری‌ها، ویرایش یازدهم: اختلال بازی",
+             authors="World Health Organization", year=2019,
+             publisher="World Health Organization",
+             doi=None,
+             url="https://www.who.int/news-room/questions-and-answers/item/addictive-behaviours-gaming-disorder",
+             language="en", isbn=None,
+             citation="World Health Organization. (2019). International Classification of Diseases, 11th Revision (ICD-11): Gaming disorder (6C51). Geneva: WHO.",
+             locator="6C51 Gaming disorder",
+             locator_type="SECTION",
+             supports="the three core criteria: impaired control, increasing priority, continuation despite negative consequences, with 12-month course",
+             verified=True),
+        dict(kind="STANDARD",
+             title_en="Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5): Internet Gaming Disorder",
+             title_fa="راهنمای تشخیصی و آماری اختلال‌های روانی، ویرایش پنجم: اختلال بازی اینترنتی",
+             authors="American Psychiatric Association", year=2013,
+             publisher="American Psychiatric Association",
+             doi=None,
+             url="https://www.psychiatry.org/psychiatrists/practice/dsm",
+             language="en", isbn=None,
+             citation="American Psychiatric Association. (2013). Diagnostic and Statistical Manual of Mental Disorders (5th ed.). Washington, DC: APA.",
+             locator="Internet Gaming Disorder, conditions for further study",
+             locator_type="SECTION",
+             supports="the DSM-5 placement of internet gaming disorder as a condition for further study, not an established diagnosis",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Scholars' Open Debate Paper on the World Health Organization ICD-11 Gaming Disorder Proposal",
+             title_fa="مقالهٔ بحث باز پژوهشگران دربارهٔ پیشنهاد اختلال بازی در طبقه‌بندی بین‌المللی بیماری‌ها",
+             authors="Espen Aarseth; Anthony M. Bean; Huub Boonen; Michelle Carras; Mark D. Griffiths; etc.", year=2017,
+             publisher="Journal of Behavioral Addictions",
+             doi=None,
+             url="https://pmc.ncbi.nlm.nih.gov/articles/PMC5700734/",
+             language="en", isbn=None,
+             citation="Aarseth, E., Bean, A. M., Boonen, H., Carras, M., Coulson, M., Das, D., ... & Van Rooij, A. J. (2017). Scholars' open debate paper on the World Health Organization ICD-11 Gaming Disorder proposal. Journal of Behavioral Addictions, 6(3), 267-270.",
+             locator="6(3), 267-270",
+             locator_type="PAGE",
+             supports="the critique that the proposal risks overpathologizing common play and lacks sufficient evidence",
+             verified=True),
+    ],
+    "MC-419": [
+        dict(kind="BOOK",
+             title_en="How We Became Posthuman: Virtual Bodies in Cybernetics, Literature, and Informatics",
+             title_fa="چگونه پسانسان شدیم: بدن‌های مجازی در سیبرنتیک، ادبیات و اطلاع‌رسانی",
+             authors="N. Katherine Hayles", year=1999,
+             publisher="University of Chicago Press",
+             doi=None,
+             url="https://press.uchicago.edu/ucp/books/book/chicago/H/bo3769963.html",
+             language="en", isbn=None,
+             citation="Hayles, N. K. (1999). How We Became Posthuman: Virtual Bodies in Cybernetics, Literature, and Informatics. Chicago: University of Chicago Press.",
+             locator="chs. 1-3",
+             locator_type="CHAPTER",
+             supports="the posthuman as distributed cognition and embodiment, against the liberal humanist subject",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="A Cyborg Manifesto: Science, Technology, and Socialist-Feminism in the Late Twentieth Century",
+             title_fa="مانیفست سایبورگ: علم، فناوری و فمینیسم سوسیالیستی در پایان سدهٔ بیستم",
+             authors="Donna Haraway", year=1991,
+             publisher="Routledge",
+             doi=None,
+             url=None,
+             language="en", isbn=None,
+             citation="Haraway, D. (1991). A cyborg manifesto: Science, technology, and socialist-feminism in the late twentieth century. In Simians, Cyborgs, and Women: The Reinvention of Nature (pp. 149-181). New York: Routledge.",
+             locator="pp. 149-181",
+             locator_type="PAGE",
+             supports="the cyborg as a boundary-blurring figure that complicates human-machine binaries",
+             verified=True),
+    ],
+    "MC-120": [
+        dict(kind="BOOK",
+             title_en="Digital Divide: Civic Engagement, Information Poverty, and the Internet Worldwide",
+             title_fa="شکاف دیجیتال: مشارکت مدنی، فقر اطلاعاتی و اینترنت در جهان",
+             authors="Pippa Norris", year=2001,
+             publisher="Cambridge University Press",
+             doi=None,
+             url="https://www.cambridge.org/core/books/digital-divide/20EFED5574695AC79D1BBC6E295B1EC0",
+             language="en", isbn=None,
+             citation="Norris, P. (2001). Digital Divide: Civic Engagement, Information Poverty, and the Internet Worldwide. Cambridge: Cambridge University Press.",
+             locator="ch. 1-3",
+             locator_type="CHAPTER",
+             supports="the three-level digital divide: global, social and democratic, in a 179-country comparison",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="The Deepening Divide: Inequality in the Information Society",
+             title_fa="شکاف ژرف‌شونده: نابرابری در جامعهٔ اطلاعاتی",
+             authors="Jan A. G. M. van Dijk", year=2005,
+             publisher="Sage",
+             doi=None,
+             url=None,
+             language="en", isbn=None,
+             citation="van Dijk, J. A. G. M. (2005). The Deepening Divide: Inequality in the Information Society. Thousand Oaks, CA: Sage.",
+             locator="chapters on access, skills and usage",
+             locator_type="CHAPTER",
+             supports="the sequential model of access, skills and usage that deepens rather than closes divides",
+             verified=True),
+    ],
+    "MC-520": [
+        dict(kind="BOOK",
+             title_en="Virtual Reality",
+             title_fa="واقعیت مجازی",
+             authors="Howard Rheingold", year=1991,
+             publisher="Summit Books",
+             doi=None,
+             url="https://books.google.com/books/about/Virtual_Reality.html?id=hHZQAAAAMAAJ",
+             language="en", isbn=None,
+             citation="Rheingold, H. (1991). Virtual Reality. New York: Summit Books.",
+             locator="chs. 1-3",
+             locator_type="CHAPTER",
+             supports="a popular account of immersive VR systems and their communicative promise",
+             verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Defining Virtual Reality: Dimensions Determining Telepresence",
+             title_fa="تعریف واقعیت مجازی: ابعاد تعیین‌کنندهٔ حضور از دور",
+             authors="Jonathan Steuer", year=1992,
+             publisher="Journal of Communication",
+             doi=None,
+             url="https://www.semanticscholar.org/paper/Defining-virtual-reality%3A-dimensions-determining-Steuer/5ac60",
+             language="en", isbn=None,
+             citation="Steuer, J. (1992). Defining virtual reality: Dimensions determining telepresence. Journal of Communication, 42(4), 73-93.",
+             locator="42(4), 73-93",
+             locator_type="PAGE",
+             supports="VR defined by telepresence along vividness and interactivity",
+             verified=True),
+    ],
+    "MC-221": [
+        dict(kind="BOOK_CHAPTER",
+             title_en="The Reformed English Curriculum",
+             title_fa="برنامهٔ درسی بازنگری‌شدهٔ زبان انگلیسی",
+             authors="Neil Postman", year=1970,
+             publisher="Pitman",
+             doi=None,
+             url="https://media-ecology.org/What-Is-Media-Ecology",
+             language="en", isbn=None,
+             citation="Postman, N. (1970). The reformed English curriculum. In A. C. Eurich (Ed.), High School 1980: The Shape of the Future in American Secondary Education (pp. 160-168). New York: Pitman.",
+             locator="pp. 160-168",
+             locator_type="PAGE",
+             supports="media ecology defined as the study of media as environments",
+             verified=True),
+        dict(kind="BOOK",
+             title_en="Understanding Media: The Extensions of Man",
+             title_fa="درک رسانه‌ها: امتدادهای انسان",
+             authors="Marshall McLuhan", year=1964,
+             publisher="McGraw-Hill",
+             doi=None,
+             url=None,
+             language="en", isbn=None,
+             citation="McLuhan, M. (1964). Understanding Media: The Extensions of Man. New York: McGraw-Hill.",
+             locator="chapters on media as extensions and environments",
+             locator_type="CHAPTER",
+             supports="the thesis that media are extensions of human senses and reshape the sensory ratio",
+             verified=True),
+    ],
+}
+
+ENRICH = {
+    "MC-712": dict(
+        needs_enrichment=False,
+        detailed_analysis="اختلال بازی در طبقه‌بندی یازدهم سازمان جهانی بهداشت با سه نشانهٔ هسته‌ای تعریف می‌شود: از دست رفتن کنترل بر بازی، اولویت یافتن بازی بر سایر علایق و فعالیت‌ها تا حدی که سایر حوزه‌های زندگی را کنار بزند، و ادامه یا تشدید بازی با وجود پیامدهای منفی. برای تشخیص، این الگو باید دست‌کم دوازده ماه ادامه یابد و به آسیب چشمگیر در حوزهٔ شخصی، خانوادگی، تحصیلی یا شغلی بینجامد؛ همچنین باید بازی آسیب‌زا و قمار خطرناک از آن تفکیک شود. انجمن روان‌پزشکی آمریکا در ویرایش پنجم راهنمای تشخیصی، اختلال بازی اینترنتی را در بخش «شرایط نیازمند پژوهش بیشتر» قرار داد و نه تشخیص رسمی. آرشث و همکاران (۲۰۱۷) هشدار دادند که تعریف گسترده می‌تواند بازی روزمره را آسیب‌شناختی کند و شواهد شیوع و اعتبار تشخیصی هنوز ناکافی است. پژوهش رسانه باید میان استفادهٔ پرمصرف، بازی مشکل‌دار و اختلال بالینی تمایز بگذارد و به منافع صنعت و سنجه‌های خودگزارشی نیز نقد داشته باشد.",
+        recommended_sources="طبقه‌بندی بین‌المللی بیماری‌ها، ویرایش یازدهم (سازمان جهانی بهداشت، ۲۰۱۹)؛ راهنمای تشخیصی و آماری اختلال‌های روانی، ویرایش پنجم (انجمن روان‌پزشکی آمریکا، ۲۰۱۳)؛ مقالهٔ بحث باز پژوهشگران دربارهٔ اختلال بازی (آرشث و همکاران، ۲۰۱۷).",
+    ),
+    "MC-419": dict(
+        needs_enrichment=False,
+        key_concepts=["شناخت توزیع‌شده", "بدن‌مندی", "حلقهٔ بازخورد", "سایبورگ", "سوژهٔ لیبرال", "بدن اطلاعاتی"],
+        recommended_sources="«چگونه پسانسان شدیم» (هیلز، ۱۹۹۹)؛ «مانیفست سایبورگ» (هاراوی، ۱۹۹۱)؛ برای پیوند با رسانه‌های دیجیتال، «جامعهٔ شبکه‌ای» (کاستلز، ۲۰۱۰).",
+    ),
+    "MC-120": dict(
+        needs_enrichment=False,
+        key_concepts=["شکاف دسترسی", "شکاف مهارت", "شکاف استفاده", "شکاف دموکراتیک", "سواد دیجیتال"],
+    ),
+    "MC-520": dict(
+        needs_enrichment=False,
+        key_concepts=["حضور", "غوطه‌وری", "زنده‌بودن", "تعامل‌پذیری", "حضور از دور"],
+        principles=["سنجش حضور با معیار ادراکی نه فقط مشخصات دستگاه", "توجه به تعامل عناصر زنده‌بودن و تعامل‌پذیری", "ملاحظهٔ پیامدهای اخلاقی بازسازی صحنه", "پرهیز از یکسان‌انگاری غوطه‌وری با واقع‌گرایی", "توجه به تفاوت کاربران در تحمل و پاسخ به غوطه‌وری"],
+        recommended_sources="«واقعیت مجازی» (رینگولد، ۱۹۹۱)؛ «تعریف واقعیت مجازی: ابعاد تعیین‌کنندهٔ حضور از دور» (استویر، ۱۹۹۲)؛ برای پیوند با رسانه‌های غوطه‌ور، پژوهش‌های حضور و روایت تعاملی.",
+    ),
+    "MC-221": dict(
+        needs_enrichment=False,
+        key_concepts=["رسانه به‌عنوان محیط", "امتداد حواس", "نسبت حواس", "رسانهٔ نو، محیط نو", "سواد رسانه‌ای محیطی"],
+    ),
+}
+
+NAME_FIX = {}
+
+YEAR_FIX = {
+    "MC-712": "year=2019 (ICD-11); DSM-5 2013; added Aarseth et al. (2017) debate; rebuilt template-contaminated analysis and recommendation list",
+    "MC-419": "year=1999 (Hayles 1999); Haraway 1991 verified; removed Latin glosses from key concepts and mixed-script recommendations",
+    "MC-120": "year=2001 (Norris 2001); van Dijk 2005 verified; removed Latin glosses from key concepts",
+    "MC-520": "year=1991 (Rheingold 1991); Steuer 1992 verified; removed Latin glosses from key concepts and mixed-script recommendations",
+    "MC-221": "year=1964 (McLuhan 1964); Postman 1970 verified; removed Latin glosses from key concepts",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 199}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH199 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

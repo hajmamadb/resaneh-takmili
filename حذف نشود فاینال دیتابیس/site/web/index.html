@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>هسته‌ی دانش علمی رسانامه</title>
+  <meta name="description" content="نمایندگی شفاف و ساختاریافته‌ی هسته‌ی دانش علمی رسانامه: نظریه‌ها، مدل‌ها، نظریه‌پردازان، آثار و ارتباطاتشان." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#/">
+        <span class="brand-mark">ر</span>
+        <span class="brand-text">
+          <strong>هسته‌ی دانش رسانامه</strong>
+          <small>Scientific Knowledge Base</small>
+        </span>
+      </a>
+      <div class="searchbox" role="search">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="globalSearch" type="search" placeholder="جست‌وجو در هسته‌ی دانش…" autocomplete="off" />
+      </div>
+      <span id="liveBadge" class="live-badge" title="داده‌ها زنده از دیتابیس MySQL خوانده می‌شوند؛ برای دیدن تغییرات رفرش کنید" hidden>
+        <span class="live-dot"></span> زنده از دیتابیس
+        <button id="liveRefresh" type="button" title="رفرش از دیتابیس">↻</button>
+      </span>
+      <span id="staticBadge" class="static-badge" title="سرور زنده در دسترس نیست؛ این خروجی ثابت است. برای داده‌ی زنده، سرور محلی (live_server.py) را اجرا کنید." hidden>
+        <span class="static-dot"></span> خروجی ثابت
+      </span>
+      <nav class="topnav">
+        <a href="#/">خانه</a>
+        <a href="#/browse">مرور</a>
+      </nav>
+    </div>
+  </div>
+
+  <main id="app" aria-live="polite"></main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>هسته‌ی دانش علمی رسانامه — دیتابیس <code>resaname_kb_final_inspect</code></p>
+      <p class="muted">هر موجودیت با سه محور مستقل وضعیت (پروژه‌ای، علمی، چرخه‌ی حیات) و منشأ مستند ثبت شده است.</p>
+    </div>
+  </footer>
+
+  <noscript>برای مشاهده‌ی این دانشنامه فعال‌سازی جاوااسکریپت لازم است.</noscript>
+  <script src="./js/app.js" defer></script>
+</body>
+</html>

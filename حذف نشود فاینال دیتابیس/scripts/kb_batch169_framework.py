@@ -1,0 +1,656 @@
+# -*- coding: utf-8 -*-
+"""Batch 169 (PERSON, medium theory and postmodern media): th-3 McLuhan, th-31 Postman, th-11 Castells, th-18 Baudrillard."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch169-person-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch169_person.json"
+
+MAPPING = {"entity_type": "PERSON", "content_type": "شخصیت علمی (نظریه‌پرداز)", "needs_review": False}
+
+S = {
+    "th-3": [
+        dict(kind="BOOK",
+             title_en="Understanding Media: The Extensions of Man",
+             title_fa="شناخت رسانه: گسترش‌های انسان",
+             authors="McLuhan, M.", year=1964,
+             publisher="McGraw-Hill",
+             doi=None,
+             url="https://archive.org/details/understandingmed0000mclu",
+             language="en", isbn=None,
+             citation="McLuhan, M. (1964). Understanding Media: The Extensions of Man. New York: McGraw-Hill.",
+             locator="1964 edition", locator_type="edition",
+             supports="the medium is the message; hot and cool media", verified=True),
+        dict(kind="BOOK",
+             title_en="The Gutenberg Galaxy: The Making of Typographic Man",
+             title_fa="کهکشان گوتنبرگ: ساخت انسان چاپی",
+             authors="McLuhan, M.", year=1962,
+             publisher="University of Toronto Press",
+             doi=None,
+             url="https://archive.org/details/gutenberggalaxym0000mclu",
+             language="en", isbn=None,
+             citation="McLuhan, M. (1962). The Gutenberg Galaxy: The Making of Typographic Man. Toronto: University of Toronto Press.",
+             locator="1962 edition", locator_type="edition",
+             supports="print culture, global village and sensory ratios", verified=True),
+    ],
+    "th-31": [
+        dict(kind="BOOK",
+             title_en="Amusing Ourselves to Death: Public Discourse in the Age of Show Business",
+             title_fa="سرگرم‌کردن خود تا مرگ: گفتمان عمومی در عصر نمایش",
+             authors="Postman, N.", year=1985,
+             publisher="Viking Penguin",
+             doi=None,
+             url="https://books.google.com/books/about/Amusing_Ourselves_to_Death.html?id=jVRjeQJ1fsYC",
+             language="en", isbn=None,
+             citation="Postman, N. (1985). Amusing Ourselves to Death: Public Discourse in the Age of Show Business. New York: Viking Penguin.",
+             locator="1985 edition", locator_type="edition",
+             supports="television turns public discourse into entertainment", verified=True),
+        dict(kind="BOOK",
+             title_en="Technopoly: The Surrender of Culture to Technology",
+             title_fa="فن‌سالاری: تسلیم فرهنگ به فناوری",
+             authors="Postman, N.", year=1992,
+             publisher="Alfred A. Knopf",
+             doi=None,
+             url="https://books.google.com/books/about/Technopoly.html?id=-t56GrAjJEsC",
+             language="en", isbn=None,
+             citation="Postman, N. (1992). Technopoly: The Surrender of Culture to Technology. New York: Alfred A. Knopf.",
+             locator="1992 edition", locator_type="edition",
+             supports="technology as a totalizing culture and loss of moral framework", verified=True),
+    ],
+    "th-11": [
+        dict(kind="BOOK",
+             title_en="The Rise of the Network Society: The Information Age: Economy, Society, and Culture, Vol. I",
+             title_fa="برآمدن جامعهٔ شبکه‌ای: عصر اطلاعات، جلد نخست",
+             authors="Castells, M.", year=1996,
+             publisher="Blackwell",
+             doi=None,
+             url="https://onlinelibrary.wiley.com/doi/book/10.1002/9781444319514",
+             language="en", isbn=None,
+             citation="Castells, M. (1996). The Rise of the Network Society: The Information Age: Economy, Society, and Culture, Vol. I. Oxford: Blackwell.",
+             locator="Vol. I (1996)", locator_type="work",
+             supports="network society, space of flows and informational capitalism", verified=True),
+        dict(kind="BOOK",
+             title_en="Communication Power",
+             title_fa="قدرت ارتباطات",
+             authors="Castells, M.", year=2009,
+             publisher="Oxford University Press",
+             doi=None,
+             url="https://books.google.com/books/about/Communication_Power.html?hl=en&id=qYAxAAAAQBAJ",
+             language="en", isbn="9780191615726",
+             citation="Castells, M. (2009). Communication Power. Oxford: Oxford University Press.",
+             locator="2009 edition", locator_type="edition",
+             supports="communication power and mass self-communication", verified=True),
+    ],
+    "th-18": [
+        dict(kind="BOOK",
+             title_en="Simulacra and Simulation",
+             title_fa="وانموده‌ها و وانمایی",
+             authors="Baudrillard, J.", year=1981,
+             publisher="Editions Galilee",
+             doi=None,
+             url="https://press.umich.edu/Books/S/Simulacra-and-Simulation",
+             language="en", isbn=None,
+             citation="Baudrillard, J. (1981). Simulacres et Simulation. Paris: Editions Galilee. English ed.: Simulacra and Simulation. Ann Arbor: University of Michigan Press, 1994.",
+             locator="1981 edition; 1994 English translation", locator_type="edition",
+             supports="orders of simulacra and hyperreality", verified=True),
+        dict(kind="BOOK",
+             title_en="The Consumer Society: Myths and Structures",
+             title_fa="جامعهٔ مصرفی: اسطوره‌ها و ساختارها",
+             authors="Baudrillard, J.", year=1998,
+             publisher="Sage",
+             doi=None,
+             url="https://books.google.com/books/about/The_Consumer_Society.html?id=DdT7cEHke0YC",
+             language="en", isbn=None,
+             citation="Baudrillard, J. (1998). The Consumer Society: Myths and Structures (C. Turner, Trans.). London: Sage. (Original work published 1970)",
+             locator="1998 English edition", locator_type="edition",
+             supports="sign value and the political economy of the sign", verified=True),
+    ],
+}
+
+ENRICH = {
+    "th-3": dict(
+        year=1964,
+        mapping=MAPPING,
+        summary="مارشال مک‌لوهان (۱۹۱۱-۱۹۸۰) استاد ادبیات و نظریه‌پرداز رسانهٔ کانادایی دانشگاه تورنتو است که با جملهٔ رسانه همان پیام است، بحث دربارهٔ اثر فرم رسانه را به کانون پژوهش ارتباطات آورد. او در کهکشان گوتنبرگ در سال ۱۹۶۲ نشان داد چاپ، فرهنگ شفاهی را به فرهنگ بصری و خطی بدل کرد و حس‌های انسانی را دوباره سازمان داد. مک‌لوهان در شناخت رسانه در سال ۱۹۶۴ رسانه را گسترش اندام‌ها و توانایی‌های انسان خواند و میان رسانهٔ گرم و سرد تمایز گذاشت: رسانهٔ گرم یک حس را پر می‌کند و رسانهٔ سرد مخاطب را به تکمیل معنا وامی‌دارد. او واژهٔ دهکدهٔ جهانی را برای فشردگی زمان و مکان رسانه‌ای رواج داد و بعدها با پسرش اریک، چهارگانهٔ اثر رسانه را صورت‌بندی کرد. نقدهای اصلی به او، جبرگرایی فناورانه، سبک قصیده‌وار و غیرقابل آزمون و کم‌توجهی به اقتصاد و قدرت سیاسی را برجسته می‌کنند.",
+        definition="مارشال مک‌لوهان نظریه‌پرداز رسانه و صورت‌بند ایدهٔ رسانه همان پیام است که اثر رسانه را در فرم آن، نه محتوای آن، می‌دید.",
+        main_problem="رسانه‌ها چگونه با تغییر نسبت حس‌ها و سرعت ارتباط، محیط اجتماعی و ادراک انسان را دگرگون می‌کنند.",
+        mechanism="هر رسانه با گسترش یک حس و تغییر سرعت و الگوی ارتباط، نسبت حس‌ها را جابه‌جا می‌کند و شکل تازه‌ای از آگاهی جمعی می‌سازد؛ محتوای پیام در برابر این اثر فرم، ثانویه است.",
+        assumptions=[
+            "فرم رسانه اثر مستقل دارد.",
+            "رسانه گسترش اندام انسان است.",
+            "حس‌ها با رسانه بازسازمان می‌شوند.",
+            "رسانهٔ گرم و سرد اثر متفاوت دارند.",
+            "فشردگی زمان و مکان رخ می‌دهد.",
+            "محتوای پیام اثر فرم را پنهان می‌کند.",
+        ],
+        principles=[
+            "فرم رسانه را جدا تحلیل کن.",
+            "نسبت حس‌ها را در محیط رسانه‌ای بسنج.",
+            "گرم و سرد را از هم تفکیک کن.",
+            "اثر بلندمدت را ببین.",
+            "از تقلیل به محتوا پرهیز کن.",
+            "شواهد تجربی را نیز بطلب.",
+        ],
+        critiques=[
+            "جبرگرایی فناورانه دارد.",
+            "سبک قصیده‌وار و مبهم است.",
+            "ادعاهای آن آزمون‌پذیر نیست.",
+            "به اقتصاد و مالکیت کم می‌پردازد.",
+            "به مخاطب فعال کم توجه است.",
+            "تفکیک گرم و سرد مبهم است.",
+            "به شواهد تجربی کم تکیه دارد.",
+            "به تنوع فرهنگی کم بها می‌دهد.",
+            "به مالکیت رسانه کم توجه است.",
+            "به زمینهٔ سیاسی کمتر می‌پردازد.",
+            "مفهوم دهکدهٔ جهانی آرمانی است.",
+        ],
+        critique_text="منتقدان مک‌لوهان می‌گویند جبرگرایی فناورانه او قدرت اجتماعی و اقتصاد رسانه را نادیده می‌گیرد و ادعاهایش آزمون‌پذیر نیست؛ با این حال، او فرم رسانه را به پرسش اصلی پژوهش ارتباطات بدل کرد.",
+        applications=[
+            "تحلیل اثر پلتفرم‌های دیجیتال.",
+            "پژوهش رسانه و ادراک.",
+            "مطالعهٔ فرهنگ چاپ و سواد.",
+            "تحلیل دهکدهٔ جهانی خبر.",
+            "پژوهش گرم و سرد رسانه‌ای.",
+            "تحلیل رسانهٔ تعاملی.",
+            "مطالعهٔ سرعت خبر.",
+            "تحلیل محیط رسانه‌ای.",
+            "پژوهش فناوری و حس.",
+            "نقد جبرگرایی فناورانه.",
+            "تحلیل رسانهٔ اجتماعی به‌عنوان محیط.",
+            "پژوهش سرعت ارتباط و ادراک زمان.",
+            "مطالعهٔ کتاب صوتی و حس شنوایی.",
+            "تحلیل واقعیت مجازی.",
+            "پژوهش بازی ویدئویی.",
+            "تحلیل پادکست و شنیدن.",
+        ],
+        example_text="تماشای یک رویداد از تلویزیون با خواندن گزارش مکتوب آن، تجربهٔ متفاوتی می‌سازد؛ مک‌لوهان می‌گفت این تفاوت از محتوا نمی‌آید، از فرم رسانه می‌آید.",
+        evolution="مک‌لوهان در سال ۱۹۶۲ کهکشان گوتنبرگ را نوشت و در سال ۱۹۶۴ شناخت رسانه را منتشر کرد؛ در دههٔ ۱۹۷۰ و پس از مرگ او، چهارگانهٔ رسانه با اریک مک‌لوهان منتشر شد و در عصر دیجیتال بحث او دوباره زنده شد.",
+        key_concepts=["رسانه همان پیام", "دهکدهٔ جهانی", "رسانهٔ گرم", "رسانهٔ سرد", "گسترش انسان", "نسبت حس‌ها"],
+        theorists="هارولد اینیس، اریک مک‌لوهان و والتر آنگ.",
+        theorists_text="مک‌لوهان در سنت مکتب تورنتو و در ادامهٔ هارولد اینیس نوشت.",
+        model="رسانه به‌عنوان محیطی که با تغییر نسبت حس‌ها، تجربه و آگاهی را دگرگون می‌کند.",
+        studies=[
+            "کتاب کهکشان گوتنبرگ سال ۱۹۶۲.",
+            "کتاب شناخت رسانه سال ۱۹۶۴.",
+            "پژوهش رسانهٔ گرم و سرد.",
+            "چهارگانهٔ رسانه با اریک مک‌لوهان.",
+            "مطالعهٔ فرهنگ چاپ.",
+            "پژوهش عصر دیجیتال.",
+            "مطالعهٔ رادیو و دهکدهٔ جهانی.",
+            "پژوهش تلویزیون و نسبت حس‌ها.",
+            "تحلیل تلفن همراه به‌عنوان گسترش.",
+        ],
+    ),
+    "th-31": dict(
+        year=1985,
+        mapping=MAPPING,
+        summary="نیل پستمن (۱۹۳۱-۲۰۰۳) استاد ارتباطات دانشگاه نیویورک و بنیان‌گذار رشتهٔ بوم‌شناسی رسانه است که با کتاب سرگرم‌کردن خود تا مرگ در سال ۱۹۸۵ نقدی اثرگذار بر تلویزیون نوشت. او در دههٔ ۱۹۶۰ واژهٔ بوم‌شناسی رسانه را رواج داد و رسانه را محیطی دانست که شیوهٔ اندیشیدن و گفتن را شکل می‌دهد. پستمن در آن کتاب میان هشدار جورج اورول و آلدوس هاکسلی تمایز گذاشت و گفت خطر اصلی نه سانسور و نه کشتن کتاب، بلکه سرگرمی بی‌پایان است: تلویزیون همهٔ گفتمان‌های عمومی، از سیاست تا دین و آموزش را به قالب نمایش بدل می‌کند. او در فن‌سالاری در سال ۱۹۹۲ این نقد را گسترد و گفت وقتی فناوری خود به تقدس می‌رسد، فرهنگ ابزارهای معنابخش خود را از دست می‌دهد. نقدهای اصلی به او، نوستالژی فرهنگ چاپ، ساده‌سازی و فقدان شاهد تجربی را برجسته می‌کنند.",
+        definition="نیل پستمن بنیان‌گذار بوم‌شناسی رسانه و منتقد تلویزیون است که گفت سرگرمی، گفتمان عمومی را به نمایش بدل می‌کند و فرهنگ را از معنا تهی می‌سازد.",
+        main_problem="رسانه چگونه شکل گفتمان عمومی را تغییر می‌دهد و چرا تلویزیون سیاست، دین و آموزش را به سرگرمی فرومی‌کاهد.",
+        mechanism="هر رسانه با تعیین شکل گفت‌وگو، محتوای ممکن را محدود می‌کند؛ تلویزیون با منطق تصویر و جذابیت، جدیت را به نمایش و استدلال را به سرگرمی بدل می‌سازد.",
+        assumptions=[
+            "رسانه محیط اندیشه است.",
+            "فرم رسانه محتوا را محدود می‌کند.",
+            "تلویزیون منطق نمایش دارد.",
+            "گفتمان عمومی شکل‌پذیر است.",
+            "فرهنگ چاپ استدلال را می‌پروراند.",
+            "سرگرمی بی‌پایان خطر است.",
+            "گفتمان عمومی در رسانه شکل می‌گیرد.",
+        ],
+        principles=[
+            "فرم گفتمان را در رسانه بسنج.",
+            "سرگرمی را از جدیت جدا کن.",
+            "به منطق تصویر توجه کن.",
+            "آموزش سواد رسانه‌ای را جدی بگیر.",
+            "نقد فناوری را اخلاقی طرح کن.",
+            "از نوستالژی صرف پرهیز کن.",
+            "به تجربهٔ زیستهٔ مخاطب توجه کن.",
+        ],
+        critiques=[
+            "نوستالژی فرهنگ چاپ دارد.",
+            "به مخاطب فعال کم توجه است.",
+            "شاهد تجربی نظام‌مند ندارد.",
+            "به مقاومت فرهنگی کم بها می‌دهد.",
+            "به تلویزیون خوب بی‌اعتناست.",
+            "نگاه آن اخلاقی و تجویزی است.",
+            "به رسانهٔ دیجیتال پیش‌بینی کامل ندارد.",
+            "به تنوع مخاطب کم توجه است.",
+            "به تنوع ژانر تلویزیونی کم توجه است.",
+            "به تماشاگر فعال کمتر می‌پردازد.",
+            "به زمینهٔ غیرآمریکایی کم توجه است.",
+            "به اقتصاد رسانه کم می‌پردازد.",
+        ],
+        critique_text="منتقدان پستمن می‌گویند نگاه او نوستالژیک و تجویزی است و به سرگرمی خوب و مخاطب فعال کم بها می‌دهد؛ با این حال، پرسش او دربارهٔ اثر فرم رسانه بر کیفیت گفتمان عمومی هنوز زنده است.",
+        applications=[
+            "نقد سرگرمی سیاسی.",
+            "پژوهش تلویزیون و آموزش.",
+            "تحلیل خبر به‌مثابه نمایش.",
+            "مطالعهٔ دین و رسانه.",
+            "آموزش سواد رسانه‌ای.",
+            "نقد فرهنگ فناوری.",
+            "تحلیل برنامه‌های گفت‌وگومحور.",
+            "پژوهش سرگرمی‌شدن خبر.",
+            "تحلیل رسانه و کودکی.",
+            "نقد مصرف رسانه.",
+            "تحلیل سرگرمی در شبکه‌های اجتماعی.",
+            "پژوهش یادگیری از ویدیوی کوتاه.",
+            "مطالعهٔ خبر طنز.",
+            "تحلیل فرهنگ نمایش در سیاست.",
+            "پژوهش تبلیغات و سرگرمی.",
+            "تحلیل سرگرمی‌شدن آموزش آنلاین.",
+            "پژوهش نقد رسانهٔ کودک.",
+        ],
+        example_text="مناظرهٔ انتخاباتی که به رقابت جمله‌های کوتاه و پاسخ‌های طنزآمیز بدل می‌شود، نمونهٔ نقد پستمن است: رسانهٔ نمایش، استدلال را به سرگرمی فرومی‌کاهد.",
+        evolution="پستمن در دههٔ ۱۹۶۰ بوم‌شناسی رسانه را نام‌گذاری کرد و در سال ۱۹۸۵ سرگرم‌کردن خود تا مرگ را نوشت؛ فن‌سالاری در سال ۱۹۹۲ نقد فناوری را گستراند و پژوهش سواد رسانه‌ای بعدی، او را مرجع نقد فرهنگ نمایشی ساخت.",
+        key_concepts=["بوم‌شناسی رسانه", "سرگرمی", "گفتمان عمومی", "فن‌سالاری", "منطق تصویر", "سواد رسانه‌ای"],
+        theorists="مارشال مک‌لوهان، والتر آنگ و ژاک الول.",
+        theorists_text="پستمن در سنت مکتب تورنتو و در گفت‌وگو با مک‌لوهان و آنگ کار کرد.",
+        model="تلویزیون به‌عنوان محیطی که با منطق نمایش، همهٔ گفتمان‌های عمومی را دگرگون می‌کند.",
+        studies=[
+            "کتاب سرگرم‌کردن خود تا مرگ سال ۱۹۸۵.",
+            "کتاب فن‌سالاری سال ۱۹۹۲.",
+            "پژوهش بوم‌شناسی رسانه.",
+            "مطالعهٔ تلویزیون و آموزش.",
+            "تحلیل سرگرمی خبر.",
+            "پژوهش سواد رسانه‌ای.",
+            "مطالعهٔ تلویزیون و گفتمان دین.",
+            "پژوهش آموزش از طریق نمایش.",
+            "تحلیل فن‌سالاری در پلتفرم.",
+            "مطالعهٔ سرگرمی و مشارکت سیاسی.",
+        ],
+    ),
+    "th-11": dict(
+        year=1996,
+        mapping=MAPPING,
+        summary="مانوئل کاستلز (زادهٔ ۱۹۴۲) جامعه‌شناس اسپانیایی و استاد برنامه‌ریزی شهری و ارتباطات است که با سه‌گانهٔ عصر اطلاعات، از جمله برآمدن جامعهٔ شبکه‌ای در سال ۱۹۹۶، نظریهٔ جامعهٔ شبکه‌ای را ساخت. او استدلال کرد که فناوری اطلاعات و شبکه‌سازی، سرمایه‌داری صنعتی را به سرمایه‌داری اطلاعاتی بدل کرده و فضا و زمان نیز دگرگون شده‌اند: فضای جریان‌ها جای فضای مکان‌ها را می‌گیرد و زمان بی‌زمان جای زمان خطی را. کاستلز در کتاب قدرت ارتباطات در سال ۲۰۰۹ شبکه‌های قدرت و ارتباط خودمختار جمعی را تحلیل کرد و گفت قدرت امروز بیش از هر زمان در برنامه‌ریزی ذهن‌ها از راه ارتباط دیده می‌شود. او جنبش‌های شبکه‌ای و خیزش‌های دههٔ ۲۰۱۰ را نمونهٔ این چرخش دانست. نقدهای اصلی به او، جبرگرایی فناورانهٔ ملایم، تعمیم‌پذیری محدود و کم‌توجهی به نابرابری‌های پایدار را برجسته می‌کنند.",
+        definition="مانوئل کاستلز نظریه‌پرداز جامعهٔ شبکه‌ای است که نشان داد شبکه‌های اطلاعاتی، اقتصاد، فضا و قدرت سیاسی را از نو سازمان می‌دهند.",
+        main_problem="شبکه‌های اطلاعاتی چگونه سازمان اقتصاد، تجربهٔ فضا و زمان و توزیع قدرت را دگرگون می‌کنند و ارتباطات چه نقشی در قدرت دارد.",
+        mechanism="شبکه‌ها منابع و کنشگران را با پیوندهای اطلاعاتی هم‌پیوند می‌کنند؛ ارزش در فضای جریان‌ها تولید می‌شود و قدرت از مرزهای نهادی به برنامه‌ریزی شبکه‌های ارتباطی جابه‌جا می‌شود.",
+        assumptions=[
+            "شبکه شکل سازمان اجتماعی است.",
+            "اطلاعات منبع اصلی ارزش است.",
+            "فضای جریان‌ها جای مکان را می‌گیرد.",
+            "زمان بی‌زمان شکل می‌گیرد.",
+            "ارتباط ابزار اصلی قدرت است.",
+            "جنبش‌ها شبکه‌ای سازمان می‌یابند.",
+            "جنبش‌ها از شبکهٔ ارتباطی زاده می‌شوند.",
+        ],
+        principles=[
+            "شبکه را واحد تحلیل بگیر.",
+            "فضای جریان‌ها را از مکان جدا کن.",
+            "قدرت ارتباطی را بسنج.",
+            "به نابرابری شبکه‌ای توجه کن.",
+            "خودمختاری ارتباطی را بررسی کن.",
+            "جنبش شبکه‌ای را زمینه‌مند کن.",
+            "دولت را کنشگر شبکه‌ای ببین.",
+        ],
+        critiques=[
+            "جبرگرایی فناورانهٔ ملایم دارد.",
+            "به نابرابری پایدار کم می‌پردازد.",
+            "تعمیم آن به همهٔ جوامع محدود است.",
+            "مفهوم زمان بی‌زمان مبهم است.",
+            "به قدرت دولت کم بها می‌دهد.",
+            "به مقاومت محلی کمتر می‌پردازد.",
+            "شواهد آن گاه گزینشی است.",
+            "به رسانهٔ سنتی کم توجه است.",
+            "به سیاست محلی کم توجه است.",
+            "مفهوم شبکه را بیش از اندازه باز می‌گیرد.",
+            "به نقش رسانهٔ جمعی سنتی کم می‌پردازد.",
+        ],
+        critique_text="منتقدان کاستلز می‌گویند نظریهٔ او بیش از اندازه شبکه‌محور و فناوری‌محور است و دولت و نابرابری را کم می‌بیند؛ با این حال، او یکی از دقیق‌ترین چارچوب‌های فهم ارتباطات و قدرت در عصر دیجیتال را ساخت.",
+        applications=[
+            "تحلیل قدرت پلتفرم.",
+            "پژوهش جنبش‌های شبکه‌ای.",
+            "مطالعهٔ فضای جریان‌ها.",
+            "تحلیل رسانهٔ خودمختار جمعی.",
+            "پژوهش اقتصاد اطلاعاتی.",
+            "مطالعهٔ شهر شبکه‌ای.",
+            "تحلیل سیاست دیجیتال.",
+            "پژوهش ارتباطات بحران.",
+            "مطالعهٔ نابرابری دیجیتال.",
+            "تحلیل رسانهٔ جهانی.",
+            "تحلیل شبکهٔ حمل‌ونقل.",
+            "پژوهش پیرامون شبکهٔ مالی.",
+            "مطالعهٔ سازمان شبکه‌ای.",
+            "تحلیل هویت در شبکه.",
+            "پژوهش زمان در رسانهٔ دیجیتال.",
+            "تحلیل دولت شبکه‌ای.",
+            "تحلیل اقتصاد پلتفرمی.",
+            "پژوهش بحران مسکن شهری.",
+            "تحلیل رهبری شبکه‌ای.",
+            "پژوهش تاب‌آوری شبکه.",
+        ],
+        example_text="جنبشی که بدون سازمان حزب و رهبر متمرکز، با شبکه‌های اجتماعی هماهنگ می‌شود و خیابان و آنلاین را هم‌زمان پر می‌کند، نمونهٔ قدرت ارتباطی کاستلز است.",
+        evolution="کاستلز جلد نخست عصر اطلاعات را در سال ۱۹۹۶ منتشر کرد و در سال ۲۰۰۹ با قدرت ارتباطات نظریه را به سیاست و رسانه گستراند؛ پژوهش جنبش‌های شبکه‌ای دههٔ ۲۰۱۰ چارچوب او را آزمود.",
+        key_concepts=["جامعهٔ شبکه‌ای", "فضای جریان‌ها", "زمان بی‌زمان", "قدرت ارتباطات", "ارتباط خودمختار جمعی", "سرمایه‌داری اطلاعاتی"],
+        theorists="آنتونی گیدنز، یورگن هابرماس و آلن تورن.",
+        theorists_text="کاستلز در سنت جامعه‌شناسی شهری و نظریهٔ اجتماعی انتقادی شکل گرفت.",
+        model="جامعهٔ شبکه‌ای به‌عنوان سازمانی که اقتصاد، فضا و قدرت را از راه جریان‌های اطلاعاتی بازآرایی می‌کند.",
+        studies=[
+            "جلد نخست عصر اطلاعات سال ۱۹۹۶.",
+            "کتاب قدرت ارتباطات سال ۲۰۰۹.",
+            "پژوهش جنبش‌های شبکه‌ای.",
+            "تحلیل شهر و فضای جریان‌ها.",
+            "مطالعهٔ اقتصاد اطلاعاتی.",
+            "پژوهش نابرابری دیجیتال.",
+            "مطالعهٔ جنبش اشغال میدان‌ها.",
+            "پژوهش شبکهٔ جهانی تولید.",
+            "تحلیل ارتباطات سلامت شبکه‌ای.",
+            "مطالعهٔ رسانهٔ محلی در شبکه.",
+            "مطالعهٔ پیشرفت فناوری اطلاعات و اشتغال.",
+            "مطالعهٔ فضای جریان در خبر.",
+        ],
+    ),
+    "th-18": dict(
+        year=1981,
+        mapping=MAPPING,
+        summary="ژان بودریار (۱۹۲۹-۲۰۰۷) جامعه‌شناس و نظریه‌پرداز فرهنگی فرانسوی است که با کتاب وانموده‌ها و وانمایی در سال ۱۹۸۱ نظریهٔ فراواقعیت را صورت‌بندی کرد. او استدلال کرد که در جامعهٔ معاصر، نشانه‌ها دیگر به واقعیت ارجاع نمی‌دهند و وانموده‌هایی می‌سازند که جای واقعیت را می‌گیرند. بودریار چهار مرحلهٔ تصویر را برشمرد: بازتاب واقعیت، پنهان‌کردن واقعیت، پنهان‌کردن غیبت واقعیت و در نهایت وانموده‌ای که هیچ ارجاعی به واقعیت ندارد. او در نقد جنگ خلیج فارس گفت که این جنگ در قالب تصویر و گزارش رسانه‌ای رخ داد، نه به‌عنوان واقعیتی قابل تجربه. بودریار در جامعهٔ مصرفی در سال ۱۹۷۰ نشان داده بود که مصرف، نظام نشانه‌ها و ارزش نمادین است، نه صرفاً رفع نیاز. نقدهای اصلی به او، ابهام سبک، بدبینی افراطی، فقدان شاهد تجربی و سیاسی‌زدایی ضمنی را برجسته می‌کنند.",
+        definition="ژان بودریار نظریه‌پرداز فراواقعیت است که گفت وانموده‌های رسانه‌ای جای واقعیت را می‌گیرند و نشانه‌ها از ارجاع به جهان واقع جدا می‌شوند.",
+        main_problem="وقتی تصاویر و نشانه‌ها از واقعیت جدا می‌شوند، چه چیزی از تجربهٔ واقعی می‌ماند و رسانه چگونه فراواقعیت می‌سازد.",
+        mechanism="رسانه با بازنمایی مکرر و بی‌ارجاع نشانه‌ها، لایه‌ای از واقعیت شبیه‌سازی‌شده می‌سازد؛ مخاطب در این لایه زندگی می‌کند و مرز میان تصویر و واقعیت فرومی‌ریزد.",
+        assumptions=[
+            "نشانه از ارجاع جدا شده است.",
+            "رسانه وانموده می‌سازد.",
+            "مصرف نظام نشانه است.",
+            "مرز تصویر و واقعیت مبهم است.",
+            "تجربهٔ مستقیم جای خود را داده است.",
+            "فراواقعیت بر ادراک اثر دارد.",
+            "فراواقعیت تجربهٔ روزمره را می‌پوشاند.",
+        ],
+        principles=[
+            "ارجاع نشانه را بررسی کن.",
+            "وانموده را از بازنمایی جدا کن.",
+            "مصرف را به‌عنوان نظام نشانه بخوان.",
+            "به لایهٔ تصویری خبر توجه کن.",
+            "از بدبینی صرف پرهیز کن.",
+            "شاهد تجربی را بطلب.",
+            "تفاوت وانموده و بازنمایی را روشن کن.",
+        ],
+        critiques=[
+            "سبک آن مبهم است.",
+            "بدبینی افراطی دارد.",
+            "شاهد تجربی ندارد.",
+            "سیاست را به نشانه فرومی‌کاهد.",
+            "به تجربهٔ مادی کم توجه است.",
+            "به مخاطب فعال کم بها می‌دهد.",
+            "ادعاهای آن آزمون‌پذیر نیست.",
+            "به تفاوت فرهنگ‌ها کم می‌پردازد.",
+            "به اقتصاد نشانه کم می‌پردازد.",
+            "به کنش سیاسی مخاطب نمی‌پردازد.",
+            "مفهوم واقعیت را مبهم می‌کند.",
+            "به تفاوت طبقاتی در مصرف کم توجه است.",
+            "به شواهد میدانی کم تکیه دارد.",
+        ],
+        critique_text="منتقدان بودریار می‌گویند نظریهٔ او در ابهام و بدبینی گرفتار است و به تجربهٔ مادی و کنش سیاسی کم بها می‌دهد؛ با این حال، تحلیل او از وانموده‌های رسانه‌ای در فهم فرهنگ تصویری معاصر بسیار اثرگذار بوده است.",
+        applications=[
+            "تحلیل تصویر خبری.",
+            "پژوهش فرهنگ مصرف.",
+            "مطالعهٔ واقعیت مجازی.",
+            "تحلیل تبلیغات و برند.",
+            "پژوهش شبیه‌سازی رسانه‌ای.",
+            "تحلیل سینمای پست‌مدرن.",
+            "مطالعهٔ اخبار جعلی.",
+            "تحلیل فرهنگ اینفلوئنسر.",
+            "پژوهش گردشگری و تصویر.",
+            "نقد سیاست نمایشی.",
+            "تحلیل دیزنی‌سازی و شبیه‌سازی.",
+            "پژوهش موزه و وانموده.",
+            "مطالعهٔ گردشگری مجازی.",
+            "تحلیل اینفلوئنسر و مصرف.",
+            "پژوهش هوش مصنوعی و تصویر.",
+            "تحلیل فرهنگ سلبریتی.",
+            "پژوهش تبلیغات سیاسی.",
+            "مطالعهٔ بازی واقعیت مجازی.",
+            "تحلیل ادراک پول و نشانه.",
+            "پژوهش مد و نشانه.",
+        ],
+        example_text="پوشش زندهٔ یک جنگ که بیشتر از تصاویر ماهواره‌ای و تحلیل استودیویی ساخته شده تا تجربهٔ میدانی، نمونهٔ فراواقعیت بودریار است: جنگ به‌عنوان نمایش رخ می‌دهد.",
+        evolution="بودریار در سال ۱۹۷۰ جامعهٔ مصرفی را نوشت و در سال ۱۹۸۱ وانموده‌ها و وانمایی را منتشر کرد؛ ترجمهٔ انگلیسی در سال ۱۹۹۴ بحث او را به مطالعات رسانهٔ انگلیسی‌زبان آورد و در عصر شبکه‌های اجتماعی دوباره مطرح شد.",
+        key_concepts=["وانموده", "فراواقعیت", "ارزش نمادین", "جامعهٔ مصرفی", "بی‌ارجاعی نشانه", "شبیه‌سازی"],
+        theorists="رولان بارت، مارشال مک‌لوهان و فردیناند دو سوسور.",
+        theorists_text="بودریار در سنت نشانه‌شناسی و نقد پست‌مدرن فرانسه شکل گرفت.",
+        model="رسانه به‌عنوان ماشین وانموده‌سازی که واقعیت را با تصویر بی‌ارجاع جانشین می‌کند.",
+        studies=[
+            "کتاب جامعهٔ مصرفی سال ۱۹۷۰.",
+            "کتاب وانموده‌ها و وانمایی سال ۱۹۸۱.",
+            "نقد جنگ خلیج فارس.",
+            "ترجمهٔ انگلیسی سال ۱۹۹۴.",
+            "مطالعهٔ فرهنگ تصویری.",
+            "پژوهش اخبار جعلی.",
+            "مطالعهٔ پارک موضوعی و وانموده.",
+            "پژوهش اخبار جعلی و فراواقعیت.",
+            "تحلیل برند در شبکه‌های اجتماعی.",
+            "مطالعهٔ تصویر شهر در گردشگری.",
+            "پژوهش موزهٔ دیجیتال.",
+            "مطالعهٔ پیام سلامت و تصویر.",
+        ],
+    ),
+}
+
+NAME_FIX = {}
+YEAR_FIX = {
+    "th-3": "year field denotes Understanding Media (1964); life dates 1911-1980 stated in summary",
+    "th-31": "year field denotes Amusing Ourselves to Death (1985); life dates 1931-2003 stated in summary",
+    "th-11": "year field denotes The Rise of the Network Society (1996); birth year 1942 stated in summary",
+    "th-18": "year field denotes Simulacres et Simulation (1981); life dates 1929-2007 stated in summary",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 169}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH169 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

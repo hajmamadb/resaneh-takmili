@@ -1,0 +1,627 @@
+# -*- coding: utf-8 -*-
+"""Batch 168 (PERSON, media-effects founders): th-6 Gerbner, th-7 Noelle-Neumann, th-28 Katz, th-9 Lazarsfeld."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch168-person-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch168_person.json"
+
+MAPPING = {"entity_type": "PERSON", "content_type": "شخصیت علمی (نظریه‌پرداز)", "needs_review": False}
+
+S = {
+    "th-6": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Living with Television: The Violence Profile",
+             title_fa="زندگی با تلویزیون: نمای خشونت",
+             authors="Gerbner, G.; Gross, L.", year=1976,
+             publisher="Journal of Communication",
+             doi="10.1111/j.1460-2466.1976.tb01397.x",
+             url="https://academic.oup.com/joc/article-abstract/26/2/172/4553823",
+             language="en", isbn=None,
+             citation="Gerbner, G., & Gross, L. (1976). Living with television: The violence profile. Journal of Communication, 26(2), 172-199.",
+             locator="26(2):172-199", locator_type="page_range",
+             supports="violence profile and foundations of cultivation analysis", verified=True),
+        dict(kind="BOOK_CHAPTER",
+             title_en="Living with Television: The Dynamics of the Cultivation Process",
+             title_fa="زندگی با تلویزیون: پویایی فرایند کاشت",
+             authors="Gerbner, G.; Gross, L.; Morgan, M.; Signorielli, N.", year=1986,
+             publisher="Lawrence Erlbaum",
+             doi=None,
+             url="https://www.sciepub.com/reference/30985",
+             language="en", isbn=None,
+             citation="Gerbner, G., Gross, L., Morgan, M., & Signorielli, N. (1986). Living with television: The dynamics of the cultivation process. In J. Bryant & D. Zillmann (Eds.), Perspectives on Media Effects (pp. 17-40). Hillsdale, NJ: Lawrence Erlbaum.",
+             locator="pp. 17-40", locator_type="page_range",
+             supports="mainstreaming, resonance and the cultivation model", verified=True),
+    ],
+    "th-7": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Spiral of Silence: A Theory of Public Opinion",
+             title_fa="مارپیچ سکوت: نظریه‌ای دربارهٔ افکار عمومی",
+             authors="Noelle-Neumann, E.", year=1974,
+             publisher="Journal of Communication",
+             doi="10.1111/j.1460-2466.1974.tb00367.x",
+             url="https://academic.oup.com/joc/article-abstract/24/2/43/4550943",
+             language="en", isbn=None,
+             citation="Noelle-Neumann, E. (1974). The spiral of silence: A theory of public opinion. Journal of Communication, 24(2), 43-51.",
+             locator="24(2):43-51", locator_type="page_range",
+             supports="fear of isolation and the spiral of silence mechanism", verified=True),
+        dict(kind="BOOK",
+             title_en="The Spiral of Silence: Public Opinion - Our Social Skin",
+             title_fa="مارپیچ سکوت: افکار عمومی، پوست اجتماعی ما",
+             authors="Noelle-Neumann, E.", year=1984,
+             publisher="University of Chicago Press",
+             doi=None,
+             url="https://www.nypl.org/research/research-catalog/bib/cb1374422",
+             language="en", isbn=None,
+             citation="Noelle-Neumann, E. (1984). The Spiral of Silence: Public Opinion - Our Social Skin. Chicago: University of Chicago Press.",
+             locator="1984 edition", locator_type="edition",
+             supports="book-length statement of the theory and its evidence", verified=True),
+    ],
+    "th-28": [
+        dict(kind="BOOK",
+             title_en="Personal Influence: The Part Played by People in the Flow of Mass Communications",
+             title_fa="نفوذ شخصی: نقشی که مردم در جریان ارتباطات جمعی بازی می‌کنند",
+             authors="Katz, E.; Lazarsfeld, P. F.", year=1955,
+             publisher="Free Press",
+             doi="10.4324/9781315126234",
+             url="https://www.taylorfrancis.com/books/mono/10.4324/9781315126234/personal-influence-elihu-katz-paul-lazarsfeld",
+             language="en", isbn=None,
+             citation="Katz, E., & Lazarsfeld, P. F. (1955). Personal Influence: The Part Played by People in the Flow of Mass Communications. Glencoe, IL: Free Press.",
+             locator="1955 edition", locator_type="edition",
+             supports="two-step flow and opinion leadership in Decatur study", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Uses and Gratifications Research",
+             title_fa="پژوهش کاربردها و خشنودی‌ها",
+             authors="Katz, E.; Blumler, J. G.; Gurevitch, M.", year=1973,
+             publisher="Public Opinion Quarterly",
+             doi="10.1086/268109",
+             url="https://academic.oup.com/poq/article-abstract/37/4/509/1816598",
+             language="en", isbn=None,
+             citation="Katz, E., Blumler, J. G., & Gurevitch, M. (1973). Uses and gratifications research. Public Opinion Quarterly, 37(4), 509-523.",
+             locator="37(4):509-523", locator_type="page_range",
+             supports="programmatic statement of the uses and gratifications approach", verified=True),
+    ],
+    "th-9": [
+        dict(kind="BOOK",
+             title_en="The People's Choice: How the Voter Makes Up His Mind in a Presidential Campaign",
+             title_fa="انتخاب مردم: رأی‌دهنده چگونه در کارزار ریاست‌جمهوری تصمیم می‌گیرد",
+             authors="Lazarsfeld, P. F.; Berelson, B.; Gaudet, H.", year=1944,
+             publisher="Duell, Sloan & Pearce",
+             doi=None,
+             url=None,
+             language="en", isbn=None,
+             citation="Lazarsfeld, P. F., Berelson, B., & Gaudet, H. (1944). The People's Choice: How the Voter Makes Up His Mind in a Presidential Campaign. New York: Duell, Sloan & Pearce.",
+             locator="1944 edition", locator_type="edition",
+             supports="Erie County panel study and limited media effects", verified=True),
+        dict(kind="BOOK_CHAPTER",
+             title_en="Mass Communication, Popular Taste and Organized Social Action",
+             title_fa="ارتباطات جمعی، ذوق عامه و کنش اجتماعی سازمان‌یافته",
+             authors="Lazarsfeld, P. F.; Merton, R. K.", year=1948,
+             publisher="Harper & Brothers",
+             doi=None,
+             url="https://sites.temple.edu/stsnetwork/files/2022/01/Mass-Communication-Popular-Taste-and-Organized-Social-Action.pdf",
+             language="en", isbn=None,
+             citation="Lazarsfeld, P. F., & Merton, R. K. (1948). Mass communication, popular taste and organized social action. In L. Bryson (Ed.), The Communication of Ideas (pp. 95-118). New York: Harper & Brothers.",
+             locator="pp. 95-118", locator_type="page_range",
+             supports="status conferral, enforcement of norms and narcotizing dysfunction", verified=True),
+    ],
+}
+
+ENRICH = {
+    "th-6": dict(
+        year=1976,
+        mapping=MAPPING,
+        summary="جورج گربنر (۱۹۱۹-۲۰۰۵) پژوهشگر مجارستانی‌الاصل ارتباطات و استاد و مدیر مدرسهٔ آننبرگ دانشگاه پنسیلوانیا بود که نظریهٔ کاشت را بنیان گذاشت. او در سال ۱۹۶۷ پروژهٔ شاخص‌های فرهنگی را آغاز کرد تا محتوای تلویزیون را در طول سال‌ها به‌طور نظام‌مند بسنجد. گزارش نمای خشونت در سال ۱۹۷۶ همراه لری گراس نشان داد که تلویزیون جهانی نمادین می‌سازد که با واقعیت تجربی تفاوت دارد: بینندگان پرتماشاگر احتمال بیشتری داشتند جهان را خطرناک و پرخشونت ببینند. گربنر این اثر را کاشت خواند و گفت تلویزیون داستان‌گوی اصلی جامعهٔ معاصر است و تصویر تدریجی و انباشتهٔ آن، درک بیننده از واقعیت اجتماعی را شکل می‌دهد. او مفهوم هم‌سوسازی را برای همگرایی دیدگاه گروه‌های مختلف زیر تماشای سنگین و مفهوم تشدید را برای تقویت اثر در گروه‌های هم‌تجربه به کار برد. نقدهای اصلی به او، احتمال رابطهٔ کاذب، کنترل ناکافی متغیرهای جمعیت‌شناختی، سنجش تقریبی میزان تماشا و ابهام جهت علیت را برجسته می‌کنند.",
+        definition="جورج گربنر بنیان‌گذار نظریهٔ کاشت است که نشان داد تماشای طولانی تلویزیون، درک بیننده از واقعیت اجتماعی را به سمت جهان نمادین رسانه تغییر می‌دهد.",
+        main_problem="تلویزیون در طول زمان چگونه تصویر مشترکی از واقعیت اجتماعی می‌سازد و این تصویر چه اثری بر باور بینندگان دربارهٔ جهان دارد.",
+        mechanism="تلویزیون روایت‌ها و تصاویر خشونت را به‌طور مکرر و یکسان پخش می‌کند؛ تماشای سنگین این تصاویر را به هنجار ذهنی بدل می‌کند و بیننده جهان را خطرناک‌تر از واقعیت می‌بیند.",
+        assumptions=[
+            "تلویزیون داستان‌گوی اصلی جامعه است.",
+            "پیام تلویزیون یکنواخت و تکرارشونده است.",
+            "اثر آن تدریجی و انباشته است.",
+            "تماشای سنگین با تماشای کم تفاوت دارد.",
+            "جهان نمادین با واقعیت فرق دارد.",
+            "گروه‌های مختلف به هم نزدیک می‌شوند.",
+        ],
+        principles=[
+            "پیام را در دورهٔ بلند بسنج.",
+            "تماشای سنگین و سبک را مقایسه کن.",
+            "متغیرهای جمعیت‌شناختی را کنترل کن.",
+            "جهان نمادین را از واقعیت جدا کن.",
+            "هم‌سوسازی را در تحلیل بگنجان.",
+            "جهت علیت را با داده بسنج.",
+        ],
+        critiques=[
+            "رابطهٔ کاذب ممکن است.",
+            "کنترل جمعیت‌شناختی ناکافی است.",
+            "سنجش تماشا تقریبی است.",
+            "جهت علیت مبهم است.",
+            "به انتخاب مخاطب کم توجه است.",
+            "به تنوع ژانر کمتر می‌پردازد.",
+            "اثر را کوچک و ناپایدار یافته‌اند.",
+            "به رسانهٔ دیجیتال کم توجه دارد.",
+            "به زمینهٔ ملی و رسانهٔ محلی کم توجه است.",
+            "به تماشای گزینشی مخاطب کم می‌پردازد.",
+        ],
+        critique_text="منتقدان کاشت می‌گویند رابطهٔ تماشا و ترس از جرم ممکن است ناشی از متغیرهای دیگر باشد و اثر آن کوچک است؛ با این حال، پروژهٔ شاخص‌های فرهنگی مدلی برای سنجش بلندمدت محتوای رسانه ساخت.",
+        applications=[
+            "تحلیل خشونت تلویزیونی.",
+            "پژوهش ترس از جرم.",
+            "مطالعهٔ تصویر زنان در تلویزیون.",
+            "تحلیل کلیشهٔ سالمندان.",
+            "پژوهش خبر و ادراک خطر.",
+            "مطالعهٔ بازی‌های ویدیویی.",
+            "تحلیل تصویر اقلیت‌ها.",
+            "پژوهش رسانه و اعتماد اجتماعی.",
+            "تحلیل محتوای بلندمدت.",
+            "مطالعهٔ جهان نمادین خبر.",
+            "تحلیل خشونت در انیمیشن کودکان.",
+            "پژوهش ترس از تروریسم پس از خبر.",
+            "مطالعهٔ تصویر پلیس در تلویزیون.",
+            "تحلیل کاشت در پلتفرم ویدیو.",
+        ],
+        example_text="بیننده‌ای که روزانه ساعت‌ها فیلم پلیسی می‌بیند، احتمال جرم را در محلهٔ خود بیشتر از آمار رسمی برآورد می‌کند؛ گربنر این شکاف را اثر کاشت جهان نمادین تلویزیون می‌دانست.",
+        evolution="گربنر در سال ۱۹۶۷ شاخص‌های فرهنگی را آغاز کرد و در سال ۱۹۷۶ نمای خشونت را منتشر ساخت؛ مدل کاشت در سال ۱۹۸۶ با هم‌سوسازی و تشدید کامل شد و پژوهش‌های بعدی آن را به ژانر و رسانهٔ دیجیتال گستراندند.",
+        key_concepts=["کاشت", "جهان نمادین", "هم‌سوسازی", "تشدید", "تماشای سنگین", "شاخص‌های فرهنگی"],
+        theorists="لری گراس، مایکل مورگان و نانسی سینیورلی.",
+        theorists_text="گربنر برنامهٔ کاشت را با گراس، مورگان و سینیورلی پیش برد.",
+        model="تلویزیون به‌عنوان کاشت‌کنندهٔ تصویر تدریجی و مشترک از واقعیت اجتماعی.",
+        studies=[
+            "آغاز شاخص‌های فرهنگی سال ۱۹۶۷.",
+            "مقالهٔ نمای خشونت سال ۱۹۷۶.",
+            "فصل پویایی کاشت سال ۱۹۸۶.",
+            "مطالعهٔ تصویر زنان و سالمندان.",
+            "پژوهش ترس از جرم.",
+            "مطالعهٔ کاشت در بازی‌های ویدیویی.",
+            "مطالعهٔ کاشت در کودکان.",
+            "پژوهش کاشت و نژاد.",
+            "تحلیل محتوای خشونت در سریال.",
+        ],
+    ),
+    "th-7": dict(
+        year=1974,
+        mapping=MAPPING,
+        summary="الیزابت نوئل-نویمان (۱۹۱۶-۲۰۱۰) پژوهشگر ارتباطات و افکار عمومی آلمانی و بنیان‌گذار مؤسسهٔ آلمانی نظرسنجی آلنسباخ بود که نظریهٔ مارپیچ سکوت را در سال ۱۹۷۴ عرضه کرد. او استدلال کرد انسان‌ها از انزوا می‌ترسند و برای پرهیز از آن، جو عمومی را می‌سنجند؛ توانایی‌ای که او آن را حس شبه‌آماری نامید. کسانی که دیدگاه خود را در اقلیت می‌بینند، از بیان آن پرهیز می‌کنند و همین سکوت، دیدگاه اقلیت را ضعیف‌تر و دیدگاه اکثریت را مسلط‌تر نشان می‌دهد؛ چرخه‌ای که مارپیچ سکوت خوانده می‌شود. او مفهوم هستهٔ سخت را برای گروهی به کار برد که حتی در انزوا دیدگاه خود را بیان می‌کنند و نشان داد رسانه می‌تواند ادراک جو عمومی را تحریف کند. نظریهٔ او در کتاب مارپیچ سکوت در سال ۱۹۸۴ نظام‌مند شد و بر پژوهش افکار عمومی و ارتباطات سیاسی اثر گذاشت. نقدهای اصلی به او، فردگرایی روان‌شناختی، تعمیم‌پذیری محدود به فرهنگ‌های جمع‌گرا و دشواری سنجش جو عمومی را برجسته می‌کنند.",
+        definition="الیزابت نوئل-نویمان صورت‌بند نظریهٔ مارپیچ سکوت است که می‌گوید ترس از انزوا، افراد اقلیت را به سکوت وامی‌دارد و این سکوت، اقلیت را ضعیف‌تر نشان می‌دهد.",
+        main_problem="چرا افراد دیدگاه خود را در جمع بیان می‌کنند یا پنهان می‌سازند و رسانه چگونه ادراک افراد از جو عمومی را شکل می‌دهد.",
+        mechanism="فرد جو عمومی را می‌سنجد؛ اگر دیدگاه خود را اقلیت ببیند از ترس انزوا سکوت می‌کند و سکوت او، اقلیت را کوچک‌تر و اکثریت را مسلط‌تر جلوه می‌دهد و مارپیچ را تشدید می‌کند.",
+        assumptions=[
+            "انسان از انزوا می‌ترسد.",
+            "جو عمومی قابل حس است.",
+            "رسانه جو عمومی را می‌سازد.",
+            "سکوت اقلیت آن را ضعیف‌تر نشان می‌دهد.",
+            "هستهٔ سخت همیشه سخن می‌گوید.",
+            "افکار عمومی فشار اجتماعی است.",
+        ],
+        principles=[
+            "جو عمومی ادراک‌شده را بسنج.",
+            "تمایل به بیان را جدا اندازه بگیر.",
+            "نقش رسانه در جو را کنترل کن.",
+            "هستهٔ سخت را شناسایی کن.",
+            "به فرهنگ جمع‌گرا توجه کن.",
+            "پویایی زمانی را در تحلیل بگنجان.",
+        ],
+        critiques=[
+            "روان‌شناسی فردی را مطلق می‌کند.",
+            "به فرهنگ‌های جمع‌گرا محدود است.",
+            "سنجش جو عمومی دشوار است.",
+            "به شبکه‌های کوچک کم توجه است.",
+            "به رسانهٔ دیجیتال کم می‌پردازد.",
+            "اثر را بیش از اندازه عام می‌داند.",
+            "به تفاوت موضوع کم بها می‌دهد.",
+            "پیشینهٔ حرفه‌ای او در دورهٔ نازیسم مناقشه‌برانگیز شد.",
+            "به تمایز موضوعات حساس کم توجه است.",
+        ],
+        critique_text="منتقدان مارپیچ سکوت می‌گویند نظریه بیش از اندازه فردمحور و وابسته به زمینهٔ آلمانی است و سنجش جو عمومی مبهم می‌ماند؛ با این حال، پیوند ترس اجتماعی و سکوت رسانه‌ای یکی از اثرگذارترین ایده‌های افکار عمومی است.",
+        applications=[
+            "تحلیل سکوت در انتخابات.",
+            "پژوهش گفت‌وگوی آنلاین.",
+            "مطالعهٔ ابراز نظر در شبکه‌های اجتماعی.",
+            "تحلیل جو عمومی رسانه‌ای.",
+            "پژوهش سکوت کارکنان سازمان.",
+            "مطالعهٔ اقلیت‌های سیاسی.",
+            "تحلیل نظرسنجی و ادراک اکثریت.",
+            "پژوهش خاموشی در بحران.",
+            "تحلیل رسانه و اقلیت قومی.",
+            "مطالعهٔ ابراز هویت در فضای عمومی.",
+            "تحلیل سکوت در شبکهٔ اجتماعی.",
+            "پژوهش ابراز نظر در گروه کاری.",
+            "مطالعهٔ اقلیت در برنامهٔ تلویزیونی.",
+            "تحلیل ترس از انزوا در نوجوانان.",
+        ],
+        example_text="در یک کارزار انتخاباتی که رسانه یک نامزد را پیروز نشان می‌دهد، هواداران نامزد دیگر ممکن است از ترس انزوا سکوت کنند و همین سکوت، پیروزی او را واقعی‌تر جلوه دهد.",
+        evolution="نوئل-نویمان در سال ۱۹۷۴ نظریه را در مقالهٔ مجلهٔ ارتباطات عرضه کرد و در سال ۱۹۸۴ کتاب مرجع را منتشر ساخت؛ پژوهش‌های دیجیتال بعدی، مارپیچ را به سکوت آنلاین و ادراک جو شبکه‌ای گستردند.",
+        key_concepts=["مارپیچ سکوت", "ترس از انزوا", "حس شبه‌آماری", "جو عمومی", "هستهٔ سخت", "رسانه و اقلیت"],
+        theorists="والتر لیپمن و پل لازارسفلد.",
+        theorists_text="نظریه در سنت پژوهش افکار عمومی آلمان و در گفت‌وگو با سنت آمریکایی شکل گرفت.",
+        model="مارپیچ سکوت به‌عنوان چرخهٔ تقویت اکثریت و خاموشی اقلیت.",
+        studies=[
+            "مقالهٔ سال ۱۹۷۴.",
+            "کتاب سال ۱۹۸۴.",
+            "پژوهش‌های آلنسباخ دربارهٔ جو عمومی.",
+            "مطالعهٔ سکوت در انتخابات آلمان.",
+            "پژوهش سکوت آنلاین.",
+            "تحلیل اقلیت و ابراز نظر.",
+            "مطالعهٔ مارپیچ سکوت در انتخابات محلی.",
+            "پژوهش جو عمومی در رسانهٔ اجتماعی.",
+        ],
+    ),
+    "th-28": dict(
+        year=1973,
+        mapping=MAPPING,
+        summary="الیو کتز (زادهٔ ۱۹۲۶) جامعه‌شناس و پژوهشگر ارتباطات آمریکایی-اسرائیلی است که با پل لازارسفلد کتاب نفوذ شخصی را در سال ۱۹۵۵ نوشت و جریان دومرحله‌ای ارتباط را تثبیت کرد. او نشان داد پیام رسانه پیش از رسیدن به مخاطب، از رهگذر رهبران نظر فیلتر می‌شود و پیوندهای میان‌فردی در تصمیم‌گیری نقش تعیین‌کننده دارند. کتز در دههٔ ۱۹۷۰ با جی بلوملر و مایکل گورویچ رویکرد کاربردها و خشنودی‌ها را صورت‌بندی کرد و مخاطب را فعال و هدفمند دانست که برای نیازهای خود از رسانه استفاده می‌کند. او در دانشگاه عبری اورشلیم و مدرسهٔ آننبرگ تدریس کرد و مفهوم رویداد رسانه‌ای را با دانیل دایان در سال ۱۹۹۲ گسترد: پخش زندهٔ رویدادهای بزرگ، مخاطبان پراکنده را در تجربه‌ای مشترک سهیم می‌کند. نقدهای اصلی به کارهای او، ساده‌سازی جریان دومرحله‌ای، فرض عقلانیت کامل مخاطب و دشواری سنجش نیازها را برجسته می‌کنند.",
+        definition="الیو کتز پژوهشگر ارتباطات و صورت‌بند جریان دومرحله‌ای و رویکرد کاربردها و خشنودی‌ها است که مخاطب را فعال و پیام رسانه را فیلترشده توسط روابط میان‌فردی می‌داند.",
+        main_problem="پیام رسانه چگونه به مخاطب می‌رسد، چه کسانی آن را بازپخش می‌کنند و مخاطب برای چه نیازهایی از رسانه استفاده می‌کند.",
+        mechanism="رسانه به رهبران نظر می‌رسد؛ آنان پیام را در شبکهٔ میان‌فردی بازتفسیر و منتقل می‌کنند و مخاطب بر پایهٔ نیازها و انتظارات خود، رسانه و محتوا را انتخاب و مصرف می‌کند.",
+        assumptions=[
+            "پیام رسانه یک‌مرحله‌ای نمی‌رسد.",
+            "رهبران نظر واسط پیام‌اند.",
+            "شبکهٔ میان‌فردی اثرگذار است.",
+            "مخاطب فعال و هدفمند است.",
+            "استفاده از رسانه نیازمحور است.",
+            "رویداد رسانه‌ای تجربهٔ مشترک می‌سازد.",
+            "رسانهٔ جمعی هنوز نقطهٔ آغاز جریان است.",
+        ],
+        principles=[
+            "جریان پیام را در دو مرحله ردگیری کن.",
+            "رهبران نظر را شناسایی کن.",
+            "نیازهای مخاطب را بپرس.",
+            "انتخاب رسانه را جدا تحلیل کن.",
+            "به رویدادهای زندهٔ رسانه‌ای توجه کن.",
+            "مخاطب را منفعل فرض نکن.",
+        ],
+        critiques=[
+            "جریان دومرحله‌ای را ساده می‌کند.",
+            "عقلانیت کامل مخاطب را فرض می‌کند.",
+            "سنجش نیازها دشوار است.",
+            "به رسانهٔ دیجیتال کم می‌پردازد.",
+            "به نابرابری دسترسی کم توجه است.",
+            "رهبری نظر را بیش از اندازه مهم می‌داند.",
+            "به محتوای رسانه کم بها می‌دهد.",
+            "تعمیم آن به جوامع دیگر محدود است.",
+            "به محتوای رسانهٔ سرگرمی کم می‌پردازد.",
+            "رهبران نظر را همیشه اثرگذار می‌داند.",
+        ],
+        critique_text="منتقدان می‌گویند جریان دومرحله‌ای پیچیدگی شبکه‌های امروز را نمی‌پوشاند و فرض مخاطب عقلانی کامل، ساده‌انگارانه است؛ با این حال، چرخش کتز به مخاطب فعال بنیان پژوهش استفاده و دریافت شد.",
+        applications=[
+            "تحلیل رهبران نظر آنلاین.",
+            "پژوهش بازنشر خبر.",
+            "مطالعهٔ استفاده از شبکه‌های اجتماعی.",
+            "تحلیل رویداد رسانه‌ای.",
+            "پژوهش انگیزهٔ تماشا.",
+            "مطالعهٔ جریان دوپله‌ای در بحران.",
+            "تحلیل اینفلوئنسر.",
+            "پژوهش نیازهای خبری مخاطب.",
+            "مطالعهٔ تلویزیون و خانواده.",
+            "تحلیل پخش زندهٔ رویداد سیاسی.",
+            "تحلیل رهبری نظر در شبکهٔ تخصصی.",
+            "پژوهش اشتراک خبر در خانواده.",
+            "مطالعهٔ استفادهٔ انتخاباتی از رسانه.",
+            "تحلیل رویداد رسانه‌ای جهانی.",
+            "تحلیل جریان پیام در بحران سلامت.",
+        ],
+        example_text="خبر یک سیاست جدید نخست از تلویزیون پخش می‌شود، سپس همسایه یا همکار مورد اعتماد آن را تفسیر می‌کند و تصمیم خانواده بر پایهٔ همین تفسیر شکل می‌گیرد؛ مسیری که کتز آن را جریان دومرحله‌ای خواند.",
+        evolution="کتز در سال ۱۹۵۵ با لازارسفلد نفوذ شخصی را منتشر کرد و در سال ۱۹۷۳ رویکرد کاربردها و خشنودی‌ها را صورت‌بندی کرد؛ در سال ۱۹۹۲ با دایان مفهوم رویداد رسانه‌ای را به برنامهٔ پژوهشی افزود.",
+        key_concepts=["جریان دومرحله‌ای", "رهبران نظر", "کاربردها و خشنودی‌ها", "مخاطب فعال", "رویداد رسانه‌ای", "نفوذ شخصی"],
+        theorists="پل لازارسفلد، جی بلوملر و دانیل دایان.",
+        theorists_text="کتز در سنت پژوهش ارتباطات کلمبیا و در ادامهٔ کار لازارسفلد شکل گرفت.",
+        model="پیام رسانه به‌عنوان جریانی دومرحله‌ای که در شبکهٔ میان‌فردی بازتفسیر می‌شود.",
+        studies=[
+            "کتاب نفوذ شخصی سال ۱۹۵۵.",
+            "مطالعهٔ دیکاتور دربارهٔ رهبران نظر.",
+            "مقالهٔ کاربردها و خشنودی‌ها سال ۱۹۷۳.",
+            "کتاب رویداد رسانه‌ای سال ۱۹۹۲.",
+            "پژوهش رهبران نظر آنلاین.",
+            "مطالعهٔ رویداد زندهٔ سیاسی.",
+            "مطالعهٔ رهبران نظر در رسانهٔ اجتماعی.",
+            "پژوهش انگیزهٔ استفاده از پادکست.",
+            "تحلیل رویداد رسانه‌ای ورزشی.",
+        ],
+    ),
+    "th-9": dict(
+        year=1944,
+        mapping=MAPPING,
+        summary="پل لازارسفلد (۱۹۰۱-۱۹۷۶) جامعه‌شناس اتریشی‌الاصل و بنیان‌گذار دفتر پژوهش اجتماعی کاربردی دانشگاه کلمبیا بود که روش‌های پیمایش پنلی را در مطالعهٔ اثر رسانه به کار برد. او در کتاب انتخاب مردم در سال ۱۹۴۴ با برنارد برلسون و هیزل گودت نشان داد که کارزار انتخاباتی بیشتر برانگیزانندهٔ رأی‌دهندگان متعهد است تا تغییردهندهٔ نظر آنان؛ یافته‌ای که به فرضیهٔ تأثیرات محدود و جریان دومرحله‌ای راه برد. لازارسفلد همراه رابرت مرتون در سال ۱۹۴۸ سه کارکرد رسانه را برشمرد: اعطای منزلت، تقویت هنجارهای اجتماعی و کارکرد مخدری که آگاهی را جانشین کنش می‌کند. او در تقابل مشهور پژوهش اداری و پژوهش انتقادی، سنجش تجربی اثر را در برابر نقد ساختاری رسانه قرار داد. نقدهای اصلی به او، تجربه‌گرایی محدود، کم‌توجهی به محتوا و قدرت رسانه و تمرکز بر اثر کوتاه‌مدت را برجسته می‌کنند.",
+        definition="پل لازارسفلد بنیان‌گذار پژوهش تجربی ارتباطات و صورت‌بند فرضیهٔ تأثیرات محدود است که با پیمایش پنلی نشان داد رسانه بیشتر تقویت می‌کند تا تغییر دهد.",
+        main_problem="رسانه در کارزار انتخاباتی چگونه بر رأی‌دهنده اثر می‌گذارد و چرا اثر آن کمتر از تصور اولیه است.",
+        mechanism="مخاطب بر پایهٔ گرایش‌های پیشین و شبکهٔ میان‌فردی پیام را گزینش و تفسیر می‌کند؛ رسانه گرایش موجود را تقویت می‌کند، رهبران نظر پیام را منتقل می‌سازند و تغییر بنیادی کم رخ می‌دهد.",
+        assumptions=[
+            "مخاطب با گرایش پیشین وارد کارزار می‌شود.",
+            "گزینش‌گری ادراکی فعال است.",
+            "شبکهٔ میان‌فردی بر تصمیم اثر دارد.",
+            "اثر رسانه کوتاه‌مدت و محدود است.",
+            "پیمایش پنلی تغییر را می‌سنجد.",
+            "رسانه کارکرد منزلت‌بخش دارد.",
+        ],
+        principles=[
+            "پیش از آزمون، گرایش پیشین را بسنج.",
+            "طرح پنلی را به مقطعی ترجیح بده.",
+            "گزینش‌گری ادراک را کنترل کن.",
+            "اثر تقویتی را از تغییر جدا کن.",
+            "شبکهٔ میان‌فردی را در تحلیل بگنجان.",
+            "کارکرد رسانه را فراتر از اقناع ببین.",
+        ],
+        critiques=[
+            "تجربه‌گرایی آن محدود است.",
+            "قدرت رسانه را کم‌برآورد می‌کند.",
+            "به محتوای پیام کم توجه است.",
+            "اثر بلندمدت را نمی‌سنجد.",
+            "به ساختار مالکیت نمی‌پردازد.",
+            "نمونه‌ها محلی و محدودند.",
+            "به رسانهٔ سرگرمی کم می‌پردازد.",
+            "به مخاطب فعال بیش از اندازه بها می‌دهد.",
+            "به نقش رسانهٔ دیجیتال کم می‌پردازد.",
+            "به زمینهٔ غیرآمریکایی کم توجه است.",
+            "اثر را در سطح فردی محدود می‌کند.",
+        ],
+        critique_text="منتقدان لازارسفلد می‌گویند تمرکز بر اثر کوتاه‌مدت، قدرت بلندمدت و ساختاری رسانه را پنهان کرد؛ با این حال، روش پنلی و یافتهٔ تأثیرات محدود، بنیان پژوهش تجربی ارتباطات شد.",
+        applications=[
+            "تحلیل کارزار انتخاباتی.",
+            "پژوهش افکار عمومی.",
+            "مطالعهٔ گزینش‌گری ادراکی.",
+            "تحلیل کارکرد رسانه.",
+            "پژوهش شبکهٔ میان‌فردی.",
+            "مطالعهٔ تبلیغات سیاسی.",
+            "تحلیل انگیزهٔ رأی‌دهی.",
+            "پژوهش اثر محدود رسانه.",
+            "مطالعهٔ منزلت‌بخشی خبری.",
+            "تحلیل کارکرد مخدری رسانه.",
+            "تحلیل تبلیغات انتخاباتی محلی.",
+            "پژوهش مشارکت سیاسی.",
+            "مطالعهٔ اثر کمپین سلامت.",
+            "پژوهش اثر پیام سلامت عمومی.",
+            "تحلیل تقویت نگرش حزبی.",
+            "مطالعهٔ رسانه و تصمیم خرید.",
+            "پژوهش رسانهٔ محلی.",
+        ],
+        example_text="بیشتر رأی‌دهندگان یک کارزار پیش از آن تصمیم خود را گرفته‌اند و تبلیغات عمدتاً همان تصمیم را تقویت می‌کند؛ لازارسفلد این را شاهد اثر محدود رسانه دانست.",
+        evolution="لازارسفلد در سال ۱۹۴۴ انتخاب مردم را منتشر کرد و در سال ۱۹۴۸ با مرتون کارکردهای اجتماعی رسانه را صورت‌بندی کرد؛ سنت او در دههٔ ۱۹۵۰ به جریان دومرحله‌ای و در دههٔ ۱۹۷۰ به بازنگری تأثیرات رسانه انجامید.",
+        key_concepts=["تأثیرات محدود", "پیمایش پنلی", "گزینش‌گری ادراکی", "جریان دومرحله‌ای", "کارکرد مخدری", "پژوهش اداری"],
+        theorists="برنارد برلسون، رابرت مرتون و الیو کتز.",
+        theorists_text="لازارسفلد پژوهش تجربی ارتباطات را با برلسون، مرتون و کتز پیش برد.",
+        model="رسانه به‌عنوان تقویت‌کنندهٔ گرایش‌های پیشین در شبکهٔ میان‌فردی، نه تغییردهندهٔ یک‌سویهٔ نگرش.",
+        studies=[
+            "کتاب انتخاب مردم سال ۱۹۴۴.",
+            "فصل کارکردهای رسانه سال ۱۹۴۸.",
+            "پژوهش پنلی ایری کانتی.",
+            "کتاب نفوذ شخصی سال ۱۹۵۵.",
+            "مطالعهٔ تبلیغات سیاسی.",
+            "پژوهش بازنگری تأثیرات.",
+            "پژوهش پنلی رأی‌دهندگان.",
+            "مطالعهٔ گزینش‌گری ادراکی در خبر.",
+            "تحلیل اثر تبلیغات منفی.",
+            "مطالعهٔ پیمایش پنلی در بحران.",
+            "پژوهش کارکرد مخدری خبر.",
+            "تحلیل نفوذ شخصی در خرید.",
+            "مطالعهٔ گزینش خبر.",
+        ],
+    ),
+}
+
+NAME_FIX = {}
+YEAR_FIX = {
+    "th-6": "year field denotes the 1976 violence profile; life dates 1919-2005 stated in summary",
+    "th-7": "year field denotes the 1974 theory article; life dates 1916-2010 stated in summary",
+    "th-28": "year corrected 1974 -> 1973 for the uses-and-gratifications programmatic article (POQ 37(4):509-523); birth year 1926 stated in summary",
+    "th-9": "year field denotes The People's Choice (1944); life dates 1901-1976 stated in summary",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 168}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH168 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

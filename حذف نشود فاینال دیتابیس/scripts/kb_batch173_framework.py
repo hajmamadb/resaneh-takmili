@@ -1,0 +1,663 @@
+# -*- coding: utf-8 -*-
+"""Batch 173 (PERSON, dependency, peace journalism, persuasion, sensemaking): th-21 Ball-Rokeach, th-33 Galtung, th-34 Petty, th-35 Weick."""
+import json
+import pymysql
+
+DB = "resaname_kb_final_inspect"
+STAMP = "qoder-doc-batch173-person-20261116"
+NOW = "2026-11-16 00:00:00"
+BACKUP = r"D:\رسانامه تکمیلی\حذف نشود فاینال دیتابیس\_backup_batch173_person.json"
+
+MAPPING = {"entity_type": "PERSON", "content_type": "شخصیت علمی (نظریه‌پرداز)", "needs_review": False}
+
+S = {
+    "th-21": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="A Dependency Model of Mass-Media Effects",
+             title_fa="الگوی وابستگی اثرهای رسانهٔ جمعی",
+             authors="Ball-Rokeach, S. J.; DeFleur, M. L.", year=1976,
+             publisher="Communication Research, 3(1), 3-21",
+             doi="10.1177/009365027600300101",
+             url="https://journals.sagepub.com/doi/10.1177/009365027600300101",
+             language="en", isbn=None,
+             citation="Ball-Rokeach, S. J., & DeFleur, M. L. (1976). A dependency model of mass-media effects. Communication Research, 3(1), 3-21.",
+             locator="3(1), pp. 3-21", locator_type="page_range",
+             supports="tripartite audience-media-society dependency model", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Origins of Individual Media-System Dependency: A Sociological Framework",
+             title_fa="خاستگاه‌های وابستگی فردی به نظام رسانه‌ای: چارچوبی جامعه‌شناختی",
+             authors="Ball-Rokeach, S. J.", year=1985,
+             publisher="Communication Research, 12(4), 485-510",
+             doi="10.1177/009365085012004003",
+             url="https://journals.sagepub.com/doi/10.1177/009365085012004003",
+             language="en", isbn=None,
+             citation="Ball-Rokeach, S. J. (1985). The origins of individual media-system dependency: A sociological framework. Communication Research, 12(4), 485-510.",
+             locator="12(4), pp. 485-510", locator_type="page_range",
+             supports="social and individual conditions that produce media-system dependency", verified=True),
+    ],
+    "th-33": [
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="The Structure of Foreign News: The Presentation of the Congo, Cuba and Cyprus Crises in Four Norwegian Newspapers",
+             title_fa="ساختار خبر خارجی: ارائهٔ بحران‌های کنگو، کوبا و قبرس در چهار روزنامهٔ نروژی",
+             authors="Galtung, J.; Ruge, M. H.", year=1965,
+             publisher="Journal of Peace Research, 2(1), 64-91",
+             doi="10.1177/002234336500200104",
+             url="https://journals.sagepub.com/doi/10.1177/002234336500200104",
+             language="en", isbn=None,
+             citation="Galtung, J., & Ruge, M. H. (1965). The structure of foreign news. Journal of Peace Research, 2(1), 64-91.",
+             locator="2(1), pp. 64-91", locator_type="page_range",
+             supports="news values and the selection of foreign news", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Violence, Peace, and Peace Research",
+             title_fa="خشونت، صلح و پژوهش صلح",
+             authors="Galtung, J.", year=1969,
+             publisher="Journal of Peace Research, 6(3), 167-191",
+             doi="10.1177/002234336900600301",
+             url="https://journals.sagepub.com/doi/10.1177/002234336900600301",
+             language="en", isbn=None,
+             citation="Galtung, J. (1969). Violence, peace, and peace research. Journal of Peace Research, 6(3), 167-191.",
+             locator="6(3), pp. 167-191", locator_type="page_range",
+             supports="structural violence and the distinction between negative and positive peace", verified=True),
+    ],
+    "th-34": [
+        dict(kind="BOOK_CHAPTER",
+             title_en="The Elaboration Likelihood Model of Persuasion",
+             title_fa="مدل احتمال پردازش در اقناع",
+             authors="Petty, R. E.; Cacioppo, J. T.", year=1986,
+             publisher="Advances in Experimental Social Psychology, 19, 123-205",
+             doi="10.1016/S0065-2601(08)60214-2",
+             url="https://www.sciencedirect.com/science/chapter/bookseries/pii/S0065260108602142",
+             language="en", isbn=None,
+             citation="Petty, R. E., & Cacioppo, J. T. (1986). The elaboration likelihood model of persuasion. Advances in Experimental Social Psychology, 19, 123-205.",
+             locator="Vol. 19, pp. 123-205", locator_type="CHAPTER",
+             supports="central and peripheral routes to persuasion and elaboration likelihood", verified=True),
+        dict(kind="BOOK",
+             title_en="Communication and Persuasion: Central and Peripheral Routes to Attitude Change",
+             title_fa="ارتباط و اقناع: مسیرهای مرکزی و پیرامونی تغییر نگرش",
+             authors="Petty, R. E.; Cacioppo, J. T.", year=1986,
+             publisher="Springer",
+             doi="10.1007/978-1-4612-4964-1",
+             url="https://link.springer.com/book/10.1007/978-1-4612-4964-1",
+             language="en", isbn=None,
+             citation="Petty, R. E., & Cacioppo, J. T. (1986). Communication and Persuasion: Central and Peripheral Routes to Attitude Change. New York: Springer.",
+             locator="1986 edition", locator_type="edition",
+             supports="book-length statement of the elaboration likelihood model", verified=True),
+    ],
+    "th-35": [
+        dict(kind="BOOK",
+             title_en="Sensemaking in Organizations",
+             title_fa="معناسازی در سازمان‌ها",
+             authors="Weick, K. E.", year=1995,
+             publisher="Sage",
+             doi=None,
+             url="https://sk.sagepub.com/ency/edvol/download/organization/chpt/sensemaking.pdf",
+             language="en", isbn=None,
+             citation="Weick, K. E. (1995). Sensemaking in Organizations. Thousand Oaks, CA: Sage.",
+             locator="1995 edition", locator_type="edition",
+             supports="seven properties of organizational sensemaking", verified=True),
+        dict(kind="JOURNAL_ARTICLE",
+             title_en="Organizing and the Process of Sensemaking",
+             title_fa="سازمان‌یابی و فرایند معناسازی",
+             authors="Weick, K. E.; Sutcliffe, K. M.; Obstfeld, D.", year=2005,
+             publisher="Organization Science, 16(4), 409-421",
+             doi="10.1287/orsc.1050.0133",
+             url="https://pubsonline.informs.org/doi/10.1287/orsc.1050.0133",
+             language="en", isbn=None,
+             citation="Weick, K. E., Sutcliffe, K. M., & Obstfeld, D. (2005). Organizing and the process of sensemaking. Organization Science, 16(4), 409-421.",
+             locator="16(4), pp. 409-421", locator_type="page_range",
+             supports="sensemaking as ongoing organizing and its relation to ambiguity", verified=True),
+    ],
+}
+
+ENRICH = {
+    "th-21": dict(
+        year=1976,
+        mapping=MAPPING,
+        summary="ساندرا بال-روکیچ جامعه‌شناس ارتباطات و استاد دانشگاه کالیفرنیای جنوبی است که با ملوین دفلور در سال ۱۹۷۶ نظریهٔ وابستگی رسانه‌ای را صورت‌بندی کرد. آن‌ها استدلال کردند اثر رسانهٔ جمعی از رابطهٔ سه‌گانهٔ مخاطب، رسانه و جامعه برمی‌آید و هرچه مخاطب برای فهم و کنش به رسانه وابسته‌تر باشد، اثر رسانه بیشتر می‌شود. بال-روکیچ در مقالهٔ خاستگاه‌های وابستگی فردی به نظام رسانه‌ای در سال ۱۹۸۵ چارچوب جامعه‌شناختی دقیق‌تری ارائه کرد و نشان داد ساختار اجتماعی، تعارض و بی‌ثباتی و نیز هدف‌های فردی مانند فهم و جهت‌یابی و سرگرمی، شدت وابستگی را تعیین می‌کنند. او بعدها نظریهٔ وابستگی به نظام رسانه‌ای را به رسانهٔ محلی، سلامت و جامعهٔ مهاجر گستراند و با همکارانش آزمون تجربی ارزش‌های فرهنگی انجام داد. نقدهای اصلی به او، دشواری سنجش وابستگی، توصیفی‌بودن نظریه و کم‌توجهی به محتوا و قدرت مالکیت را برجسته می‌کنند.",
+        definition="ساندرا بال-روکیچ نظریه‌پرداز وابستگی به نظام رسانه‌ای است که اثر رسانه را به روابط مخاطب، رسانه و جامعه گره می‌زند.",
+        main_problem="شدت وابستگی مخاطب به رسانه چگونه شکل می‌گیرد و چه شرایط اجتماعی و فردی اثر رسانه را افزایش یا کاهش می‌دهد.",
+        mechanism="وابستگی از نیاز مخاطب به فهم، جهت‌یابی و سرگرمی و از تمرکز منابع اطلاعاتی در نظام رسانه‌ای زاده می‌شود؛ در بحران و تعارض، نیاز اطلاعاتی بالا می‌رود و وابستگی و اثر رسانه شدت می‌گیرد.",
+        assumptions=[
+            "رسانه بخشی از نظام اجتماعی است.",
+            "اثر رسانه مشروط به وابستگی است.",
+            "وابستگی از نیازهای مخاطب می‌آید.",
+            "ساختار اجتماعی وابستگی را شکل می‌دهد.",
+            "بحران و تعارض وابستگی را افزایش می‌دهد.",
+            "وابستگی با هدف فردی رابطه دارد.",
+            "رسانه منبع فهم و جهت‌یابی است.",
+            "اثر در مخاطب کم‌گزینه شدیدتر است.",
+        ],
+        principles=[
+            "وابستگی را پیش از اثر اندازه بگیر.",
+            "نیازهای فهم و جهت‌یابی و سرگرمی را تفکیک کن.",
+            "ساختار نظام رسانه‌ای را بررسی کن.",
+            "بحران را زمینهٔ افزایش وابستگی بگیر.",
+            "به گزینه‌های اطلاعاتی جایگزین توجه کن.",
+            "وابستگی را با شاخص ترکیبی بسنج.",
+            "اثر را مشروط و زمینه‌مند تحلیل کن.",
+        ],
+        critiques=[
+            "سنجش وابستگی دشوار است.",
+            "نظریه بیشتر توصیفی است.",
+            "به محتوای رسانه کم می‌پردازد.",
+            "به قدرت مالکیت کم توجه است.",
+            "پیش‌بینی‌پذیری اندکی دارد.",
+            "به مخاطب فعال کم بها می‌دهد.",
+            "به تفاوت فرهنگی کم توجه است.",
+            "به اثرهای ناخواسته کم می‌پردازد.",
+            "به شبکه‌های اجتماعی دیر رسید.",
+            "به نابرابری اطلاعاتی کم توجه است.",
+            "به سیاست رسانه کم می‌پردازد.",
+            "به پویایی چندرسانه‌ای کم توجه است.",
+            "به شواهد تطبیقی کم تکیه دارد.",
+        ],
+        critique_text="منتقدان بال-روکیچ می‌گویند نظریهٔ وابستگی بیشتر یک چارچوب توصیفی است و سنجش و پیش‌بینی آن دشوار است و به قدرت مالکیت رسانه کم می‌پردازد؛ با این حال، او توضیح داد چرا اثر رسانه در بحران‌ها برای مخاطبان کم‌گزینه شدیدتر می‌شود.",
+        applications=[
+            "تحلیل وابستگی خبری در بحران.",
+            "پژوهش رسانه و سلامت.",
+            "مطالعهٔ وابستگی مهاجران.",
+            "تحلیل رسانهٔ محلی.",
+            "پژوهش وابستگی سالمندان.",
+            "مطالعهٔ رسانه و بلای طبیعی.",
+            "تحلیل وابستگی در انتخابات.",
+            "پژوهش رسانهٔ دیاسپورا.",
+            "مطالعهٔ وابستگی و اعتماد خبری.",
+            "تحلیل وابستگی در شبکه‌های اجتماعی.",
+            "پژوهش رسانهٔ بحران اقتصادی.",
+            "مطالعهٔ وابستگی و مشارکت مدنی.",
+            "تحلیل وابستگی جوانان به پلتفرم.",
+            "پژوهش رسانه و رفتار پیشگیرانه.",
+            "مطالعهٔ وابستگی در بحران سیاسی.",
+            "تحلیل وابستگی اطلاعاتی روستایی.",
+        ],
+        example_text="در ساعات نخست یک سیل، خانواده‌ها به‌طور ناگهانی به رادیو و شبکه‌های خبری و پیام‌رسان وابسته می‌شوند و اطلاعات را از چند منبع می‌طلبند؛ بال-روکیچ این جهش وابستگی را توضیح می‌دهد.",
+        evolution="بال-روکیچ در سال ۱۹۷۶ با دفلور الگوی وابستگی را نوشت و در سال ۱۹۸۵ چارچوب فردی آن را گسترد؛ پژوهش‌های رسانهٔ محلی و سلامت و بحران بعدی، نظریهٔ وابستگی به نظام رسانه‌ای را آزمودند.",
+        key_concepts=["وابستگی به نظام رسانه‌ای", "رابطهٔ سه‌گانه", "نیاز اطلاعاتی", "اثر مشروط", "بحران اطلاعاتی", "وابستگی فردی"],
+        theorists="ملوین دفلور، الیهو کاتز و جورج گربنر.",
+        theorists_text="بال-روکیچ در سنت پژوهش اثرهای محدود رسانه و جامعه‌شناسی ارتباطات جمعی کار کرد.",
+        model="وابستگی به نظام رسانه‌ای به‌عنوان واسط میان نیازهای فردی و ساختار اجتماعی و اثر رسانه.",
+        studies=[
+            "مقالهٔ الگوی وابستگی سال ۱۹۷۶.",
+            "مقالهٔ خاستگاه وابستگی سال ۱۹۸۵.",
+            "پژوهش رسانه و بحران.",
+            "مطالعهٔ وابستگی فردی.",
+            "تحلیل ساختار نظام رسانه‌ای.",
+            "پژوهش رسانهٔ محلی و جامعه.",
+            "مطالعهٔ وابستگی اطلاعاتی سالمندان.",
+            "تحلیل رسانه و سلامت.",
+            "پژوهش وابستگی و اعتماد.",
+            "مطالعهٔ رسانهٔ مهاجران.",
+            "تحلیل وابستگی در انتخابات.",
+            "پژوهش آزمون ارزش‌های فرهنگی.",
+        ],
+    ),
+    "th-33": dict(
+        year=1965,
+        mapping=MAPPING,
+        summary="یوهان گالتونگ (۱۹۳۰-۲۰۲۴) ریاضیدان و جامعه‌شناس نروژی و بنیان‌گذار پژوهش صلح مدرن است که مجلهٔ پژوهش صلح را در سال ۱۹۶۴ بنیان گذاشت. او با ماری هولمبو روگه در مقالهٔ ساختار خبر خارجی در سال ۱۹۶۵ عواملی را برشمرد که تعیین می‌کنند کدام رویداد به خبر بدل می‌شود: فراوانی، آستانه، ابهام‌زدایی، معناداری فرهنگی، هم‌خوانی، غیرمنتظره‌بودن، تداوم، ترکیب، کشورهای نخبه، افراد نخبه، شخصی‌سازی و منفی‌گرایی. گالتونگ در سال ۱۹۶۹ با تفکیک خشونت ساختاری از خشونت شخصی، صلح منفی و مثبت را از هم جدا کرد. او بعدها خشونت فرهنگی و روزنامه‌نگاری صلح را صورت‌بندی کرد و میان پوشش جنگ‌محور و صلح‌محور تمایز گذاشت. نقدهای اصلی به او، توصیفی‌بودن فهرست ارزش‌های خبری، تجویزی‌بودن روزنامه‌نگاری صلح و گستردگی مفهوم خشونت ساختاری را برجسته می‌کنند.",
+        definition="یوهان گالتونگ بنیان‌گذار پژوهش صلح و صورت‌بند نظریهٔ ارزش‌های خبری و روزنامه‌نگاری صلح است که خشونت ساختاری را از خشونت مستقیم جدا کرد.",
+        main_problem="چرا برخی رویدادها در رسانهٔ جهانی خبر می‌شوند و برخی نه، و رسانه چگونه با پوشش جنگ یا صلح، خشونت را بازتولید یا مهار می‌کند.",
+        mechanism="ارزش‌های خبری با غربال رویدادها بر پایهٔ فرهنگ، نخبگان، منفی‌گرایی و شخصی‌سازی، تصویری نظام‌مند از جهان می‌سازند؛ چارچوب جنگ‌محور بر قربانی و پیروزی و دشمن تمرکز می‌کند و چارچوب صلح‌محور بر علت‌ها و راه‌حل‌ها.",
+        assumptions=[
+            "خبر بازتاب کامل واقعیت نیست.",
+            "ارزش‌های خبری انتخاب را هدایت می‌کنند.",
+            "فرهنگ رسانه‌ای بر درک رویداد اثر دارد.",
+            "خشونت ساختاری از خشونت مستقیم جداست.",
+            "صلح منفی و مثبت تفاوت دارند.",
+            "پوشش خبری می‌تواند جنگ یا صلح بسازد.",
+            "رسانه در تعریف دشمن نقش دارد.",
+            "روزنامه‌نگاری صلح اصول مشخص دارد.",
+        ],
+        principles=[
+            "ارزش‌های خبری را در انتخاب خبر ببین.",
+            "خشونت ساختاری را در تحلیل بگنجان.",
+            "صلح مثبت را از نبود جنگ جدا کن.",
+            "علت‌ها و راه‌حل‌ها را در خبر برجسته کن.",
+            "قربانی را به‌جای شمارش، زمینه‌مند کن.",
+            "از چارچوب دشمن‌سازی پرهیز کن.",
+            "روزنامه‌نگاری صلح را آموزش بده.",
+        ],
+        critiques=[
+            "فهرست ارزش‌ها توصیفی است.",
+            "روزنامه‌نگاری صلح تجویزی و آرمانی است.",
+            "مفهوم خشونت ساختاری بسیار گسترده است.",
+            "شواهد تجربی روزنامه‌نگاری صلح یکدست نیست.",
+            "به اقتصاد رسانه کم می‌پردازد.",
+            "به مخاطب فعال کم توجه است.",
+            "به بافت غیرغربی کم می‌پردازد.",
+            "به قدرت دولتی کم توجه است.",
+            "به رسانهٔ دیجیتال دیر رسید.",
+            "به تفاوت ژانرهای خبری کم توجه است.",
+            "به روزنامه‌نگاری محلی کم می‌پردازد.",
+            "به مقاومت تحریریه کم توجه است.",
+            "به تعریف عملیاتی صلح کم می‌پردازد.",
+        ],
+        critique_text="منتقدان گالتونگ می‌گویند ارزش‌های خبری او بیشتر فهرستی توصیفی است و روزنامه‌نگاری صلح بیش از اندازه تجویزی و آرمانی می‌ماند و شواهد اثربخشی آن یکدست نیست؛ با این حال، او پژوهش صلح و نقد پوشش جنگ را به یک برنامهٔ علمی جهانی بدل کرد.",
+        applications=[
+            "تحلیل انتخاب خبر خارجی.",
+            "پژوهش پوشش جنگ.",
+            "مطالعهٔ روزنامه‌نگاری صلح.",
+            "تحلیل خشونت ساختاری در خبر.",
+            "پژوهش خبر و کشورهای نخبه.",
+            "مطالعهٔ پوشش بحران انسانی.",
+            "تحلیل چارچوب دشمن.",
+            "پژوهش خبر و صلح.",
+            "مطالعهٔ رسانه و توسعه.",
+            "تحلیل پوشش تروریسم.",
+            "پژوهش خبر و قربانی.",
+            "مطالعهٔ رسانه و مصالحه.",
+            "تحلیل خبر و خشونت خانگی.",
+            "پژوهش آموزش روزنامه‌نگاران.",
+            "مطالعهٔ خبر و منازعهٔ قومی.",
+            "تحلیل رسانه و گفت‌وگوی صلح.",
+        ],
+        example_text="دو گزارش از یک درگیری را در نظر بگیرید: یکی با شمارش کشته‌ها و اتهام به دشمن و وعدهٔ پیروزی، دیگری با ریشه‌های اقتصادی و صدای غیرنظامیان و راه‌حل‌های ممکن؛ گالتونگ این دو را جنگ‌محور و صلح‌محور می‌نامید.",
+        evolution="گالتونگ در سال ۱۹۶۴ مجلهٔ پژوهش صلح را بنیان گذاشت و در سال ۱۹۶۵ با روگه مقالهٔ ساختار خبر خارجی را نوشت؛ در سال ۱۹۶۹ خشونت ساختاری را صورت‌بندی کرد و در دههٔ ۱۹۹۰ روزنامه‌نگاری صلح را به‌عنوان برنامهٔ آموزشی و حرفه‌ای پیش برد.",
+        key_concepts=["ارزش خبری", "خشونت ساختاری", "صلح مثبت", "صلح منفی", "روزنامه‌نگاری صلح", "چارچوب جنگ‌محور"],
+        theorists="ماری هولمبو روگه، یوهان گالتونگ و ریچارد وینسنت.",
+        theorists_text="گالتونگ در سنت پژوهش صلح اسکاندیناوی و نقد ساختار نظام جهانی کار کرد.",
+        model="انتخاب خبر به‌عنوان برآیند ارزش‌های خبری و پوشش رسانه‌ای به‌عنوان بازتولید یا مهار خشونت.",
+        studies=[
+            "مقالهٔ ساختار خبر خارجی سال ۱۹۶۵.",
+            "مقالهٔ خشونت و صلح سال ۱۹۶۹.",
+            "پژوهش روزنامه‌نگاری صلح.",
+            "مطالعهٔ پوشش بحران کنگو و کوبا.",
+            "تحلیل ارزش‌های خبری.",
+            "پژوهش خشونت ساختاری.",
+            "مطالعهٔ رسانه و توسعه.",
+            "تحلیل پوشش جنگ و صلح.",
+            "پژوهش خبر و کشورهای نخبه.",
+            "مطالعهٔ رسانه و مصالحه.",
+            "تحلیل چارچوب دشمن.",
+            "پژوهش آموزش روزنامه‌نگاری صلح.",
+        ],
+    ),
+    "th-34": dict(
+        year=1986,
+        mapping=MAPPING,
+        summary="ریچارد پتی (زادهٔ ۱۹۵۱) استاد روان‌شناسی دانشگاه ایالتی اوهایو است که با جان کاچیوپو در سال ۱۹۸۶ مدل احتمال پردازش را برای تبیین اقناع ارائه کرد. این مدل دو مسیر برای تغییر نگرش تشخیص می‌دهد: مسیر مرکزی که در آن مخاطب با انگیزه و توان بالا، کیفیت استدلال‌ها را می‌سنجد و مسیر پیرامونی که در آن با انگیزه یا توان کم، به نشانه‌های ساده مانند جذابیت و اعتبار منبع تکیه می‌کند. احتمال پردازش دقیق پیام به انگیزه و توان مخاطب بستگی دارد و نگرشی که از مسیر مرکزی ساخته شود پایدارتر و پیش‌بین رفتار است. پتی بعدها مدل را با پژوهش‌های عصبی و فراشناختی گسترد و نقش اطمینان و تکرار را بررسی کرد. نقدهای اصلی به او، دوگانه‌انگاری ساده‌شده، دشواری سنجش احتمال پردازش و شواهد ناهمگون در فرهنگ‌های مختلف را برجسته می‌کنند.",
+        definition="ریچارد پتی روان‌شناس اقناع و صورت‌بند مدل احتمال پردازش است که تغییر نگرش را به دو مسیر مرکزی و پیرامونی تقسیم می‌کند.",
+        main_problem="چرا یک پیام برای برخی مخاطبان با استدلال و برای برخی دیگر با نشانه‌های سطحی اثر می‌گذارد و کدام تغییر نگرش پایدارتر است.",
+        mechanism="مخاطب با انگیزه و توان بالا استدلال‌ها را پردازش می‌کند و نگرش از مسیر مرکزی و پایدار می‌سازد؛ با انگیزه یا توان کم، نشانه‌های پیرامونی مانند منبع و جذابیت جای استدلال را می‌گیرند و نگرش ناپایدار می‌شود.",
+        assumptions=[
+            "دو مسیر پردازش پیام وجود دارد.",
+            "انگیزه و توان احتمال پردازش را تعیین می‌کنند.",
+            "کیفیت استدلال در مسیر مرکزی مهم است.",
+            "نشانه‌های منبع در مسیر پیرامونی اثر دارند.",
+            "نگرش مرکزی پایدارتر است.",
+            "نگرش مرکزی رفتار را بهتر پیش‌بینی می‌کند.",
+            "تکرار پیام اثر مسیر را تغییر می‌دهد.",
+            "اطمینان فراشناختی نگرش را تقویت می‌کند.",
+        ],
+        principles=[
+            "انگیزه و توان مخاطب را بسنج.",
+            "کیفیت استدلال را در مسیر مرکزی جدی بگیر.",
+            "نشانه‌های منبع را در مسیر پیرامونی ببین.",
+            "پایداری نگرش را معیار اثر بگیر.",
+            "تکرار و اطمینان را در تحلیل بگنجان.",
+            "پیام را با سطح پردازش مخاطب هم‌ساز کن.",
+            "اثر را در زمان بسنج.",
+        ],
+        critiques=[
+            "دوگانهٔ مسیرها ساده‌سازی است.",
+            "سنجش احتمال پردازش دشوار است.",
+            "شواهد در فرهنگ‌ها ناهمگون است.",
+            "به احساسات کم می‌پردازد.",
+            "به بافت اجتماعی کم توجه است.",
+            "به اقناع جمعی کم توجه است.",
+            "اثرها در آزمایشگاه محدودند.",
+            "به رسانهٔ دیجیتال دیر رسید.",
+            "به تفاوت فردی کم می‌پردازد.",
+            "به مقاومت در برابر اقناع کم توجه است.",
+            "به اخلاق اقناع کم می‌پردازد.",
+            "به پیام‌های چندرسانه‌ای کم توجه است.",
+            "به اقناع سیاسی کمتر می‌پردازد.",
+        ],
+        critique_text="منتقدان پتی می‌گویند تقسیم دوگانهٔ مسیرها پیچیدگی واقعی پردازش را ساده می‌کند و سنجش احتمال پردازش دشوار است؛ با این حال، مدل او چارچوبی اثرگذار برای فهم اینکه چه زمانی استدلال و چه زمانی نشانه‌های سطحی نگرش را تغییر می‌دهند ساخت.",
+        applications=[
+            "طراحی کمپین سلامت.",
+            "تحلیل تبلیغات تجاری.",
+            "پژوهش اقناع سیاسی.",
+            "مطالعهٔ نظرات آنلاین.",
+            "تحلیل پیام مقابله با اطلاعات نادرست.",
+            "پژوهش تبلیغات انتخاباتی.",
+            "مطالعهٔ بازاریابی اینفلوئنسر.",
+            "تحلیل پیام واکسیناسیون.",
+            "پژوهش اقناع دانش‌آموزان.",
+            "مطالعهٔ تبلیغات مقایسه‌ای.",
+            "تحلیل پیام محیط زیستی.",
+            "پژوهش ارتباط بحران.",
+            "مطالعهٔ اقناع در شبکه‌های اجتماعی.",
+            "تحلیل شواهد در مناظره.",
+            "پژوهش اعتبار منبع خبر.",
+            "مطالعهٔ اقناع و احساسات.",
+        ],
+        example_text="در یک تبلیغ، وقتی مخاطب برای خرید کالای گران انگیزه و زمان دارد، استدلال‌ها و مقایسهٔ فنی را می‌سنجد؛ اما برای یک خرید کوچک، تنها اعتبار برند یا جذابیت تصویر می‌تواند تصمیم را بسازد.",
+        evolution="پتی و کاچیوپو در سال ۱۹۸۶ مدل احتمال پردازش را در مقاله و کتاب منتشر کردند؛ پژوهش‌های بعدی دربارهٔ فراشناخت، عصبی‌علم اقناع و رسانهٔ دیجیتال، مدل را گستردند و آن را به یکی از پرکاربردترین چارچوب‌های اقناع بدل کردند.",
+        key_concepts=["مدل احتمال پردازش", "مسیر مرکزی", "مسیر پیرامونی", "انگیزه و توان", "کیفیت استدلال", "نشانهٔ منبع"],
+        theorists="جان کاچیوپو، ویلیام مک‌گوایر و شلی چایکن.",
+        theorists_text="پتی در سنت روان‌شناسی اجتماعی نگرش و اقناع، در همکاری با کاچیوپو کار کرد.",
+        model="تغییر نگرش به‌عنوان برآیند احتمال پردازش پیام و دو مسیر مرکزی و پیرامونی.",
+        studies=[
+            "مقالهٔ مدل احتمال پردازش سال ۱۹۸۶.",
+            "کتاب ارتباط و اقناع سال ۱۹۸۶.",
+            "پژوهش کیفیت استدلال.",
+            "مطالعهٔ اعتبار منبع.",
+            "تحلیل تکرار پیام.",
+            "پژوهش فراشناخت اقناع.",
+            "مطالعهٔ اقناع سیاسی.",
+            "تحلیل تبلیغات سلامت.",
+            "پژوهش مقاومت در برابر اقناع.",
+            "مطالعهٔ نظرات آنلاین.",
+            "تحلیل پیام اطلاعات نادرست.",
+            "پژوهش اقناع در رسانهٔ دیجیتال.",
+        ],
+    ),
+    "th-35": dict(
+        year=1995,
+        mapping=MAPPING,
+        summary="کارل وایک (زادهٔ ۱۹۳۶) استاد رفتار سازمانی دانشگاه میشیگان و از نظریه‌پردازان معناسازی سازمانی است که با کتاب روان‌شناسی اجتماعی سازمان‌دهی در سال ۱۹۶۹ و سپس معناسازی در سازمان‌ها در سال ۱۹۹۵ این حوزه را صورت‌بندی کرد. او معناسازی را فرایندی خواند که در آن افراد با پس‌نگر، استخراج نشانه و ساختن روایت معنادار، ابهام محیط را کاهش می‌دهند. وایک هفت ویژگی برای معناسازی برشمرد: ریشه در هویت، پس‌نگر، کنش‌گر در محیط، اجتماعی، جاری، متمرکز بر نشانه‌های استخراج‌شده و مبتنی بر معقولیت به‌جای دقت. او با مطالعهٔ فاجعهٔ مان گالچ نشان داد چگونه فروپاشی معنای مشترک، سازمان را به بحران می‌کشاند. وایک در پژوهش سازمان‌های اطمینان‌بالا با کاتلین ساتکلیف، مدیریت انتظارات و تاب‌آوری را تحلیل کرد. نقدهای اصلی به او، تفسیری‌بودن، آزمون‌پذیری اندک و کم‌توجهی به قدرت را برجسته می‌کنند.",
+        definition="کارل وایک نظریه‌پرداز معناسازی سازمانی است که توضیح می‌دهد افراد و سازمان‌ها چگونه در ابهام، روایت معنادار و قابل کنش می‌سازند.",
+        main_problem="سازمان‌ها چگونه در شرایط ابهام و بحران، از نشانه‌های پراکنده معنای مشترک می‌سازند و کنش هماهنگ را ممکن می‌کنند.",
+        mechanism="کنشگران با انتخاب نشانه‌های برجسته و بازخوانی پس‌نگرانهٔ تجربه، روایتی معقول می‌سازند که هویت و انتظارهای آن‌ها را بازتاب می‌دهد؛ این روایت مبنای کنش بعدی و بازسازی محیط می‌شود.",
+        assumptions=[
+            "معنا در کنش ساخته می‌شود.",
+            "معناسازی پس‌نگرانه است.",
+            "هویت بر تفسیر اثر دارد.",
+            "نشانه‌های برجسته انتخاب می‌شوند.",
+            "معقولیت مهم‌تر از دقت است.",
+            "معناسازی اجتماعی و جاری است.",
+            "ابهام محرک معناسازی است.",
+            "سازمان با روایت مشترک هماهنگ می‌شود.",
+        ],
+        principles=[
+            "نشانه‌های برجسته را شناسایی کن.",
+            "روایت کنشگران را بشنو.",
+            "هویت و انتظار را در تفسیر بگنجان.",
+            "معقولیت را معیار روایت بگیر.",
+            "ابهام را زمینهٔ تحلیل بدان.",
+            "به کنش و بازسازی محیط توجه کن.",
+            "روایت‌های رقیب را مقایسه کن.",
+        ],
+        critiques=[
+            "رویکرد تفسیری و دشوارآزمون است.",
+            "به قدرت و منافع کم می‌پردازد.",
+            "به ساختار سازمانی کم توجه است.",
+            "پس‌نگری را بیش از اندازه برجسته می‌کند.",
+            "مفاهیم آن گاه مبهم‌اند.",
+            "به احساسات کم می‌پردازد.",
+            "به فناوری دیجیتال کمتر می‌پردازد.",
+            "به تفاوت فرهنگی کم توجه است.",
+            "به سنجش کمی کم بها می‌دهد.",
+            "به تعارض سازمانی کم می‌پردازد.",
+            "به یادگیری سازمانی کم توجه است.",
+            "به رهبری کمتر می‌پردازد.",
+            "به اخلاق سازمانی کم توجه است.",
+        ],
+        critique_text="منتقدان وایک می‌گویند نظریهٔ او تفسیری و دشوارآزمون است و قدرت و ساختار را کم می‌بیند؛ با این حال، معناسازی چارچوبی بنیادی برای فهم بحران، ابهام و هماهنگی در سازمان و رسانه شد.",
+        applications=[
+            "تحلیل بحران سازمانی.",
+            "پژوهش ارتباطات سازمانی.",
+            "مطالعهٔ مدیریت بحران.",
+            "تحلیل روایت خبرنگاران.",
+            "پژوهش سازمان اطمینان‌بالا.",
+            "مطالعهٔ فاجعه و تاب‌آوری.",
+            "تحلیل تصمیم در ابهام.",
+            "پژوهش ارتباطات سلامت.",
+            "مطالعهٔ مدیریت تغییر.",
+            "تحلیل روایت کارکنان.",
+            "پژوهش رهبری در بحران.",
+            "مطالعهٔ سازمان دیجیتال.",
+            "تحلیل هماهنگی در تیم.",
+            "پژوهش یادگیری از خطا.",
+            "مطالعهٔ معناسازی رسانه‌ای.",
+            "تحلیل روایت بحران در شبکه‌های اجتماعی.",
+        ],
+        example_text="در آتش‌سوزی مان گالچ، گروهی از آتش‌نشانان نتوانستند تعریف مشترک خود از موقعیت را رها کنند و به دستور تازهٔ رهبر عمل کنند؛ وایک این را نمونهٔ فروپاشی معناسازی در بحران دانست.",
+        evolution="وایک در سال ۱۹۶۹ روان‌شناسی اجتماعی سازمان‌دهی را نوشت و در سال ۱۹۹۵ معناسازی در سازمان‌ها را منتشر کرد؛ در سال ۲۰۰۵ با ساتکلیف و ابستفلد فرایند سازمان‌یابی را دقیق‌تر کرد و پژوهش سازمان‌های اطمینان‌بالا، چارچوب او را به مدیریت بحران برد.",
+        key_concepts=["معناسازی", "پس‌نگری", "نشانهٔ برجسته", "معقولیت", "سازمان اطمینان‌بالا", "فروپاشی معنا"],
+        theorists="جیمز مارچ، کارل وایک و کاتلین ساتکلیف.",
+        theorists_text="وایک در سنت نظریهٔ سازمان و تفسیرگرایی سازمانی شکل گرفت و با ساتکلیف پژوهش سازمان‌های اطمینان‌بالا را پیش برد.",
+        model="معناسازی به‌عنوان فرایند پس‌نگرانهٔ ساختن روایت معقول از نشانه‌ها در شرایط ابهام.",
+        studies=[
+            "کتاب روان‌شناسی اجتماعی سازمان‌دهی سال ۱۹۶۹.",
+            "کتاب معناسازی در سازمان‌ها سال ۱۹۹۵.",
+            "مطالعهٔ فاجعهٔ مان گالچ.",
+            "مقالهٔ سازمان‌یابی و معناسازی سال ۲۰۰۵.",
+            "پژوهش سازمان اطمینان‌بالا.",
+            "تحلیل مدیریت بحران.",
+            "مطالعهٔ ارتباطات سازمانی.",
+            "پژوهش یادگیری از خطا.",
+            "تحلیل روایت سازمانی.",
+            "مطالعهٔ ابهام و تصمیم.",
+            "پژوهش تاب‌آوری سازمانی.",
+            "تحلیل معناسازی در رسانه.",
+        ],
+    ),
+}
+
+NAME_FIX = {}
+YEAR_FIX = {
+    "th-21": "year field denotes the 1976 dependency article; current value was string '1976' and normalised",
+    "th-33": "year field denotes The Structure of Foreign News (1965); life dates 1930-2024 stated in summary",
+    "th-34": "year field denotes ELM publications (1986); birth year 1951 stated in summary",
+    "th-35": "year field denotes Sensemaking in Organizations (1995); birth year 1936 stated in summary",
+}
+
+def wc(v):
+    if v is None:
+        return 0
+    if isinstance(v, str):
+        return len(v.split())
+    if isinstance(v, (list, tuple)):
+        return sum(len(str(x).split()) for x in v)
+    return 0
+
+
+def has_content(v):
+    if v is None:
+        return False
+    if isinstance(v, str):
+        return bool(v.strip())
+    if isinstance(v, (list, dict)):
+        return len(v) > 0
+    return True
+
+
+REQUIRED_SECTIONS = ["summary", "definition", "main_problem", "mechanism", "assumptions",
+                     "principles", "critiques", "applications", "evolution", "key_concepts",
+                     "theorists", "model", "studies"]
+WORD_KEYS = ["summary", "definition", "main_problem", "mechanism", "critiques",
+             "applications", "evolution", "key_concepts", "principles", "studies", "assumptions"]
+
+
+def rubric(p, n_verified, n_sources, n_relations):
+    present = sum(1 for k in REQUIRED_SECTIONS if has_content(p.get(k)))
+    structure = round(15 * min(1, present / 7))
+    words = sum(wc(p.get(k)) for k in WORD_KEYS)
+    if words >= 500:
+        analysis = 15
+    elif words >= 300:
+        analysis = 13
+    elif words >= 180:
+        analysis = 11
+    elif words >= 100:
+        analysis = 8
+    else:
+        analysis = 3
+    if n_verified >= 1 and n_sources >= 2:
+        citation = 20
+    elif n_verified >= 1:
+        citation = 17
+    elif n_sources >= 1:
+        citation = 10
+    else:
+        citation = 0
+    accuracy = 0
+    if has_content(p.get("summary")) and has_content(p.get("definition")):
+        accuracy += 10
+    if n_verified >= 1:
+        accuracy += 9
+    if present >= 6:
+        accuracy += 6
+    accuracy = min(25, accuracy)
+    relations = 10 if n_relations >= 1 else 6
+    classification = 5 if (p.get("mapping") or p.get("category_id")) else 0
+    clarity = 5 if has_content(p.get("summary")) else 0
+    currency = 5
+    score = structure + analysis + citation + accuracy + relations + classification + clarity + currency
+    detail = "structure=%d analysis=%d citation=%d accuracy=%d relations=%d classification=%d clarity=%d currency=%d" % (
+        structure, analysis, citation, accuracy, relations, classification, clarity, currency)
+    return score, detail, words
+
+
+def ensure_source(cur, src):
+    if src.get("doi"):
+        cur.execute("SELECT id FROM kb_sources WHERE doi=%s LIMIT 1", (src["doi"],))
+        r = cur.fetchone()
+        if r:
+            return r[0]
+    cur.execute("SELECT id FROM kb_sources WHERE title_en=%s AND year=%s LIMIT 1",
+                (src["title_en"], src["year"]))
+    r = cur.fetchone()
+    if r:
+        return r[0]
+    cur.execute("""INSERT INTO kb_sources
+        (kind,title_fa,title_en,year,publisher,doi,isbn,issn,url,language,access_type,bibliographic,work_id)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,NULL,%s,%s,'unknown',%s,NULL)""",
+                (src["kind"], src["title_fa"], src["title_en"], src["year"], src["publisher"],
+                 src.get("doi"), src.get("isbn"), src.get("url"), src["language"],
+                 json.dumps({"authors": src["authors"], "citation": src["citation"]}, ensure_ascii=False)))
+    return cur.lastrowid
+
+
+
+YEAR_FIX.update({
+    "MC-582": "year corrected 2000 -> 2001 (verified anchor: Baker & Martinson, TARES Test, 2001); note: editorial card theorist attribution was unverifiable and documentation rebuilt from verified literature",
+    "MC-598": "no year change; note: editorial card core_logic was a mismatched media-economics template, documentation rebuilt from Heath (1993) and Ihlen (2011)",
+})
+
+
+def main():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="433700",
+                           database=DB, charset="utf8mb4", autocommit=False)
+    cur = conn.cursor()
+    codes = list(ENRICH.keys())
+    ph = ",".join(["%s"] * len(codes))
+    cur.execute("SELECT id,code,properties FROM kb_entities WHERE code IN (%s)" % ph, codes)
+    rows = cur.fetchall()
+    found = {r[1]: r for r in rows}
+    missing = [c for c in codes if c not in found]
+    assert not missing, "not found: %s" % missing
+
+    snap = []
+    for code, (eid, _c, props) in found.items():
+        snap.append({"id": eid, "code": code, "properties": json.loads(props)})
+    with open(BACKUP, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    print("backup ->", len(snap), "rows")
+
+    for code in codes:
+        eid, _c, props = found[code]
+        p = json.loads(props)
+        en = ENRICH[code]
+
+        if "critique_text" in en:
+            p["critique"] = en["critique_text"]
+        if "example_text" in en:
+            p["example"] = en["example_text"]
+        for k, v in en.items():
+            if k in ("critique_text", "example_text"):
+                continue
+            p[k] = v
+
+        p["sources"] = []
+        p["citations"] = []
+        for src in S[code]:
+            p["sources"].append({
+                "citation": src["citation"],
+                "title_en": src["title_en"],
+                "title_fa": src["title_fa"],
+                "year": src["year"],
+                "doi": src.get("doi"),
+                "url": src.get("url"),
+                "language": src["language"],
+                "verified": src["verified"],
+            })
+            p["citations"].append({
+                "source": src["citation"],
+                "locator": src["locator"],
+                "supports": src["supports"],
+                "verified": src["verified"],
+            })
+
+        cur.execute("SELECT COUNT(*) FROM kb_relations WHERE source_id=%s OR target_id=%s", (eid, eid))
+        n_rel = cur.fetchone()[0]
+        n_sources = len(p["sources"])
+        n_verified = sum(1 for x in p["citations"] if x.get("verified"))
+        score, detail, words = rubric(p, n_verified, n_sources, n_rel)
+
+        p["quality_score"] = score
+        p["quality_assessment"] = "ارزیابی خودکار SPEC §6.1: %d/100 (نمره پایه؛ نیازمند بازبینی علمی انسانی)" % score
+        p["status_scientific_note"] = "مستندسازی با منابع تأییدشده شبکه‌ای؛ نمره بر پایه سنجه خودکار است و جانشین داوری علمی (SPEC §6.4) نیست."
+        p["updated_at"] = NOW
+        p["updated_by"] = STAMP
+
+        if code in NAME_FIX:
+            fa_name, en_name, why = NAME_FIX[code]
+            cur.execute("UPDATE kb_entities SET canonical_name_fa=%s, canonical_name_en=%s WHERE id=%s",
+                        (fa_name, en_name, eid))
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": why}, ensure_ascii=False), STAMP, NOW))
+
+        if code in YEAR_FIX:
+            cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+                VALUES (%s,'DOC_FIX',%s,%s,%s)""",
+                        (code, json.dumps({"fix": YEAR_FIX[code]}, ensure_ascii=False), STAMP, NOW))
+
+        cur.execute("UPDATE kb_entities SET properties=%s, version=version+1, updated_at=%s WHERE id=%s",
+                    (json.dumps(p, ensure_ascii=False), NOW, eid))
+        cur.execute("SELECT version FROM kb_entities WHERE id=%s", (eid,))
+        new_version = cur.fetchone()[0]
+
+        for src in S[code]:
+            sid = ensure_source(cur, src)
+            cur.execute("SELECT id FROM kb_evidence WHERE about_code=%s AND source_id=%s LIMIT 1", (code, sid))
+            if cur.fetchone():
+                continue
+            lt = {"work": "SECTION", "page_range": "PAGE", "CHAPTER": "CHAPTER", "PAGE": "PAGE"}.get(src["locator_type"], "SECTION")
+            cur.execute("""INSERT INTO kb_citations
+                (source_id,locator_type,locator_value,quoted_text,paraphrase,citation_style,language,accessed_at)
+                VALUES (%s,%s,%s,NULL,%s,'apa',%s,%s)""",
+                        (sid, lt, src["locator"], src["supports"], src["language"], NOW))
+            cid = cur.lastrowid
+            cur.execute("""INSERT INTO kb_evidence
+                (source_id,citation_id,about_code,evidence_type,evidence_summary,quoted_content,locator,
+                 page_start,page_end,direction,extraction_method,verification_status,extraction_confidence)
+                VALUES (%s,%s,%s,'bibliographic_reference',%s,NULL,%s,NULL,NULL,'supports','ai_extraction',%s,NULL)""",
+                        (sid, cid, code, src["supports"], src["locator"],
+                         "verified" if src["verified"] else "unverified"))
+
+        cur.execute("""INSERT INTO kb_entity_versions
+            (entity_id,version,snapshot,change_reason,changed_by,created_at)
+            VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (eid, new_version, json.dumps(p, ensure_ascii=False),
+                     "full documentation enrichment + verified sources", STAMP, NOW))
+
+        cur.execute("""INSERT INTO kb_audit_log (entity_code,action,detail,source,created_at)
+            VALUES (%s,'DOC_ENRICH',%s,%s,%s)""",
+                    (code, json.dumps({"score": score, "words": words, "sources": n_sources,
+                                       "verified": n_verified, "batch": 173}, ensure_ascii=False),
+                     STAMP, NOW))
+
+        print("%s: score=%d words=%d sources=%d verified=%d relations=%d | %s"
+              % (code, score, words, n_sources, n_verified, n_rel, detail))
+
+    conn.commit()
+    conn.close()
+    print("BATCH173 FRAMEWORK DONE")
+
+
+if __name__ == "__main__":
+    main()

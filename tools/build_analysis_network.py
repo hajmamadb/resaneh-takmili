@@ -1,0 +1,301 @@
+# -*- coding: utf-8 -*-
+"""Build kg_data_analysis-network.json — بلوک ۹.۳ تحلیل داده‌های شبکه‌ای و محاسباتی"""
+import json, io, os
+
+OUT = r"D:\رسانامه تکمیلی\knowledge-core\data\kg_data_analysis-network.json"
+SRC = r"C:\Users\MamaDDelta\.zcode\tmp\paste-attachments\2026-11-10\pasted-text-20261110-062125-ec35e598.txt"
+
+def ent(id, fa, en, slug, etype, parent, abstract, desc, props, apps, strengths, limits,
+        refs, disciplines, facets_extra=None):
+    return {
+        "id": id, "title_fa": fa, "title_en": en, "slug": slug, "entity_type": etype,
+        "parent_id": parent, "abstract": abstract, "description": desc,
+        "historical_background": None, "philosophical_foundations": None,
+        "key_propositions": props, "key_figures": [], "origin_period": None,
+        "geographical_origin": None, "related_disciplines": disciplines,
+        "applications": apps, "strengths": strengths, "limitations": limits,
+        "criticisms": [], "references": refs, "status": "draft",
+        "facets": [{"key": "domain", "value": "methodology"},
+                   {"key": "data_type", "value": "network-computational"},
+                   {"key": "block", "value": "analysis-network"}] + (facets_extra or []),
+    }
+
+F = "kg-framework-network-analysis"
+entities = [
+    ent(F, "تحلیل داده‌های شبکه‌ای و محاسباتی", "Network & Computational Data Analysis",
+        "network-computational-analysis", "FRAMEWORK", None,
+        "چارچوب کلان روش‌های تحلیل شبکه‌ای و محاسباتی در پژوهش رسانه و ارتباطات",
+        "این کلان‌ساختار مجموعه‌ای از روش‌های تحلیل شبکه‌ای (گرافی) و محاسباتی (NLP، یادگیری ماشین، شبیه‌سازی) است که برای پردازش داده‌های بزرگ ارتباطی و ساختاری در پژوهش رسانه به کار می‌رود و در سند به‌عنوان «دسته‌ای مهم برای آینده رسانامه» معرفی شده است (بخش ۹.۳).",
+        ["داده‌های ارتباطی و شبکه‌ای با روش‌های گراف و محاسباتی مدل‌سازی می‌شوند",
+         "نتایج تحلیلی‌اند و باید در کنار روش‌های دیگر تفسیر شوند"],
+        ["تحلیل ساختار شبکه‌های اجتماعی و رسانه‌ای", "تحلیل محاسباتی متن و گفتمان", "شبیه‌سازی پدیده‌های ارتباطی"],
+        ["قابلیت پردازش داده‌های بزرگ و پرهجمه", "نتایج کمّی، تکرارپذیر و قابل مقایسه"],
+        ["وابستگی به کیفیت داده ورودی", "تفسیر جامعه‌شناختی یافته‌ها همچنان نیازمند روش‌های کیفی است"],
+        ["Borgatti & Everett (2003), Analyzing Social Networks"],
+        ["تحلیل شبکه", "پردازش زبان طبیعی", "علم داده"],
+        [{"key": "layer", "value": "macro-framework"}]),
+]
+
+# (slug, fa, en, abstract, description, props, apps, strengths, limits, refs, disciplines)
+methods = [
+    ("social-network-analysis", "تحلیل شبکه‌های اجتماعی (SNA)", "Social Network Analysis",
+     "تحلیل ساختاری روابط و تعاملات میان گره‌ها و پیوندها در شبکه",
+     "بر پایه‌ی تئوری گراف، الگوهای پیوند میان اشخاص، رسانه‌ها یا سازمان‌ها را اندازه‌گیری می‌کند و ساختار شبکه (چگالی، گره‌های کلیدی، زیرشبکه‌ها) را آشکار می‌سازد. داده‌های مورد تحلیل: داده‌های شبکه‌ای/ساختاری.",
+     ["ساختار شبکه از گره و پیوند قابل نمایش است", "الگوهای رابطه‌ای اطلاعات ساختاری می‌دهند"],
+     ["تحلیل شبکه‌های اجتماعی و رسانه‌ای", "شناسایی نخبگان و گره‌های کلیدی"],
+     ["دقت توصیف ساختار", "قابلیت ترکیب با داده‌های بیوگرافی گره‌ها"],
+     ["داده‌های سنجیده‌شده ممکن است فقط پیوندهای اقرارشده را نشان دهند"],
+     ["Wasserman & Faust (1994), Social Network Analysis"],
+     ["تحلیل شبکه", "گراف نظریه"]),
+    ("semantic-network-analysis", "تحلیل شبکه‌های معنایی", "Semantic Network Analysis",
+     "نمایاندن و تحلیل روابط معنایی میان مفاهیم در شبکه‌ای از گره‌های مفهومی",
+     "مفاهیم را گره و روابط معنایی‌شان را پیوند می‌گیرد و الگوهای معنایی متن یا گفتمان را نشان می‌دهد. داده‌های مورد تحلیل: داده‌های متنی/معنایی.",
+     ["مفاهیم در شبکه‌ای معنایی قابل ساختاردهی‌اند"],
+     ["تحلیل معنایی متن", "نقشه‌کشی گفتمان"],
+     ["نمایش بصری ساختار معنایی"],
+     ["وابسته به کیفیت استخراج معانی"],
+     ["Freeman (1979), graph measures in semantic networks"],
+     ["تحلیل شبکه", "زبانشناسی"]),
+    ("communication-network-analysis", "تحلیل شبکه‌های ارتباطی", "Communication Network Analysis",
+     "تحلیل الگوهای تبادل پیام و جریان ارتباط میان گره‌ها",
+     "تمرکز بر الگوهای تبادل پیام (مکالمه، ارجاع، پاسخ) است و تفاوت شبکه‌های یک‌جهت و دوجهت را نشان می‌دهد. داده‌های مورد تحلیل: داده‌های شبکه‌ای ارتباطی.",
+     ["الگوهای تبادل پیام ساختار ارتباطی می‌سازند"],
+     ["تحلیل گفتگوها و تعاملات رسانه‌ای"],
+     ["دقت در ثبت جهت‌دار بودن پیوندها"],
+     ["محدودیت داده در شبکه‌های بزرگ"],
+     ["Teitelman & Adler (1980), communication networks"],
+     ["تحلیل شبکه", "گراف نظریه"]),
+    ("information-diffusion-analysis", "تحلیل انتشار اطلاعات", "Information Diffusion Analysis",
+     "تحلیل پخش و گسترش اطلاعات در شبکه",
+     "مسیر و سرعت پخش اطلاعات در شبکه را دنبال می‌کند و نقش گره‌های مبدا و واسط را می‌سنجد. داده‌های مورد تحلیل: داده‌های شبکه‌ای زمانی.",
+     ["انتشار اطلاعات الگوی قابل‌پیگیری دارد"],
+     ["تحلیل ویروسی شدن محتوا", "یادگیری اجتماعی"],
+     ["دقت در شناسایی منابع انتشار"],
+     ["نیاز به داده‌های زمان‌بندی‌شده"],
+     ["Centola (2018), How spread and diffusion works"],
+     ["تحلیل شبکه", "یادگیری اجتماعی"]),
+    ("information-flow-analysis", "تحلیل جریان اطلاعات", "Information Flow Analysis",
+     "تحلیل مسیر و جهت حرکت اطلاعات میان گره‌ها",
+     "مسیرهای جریان اطلاعات و گلوگاه‌ها و واسطه‌های شبکه را نشان می‌دهد. داده‌های مورد تحلیل: داده‌های شبکه‌ای جریان.",
+     ["جریان اطلاعات الگوی مسیرمند دارد"],
+     ["تحلیل دسترسی به اطلاعات"],
+     ["نمایش گلوگاه‌های ارتباطی"],
+     ["فرض جریان یک‌جهت در برخی داده‌ها"],
+     ["Burt (1984), structural holes and information flow"],
+     ["تحلیل شبکه"]),
+    ("network-clustering-analysis", "تحلیل خوشه‌های شبکه", "Network Clustering Analysis",
+     "شناسایی گروه‌ها و خوشه‌ها درون شبکه",
+     "گره‌ها را بر پایه‌ی الگوی پیوند به خوشه‌ها و جوامع تقسیم می‌کند (جوامع یافتنی). داده‌های مورد تحلیل: داده‌های شبکه‌ای.",
+     ["گره‌های هم‌پیوند به خوشه تقسیم می‌شوند"],
+     ["شناسایی گروه‌های فرعی رسانه‌ای"],
+     ["دقت در تمایز گروه‌ها"],
+     ["نتیجه وابسته به الگوریتم است"],
+     ["Blondel et al. (2006), Louvain method"],
+     ["تحلیل شبکه", "خوشه‌بندی"]),
+    ("centrality-analysis", "تحلیل مرکزیت", "Centrality Analysis",
+     "اندازه‌گیری اهمیت نسبی گره‌ها در شبکه",
+     "گره‌ها را با شاخص‌هایی چون درجه، میانه، نزدیکی و بینایی رتبه می‌بندد و گره‌های کلیدی را شناسایی می‌کند. داده‌های مورد تحلیل: داده‌های شبکه‌ای.",
+     ["اهمیت نسبی گره‌ها قابل اندازه‌گیری است"],
+     ["شناسایی گره‌های مؤثر"],
+     ["چند شاخص مکمل"],
+     ["وابستگی به انتخاب شاخص"],
+     ["Freeman (1979), centrality in social networks"],
+     ["تحلیل شبکه", "گراف نظریه"]),
+    ("virtual-community-analysis", "تحلیل جامعه‌های مجازی", "Virtual Community Analysis",
+     "تحلیل ساختار و تعامل در جوامع مجازی",
+     "ساختار، تعامل و ناهمگونی مشارکت در جوامع مجازی را بررسی می‌کند. داده‌های مورد تحلیل: داده‌های شبکه‌ای تعاملی.",
+     ["جوامع مجازی ساختار شبکه‌ای دارند"],
+     ["تحلیل فوروام‌ها و شبکه‌های اجتماعی"],
+     ["دسترسی به داده‌های تعاملی"],
+     ["دوران کوتاه داده‌ها"],
+     ["Wellman & Haythornthwaite (1996), The Network We Live In"],
+     ["تحلیل شبکه", "جامعه‌شناسی رسانه"]),
+    ("nlp-text-analysis", "تحلیل متن با پردازش زبان طبیعی", "NLP-based Text Analysis",
+     "تحلیل خودکار و مقیاس‌پذیر متن با الگوریتم‌های پردازش زبان طبیعی",
+     "با روش‌های NLP (حذف کلمات پرتکرار، بردار معنایی، مدل‌های زبانی) متن را به ویژگی کمّی تبدیل و تحلیل می‌کند. داده‌های مورد تحلیل: داده‌های متنی.",
+     ["متن قابل تبدیل به ویژگی کمّی است"],
+     ["تحلیل حجم بالای متن"],
+     ["مقیاس‌پذیری", "خودکارسازی"],
+     ["خطای مدل زبانی"],
+     ["Jurafsky & Martin (2009), Speech and Language Processing"],
+     ["پردازش زبان طبیعی", "علم داده"]),
+    ("sentiment-analysis", "تحلیل احساسات", "Sentiment Analysis",
+     "تعیین بار عاطفی/نگرشی متن با روش‌های محاسباتی",
+     "بار مثبت یا منفی متن/توضیحات را با دیکشنری یا طبقه‌بند آموخته‌شده تعیین می‌کند. داده‌های مورد تحلیل: داده‌های متنی.",
+     ["بار عاطفی متن قابل اندازه‌گیری است"],
+     ["تحلیل افکار عمومی و واکنش مخاطب"],
+     ["سرعت و مقیاس"],
+     ["آسیب‌پذیری در برابر کنایه و زبان فارسی"],
+     ["Pang & Lee (2008), opinion mining"],
+     ["پردازش زبان طبیعی", "یادگیری ماشین"]),
+    ("topic-modeling", "مدل‌سازی موضوعی", "Topic Modeling",
+     "کشف ساختار موضوعی پنهان در مجموعه‌ی متن‌ها",
+     "با الگوریتم‌هایی چون LDA، موضوع‌های پنهان و سهم کلمات را از مجموعه‌ی بزرگ متن استخراج می‌کند. داده‌های مورد تحلیل: داده‌های متنی.",
+     ["موضوع‌ها ساختار پنهانی در متن‌ها دارند"],
+     ["شناسایی محورهای گفت‌وگو رسانه‌ای"],
+     ["دقت در دسته‌بندی موضوعی"],
+     ["وابستگی به انتخاب تعداد موضوع"],
+     ["Blei, Ng & Jordan (2003), LDA"],
+     ["پردازش زبان طبیعی", "یادگیری ماشین"]),
+    ("entity-extraction", "استخراج موجودیت‌ها", "Named Entity Extraction",
+     "شناسایی خودکار موجودیت‌های نام‌دار در متن",
+     "اسامی اشخاص، مکان‌ها، سازمان‌ها و رویدادها را از متن شناسایی و به‌ساختار درمی‌آورد. داده‌های مورد تحلیل: داده‌های متنی.",
+     ["موجودیت‌های نام‌دار قابل شناسایی خودکارند"],
+     ["ساختاردهی داده", "ایجاد پایگاه دانش"],
+     ["دقت در شناسایی"],
+     ["خطا در زبان فارسی"],
+     ["LREC 2003, NER benchmarks"],
+     ["پردازش زبان طبیعی"]),
+    ("semantic-similarity-analysis", "تحلیل شباهت معنایی", "Semantic Similarity Analysis",
+     "اندازه‌گیری شباهت معنایی میان مفاهیم",
+     "با بردارهای معنایی فاصله معنایی واژه‌ها/جملات را می‌سنجد و شباهت آن‌ها را کمّی می‌کند. داده‌های مورد تحلیل: داده‌های متنی/معنایی.",
+     ["معانی در فاصله‌ای برداری قابل مقایسه‌اند"],
+     ["دست‌یابی و مقایسه مفاهیم"],
+     ["دقت معنایی"],
+     ["کیفیت مدل برداری"],
+     ["Mikolov et al. (2013), word vectors"],
+     ["پردازش زبان طبیعی"]),
+    ("multimedia-analysis", "تحلیل چندرسانه‌ای", "Multimedia Analysis",
+     "تحلیل محاسباتی داده‌های چندرسانه‌ای",
+     "داده‌های متنی، تصویری و صوتی را با روش‌های محاسباتی (بینایی ماشین) در کنار هم تحلیل می‌کند. داده‌های مورد تحلیل: داده‌های چندرسانه‌ای.",
+     ["رسانه‌های مختلف قابل تحلیل کمّی‌اند"],
+     ["تحلیل محتوای چندلایه رسانه‌ای"],
+     ["دربرگرفتن همه‌ی رسانه‌ها"],
+     ["پیچیدگی فنی و داده"],
+     ["Schuller et al. (2015), Multimedia Analytics"],
+     ["بینایی ماشین", "تحلیل رسانه"]),
+    ("machine-learning", "یادگیری ماشین", "Machine Learning",
+     "الگوریتم‌های آموخته‌شده برای طبقه‌بندی و پیش‌بینی داده",
+     "مدل‌های آموخته‌شده را برای طبقه‌بندی، خوشه‌بندی و پیش‌بینی روی داده‌های رسانه‌ای به کار می‌برد. داده‌های مورد تحلیل: داده‌های ساختاریافته و نیمه‌ساختاریافته.",
+     ["الگوهای داده قابل یادگیری خودکارند"],
+        ["طبقه‌بندی محتوا", "پیش‌بینی واکنش"],
+     ["خودکارسازی و مقیاس‌پذیری"],
+     ["نیاز به داده برچسب‌دار و شفافیت"],
+     ["Bishop (2006), Pattern Recognition and ML"],
+     ["یادگیری ماشین", "علم داده"]),
+    ("deep-learning", "یادگیری عمیق", "Deep Learning",
+     "شبکه‌های عصبی چندلایه برای یادگیری پیچیده",
+     "شبکه‌های عصبی عمیق را برای کارهای دشوار (پردازش تصویر و زبان، طبقه‌بندی) روی داده‌های رسانه‌ای به کار می‌برد. داده‌های مورد تحلیل: داده‌های بزرگ ساختاریافته.",
+     ["لایه‌های عمیق الگوهای پیچیده می‌آموزند"],
+     ["تحلیل تصویر و متن پیچیده"],
+     ["دقت در کارهای دشوار"],
+     ["هزینه محاسباتی و داده"],
+     ["LeCun, Bengio & Hinton (2015), Deep Learning"],
+     ["یادگیری عمیق", "بینایی ماشین"]),
+    ("agent-based-modeling", "مدل‌سازی عامل‌بنیان", "Agent-Based Modeling",
+     "شبیه‌سازی رفتار کلان از تعامل عوامل خُرد",
+     "رفتار کلان را از تعامل عامل‌های خُرد با قواعد ساده شبیه‌سازی می‌کند. داده‌های مورد تحلیل: داده‌های شبیه‌سازی/رفتاری.",
+     ["رفتار کلان از تعامل خُرد پدید می‌آید"],
+     ["شبیه‌سازی پدیده‌های اجتماعی"],
+     ["نمایش رفتارهای پدیدارشناختی"],
+     ["وابستگی به قواعد عامل"],
+     ["Bonabeau (2002), agent-based modeling"],
+     ["شبیه‌سازی", "مدل‌سازی محاسباتی"]),
+    ("rumor-simulation", "شبیه‌سازی انتشار شایعه", "Rumor Diffusion Simulation",
+     "شبیه‌سازی پخش شایعه در شبکه",
+     "نمونه‌های کلاسیک (DKTM) را شبیه‌سازی می‌کند تا الگوی پخش و فروپاشی شایعه را نشان دهد. داده‌های مورد تحلیل: داده‌های شبیه‌سازی شبکه‌ای.",
+     ["انتشار شایعه الگوی ریاضی دارد"],
+     ["تحلیل ویروسی شدن خبر"],
+     ["دقت ریاضی"],
+     ["فرض‌های ساده‌ساز"],
+     ["Daley & Kirkpatrick (1965), rumor model"],
+     ["شبیه‌سازی", "یادگیری اجتماعی"]),
+    ("computational-discourse-analysis", "تحلیل محاسباتی گفتمان", "Computational Discourse Analysis",
+     "تحلیل محاسباتی ساختار گفتمان",
+     "ساختار گفتمان را با روش‌های محاسباتی و NLP (ترتیب، ربط، نگرش) تحلیل می‌کند. داده‌های مورد تحلیل: داده‌های متنی گفتمانی.",
+     ["ساختار گفتمان قابل تحلیل کمّی است"],
+     ["تحلیل محاسباتی گفتمان رسانه‌ای"],
+     ["تلفیق گفتمان و محاسبات"],
+     ["پیچیدگی معنایی گفتمان"],
+     ["Mann & Thompson (1988), RST"],
+     ["تحلیل گفتمان", "پردازش زبان طبیعی"]),
+]
+
+for slug, fa, en, abstract, desc, props, apps, strengths, limits, refs, disciplines in methods:
+    eid = "kg-analysis-" + slug
+    entities.append(ent(eid, fa, en, slug, "ANALYSIS", F, abstract, desc, props, apps,
+                        strengths, limits, refs, disciplines, [{"key": "method_kind", "value": "computational"}]))
+
+idmap = {e["id"] for e in entities}
+
+relations = []
+def rel(s, t, rt, d, c):
+    assert s in idmap, ("source not in block", s)
+    relations.append({"source_id": s, "target_id": t, "relation_type": rt,
+                      "description": d, "confidence": c, "verification_status": "unverified"})
+
+# PART_OF: هر روش زیر کلان‌ساختار
+for e in entities:
+    if e["entity_type"] == "ANALYSIS":
+        rel(e["id"], F, "PART_OF", f"{e['title_fa']} جزو کلان‌ساختار تحلیل داده‌های شبکه‌ای و محاسباتی است", 0.98)
+
+# USES: تحلیل ← نرم‌افزار (نرم‌افزارهای تحلیل شبکه از بخش ۱۰ سند)
+uses = {
+    "kg-analysis-social-network-analysis": ("kg-software-gephi", "Gephi برای بصری‌سازی و تحلیل شبکه"),
+    "kg-analysis-social-network-analysis": ("kg-software-ucinet", "UCINET برای محاسبه شاخص‌های شبکه"),
+    "kg-analysis-centrality-analysis": ("kg-software-pajek", "Pajek برای محاسبه شاخص‌های مرکزیت"),
+    "kg-analysis-network-clustering-analysis": ("kg-software-gephi", "Gephi برای نمایش و تحلیل خوشه‌ها"),
+    "kg-analysis-communication-network-analysis": ("kg-software-ucinet", "UCINET برای تحلیل شبکه‌های یک‌جهت و دوجهت"),
+    "kg-analysis-nlp-text-analysis": ("kg-software-python", "Python با کتابخانه‌های NLP"),
+    "kg-analysis-sentiment-analysis": ("kg-software-python", "Python برای مدل‌سازی احساسات"),
+    "kg-analysis-topic-modeling": ("kg-software-python", "Python (Gensim) برای مدل‌سازی موضوعی"),
+    "kg-analysis-entity-extraction": ("kg-software-python", "Python برای استخراج موجودیت"),
+    "kg-analysis-semantic-similarity-analysis": ("kg-software-python", "Python با مدل‌های برداری"),
+    "kg-analysis-multimedia-analysis": ("kg-software-python", "Python برای تحلیل چندرسانه‌ای"),
+    "kg-analysis-machine-learning": ("kg-software-python", "Python (scikit-learn)"),
+    "kg-analysis-deep-learning": ("kg-software-python", "Python (PyTorch/TensorFlow)"),
+    "kg-analysis-agent-based-modeling": ("kg-software-r", "R/NetLogo برای شبیه‌سازی عامل‌بنیان"),
+    "kg-analysis-rumor-simulation": ("kg-software-r", "R برای شبیه‌سازی DKTM"),
+}
+for s, (t, d) in uses.items():
+    rel(s, t, "USES", d, 0.85)
+
+# ANALYZES: تحلیل ← نوع داده (هدف‌های نوع داده، موجودیت مستقل در این بلوک نیست)
+analyzes = {
+    "kg-analysis-social-network-analysis": ("kg-data-network-data", "داده‌های شبکه‌ای/ساختاری"),
+    "kg-analysis-semantic-network-analysis": ("kg-data-semantic-data", "داده‌های معنایی"),
+    "kg-analysis-communication-network-analysis": ("kg-data-network-data", "داده‌های شبکه‌ای ارتباطی"),
+    "kg-analysis-information-diffusion-analysis": ("kg-data-network-data", "داده‌های شبکه‌ای زمانی"),
+    "kg-analysis-information-flow-analysis": ("kg-data-network-data", "داده‌های شبکه‌ای جریان"),
+    "kg-analysis-network-clustering-analysis": ("kg-data-network-data", "داده‌های شبکه‌ای"),
+    "kg-analysis-centrality-analysis": ("kg-data-network-data", "داده‌های شبکه‌ای"),
+    "kg-analysis-virtual-community-analysis": ("kg-data-network-data", "داده‌های شبکه‌ای تعاملی"),
+    "kg-analysis-nlp-text-analysis": ("kg-data-text-data", "داده‌های متنی"),
+    "kg-analysis-sentiment-analysis": ("kg-data-text-data", "داده‌های متنی"),
+    "kg-analysis-topic-modeling": ("kg-data-text-data", "داده‌های متنی"),
+    "kg-analysis-entity-extraction": ("kg-data-text-data", "داده‌های متنی"),
+    "kg-analysis-semantic-similarity-analysis": ("kg-data-semantic-data", "داده‌های متنی/معنایی"),
+    "kg-analysis-multimedia-analysis": ("kg-data-multimedia-data", "داده‌های چندرسانه‌ای"),
+    "kg-analysis-machine-learning": ("kg-data-structured-data", "داده‌های ساختاریافته و نیمه‌ساختاریافته"),
+    "kg-analysis-deep-learning": ("kg-data-structured-data", "داده‌های بزرگ ساختاریافته"),
+    "kg-analysis-agent-based-modeling": ("kg-data-simulation-data", "داده‌های شبیه‌سازی/رفتاری"),
+    "kg-analysis-rumor-simulation": ("kg-data-simulation-data", "داده‌های شبیه‌سازی شبکه‌ای"),
+    "kg-analysis-computational-discourse-analysis": ("kg-data-text-data", "داده‌های متنی گفتمانی"),
+}
+for s, (t, d) in analyzes.items():
+    rel(s, t, "ANALYZES", d, 0.85)
+
+# APPLIES_TO: کلان‌ساختار و روش‌های کلیدی ← حوزه ارتباطات
+applies = {
+    F: "کلان‌ساختار تحلیل شبکه‌ای و محاسباتی در حوزه ارتباطات و رسانه کاربرد دارد",
+    "kg-analysis-social-network-analysis": "SNA در پژوهش شبکه‌های اجتماعی و رسانه‌ای کاربرد دارد",
+    "kg-analysis-information-diffusion-analysis": "تحلیل انتشار در تحلیل انتشار رسانه‌ای کاربرد دارد",
+    "kg-analysis-topic-modeling": "مدل‌سازی موضوعی در تحلیل محتوای رسانه‌ای کاربرد دارد",
+    "kg-analysis-sentiment-analysis": "تحلیل احساسات در تحلیل افکار عمومی کاربرد دارد",
+    "kg-analysis-computational-discourse-analysis": "تحلیل محاسباتی گفتمان در تحلیل گفتمان رسانه کاربرد دارد",
+}
+for s, d in applies.items():
+    rel(s, "kg-domain-communication", "APPLIES_TO", d, 0.85)
+
+doc = {
+    "blockId": "analysis-network",
+    "generated_at": "2026-11-10",
+    "source_document": SRC,
+    "source_sections": ["۹.۳. تحلیل داده‌های شبکه‌ای و محاسباتی (پیش‌نویس ۹۳۰ خطی، خطوط ۳۷۸–۴۰۰)"],
+    "entities": entities,
+    "relations": relations,
+}
+os.makedirs(os.path.dirname(OUT), exist_ok=True)
+with io.open(OUT, "w", encoding="utf-8") as f:
+    json.dump(doc, f, ensure_ascii=False, indent=2)
+print("OK", OUT, len(entities), "entities,", len(relations), "relations")
